@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Marca */
+  --pi-navy: #0A2540;
+  --pi-navy-deep: #000F22;
+  --pi-blue: #1D4E89;
+  --pi-sky: #5BC0EB;
+  --pi-tint: #E6F3FB;
+  --pi-amber: #F5A524;
+  --pi-amber-hover: #D97706;
+
+  --bs-font-sans-serif: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --bs-body-font-family: var(--bs-font-sans-serif);
+
+
+}
+
+body {
+  font-family: var(--bs-body-font-family);
+  -webkit-font-smoothing: antialiased;
+}
+ 
+h1, .h1 { font-size: 2.5rem;    line-height: 3rem;     font-weight: 700; letter-spacing: -.02em; }
+h2, .h2 { font-size: 1.875rem;  line-height: 2.375rem; font-weight: 700; letter-spacing: -.01em; }
+h3, .h3 { font-size: 1.375rem;  line-height: 1.875rem; font-weight: 600; }
+h4, .h4 { font-size: 1.125rem;  line-height: 1.625rem; font-weight: 600; }
+h5, .h5 { font-size: 1rem;      line-height: 1.5rem;   font-weight: 600; }
+h6, .h6 { font-size: .875rem;   line-height: 1.25rem;  font-weight: 600; letter-spacing: .01em; }
+ 
+@media (max-width: 767.98px) {
+  h1, .h1 { font-size: 1.75rem; line-height: 2.25rem; letter-spacing: -.01em; }
+  h2, .h2 { font-size: 1.5rem;  line-height: 2rem;    letter-spacing: -.01em; }
+}
+ 
+small, .small { font-size: .875rem; line-height: 1.375rem; }
+.body-sm      { font-size: .75rem;  line-height: 1.125rem; }
+.label-md     { font-size: .75rem;  line-height: 1rem;     font-weight: 600; letter-spacing: .02em; }
+.label-sm     { font-size: .6875rem; line-height: .875rem; font-weight: 700; letter-spacing: .04em; }
