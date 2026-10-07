@@ -1,16 +1,45 @@
-# React + Vite
+# 🎒 PreInscribe
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma web de preinscripciones escolares para nivel inicial, primario y secundario.
+Trabajo Final Integrador · Tecnicatura Universitaria en Programación · UTN FRT.
 
-Currently, two official plugins are available:
+> 🚧 Proyecto en desarrollo.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ¿De qué se trata?
 
-## React Compiler
+Un portal donde cualquier escuela puede darse de alta y las familias pueden buscar escuelas, preinscribir a sus hijos y seguir el estado de cada solicitud. Las escuelas gestionan sus vacantes, revisan las solicitudes y sacan reportes.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Roles
 
-## Expanding the ESLint configuration
+| Rol | Qué hace |
+|---|---|
+| **Familia** | Carga a sus hijos, preinscribe y sigue sus solicitudes |
+| **Administrador de escuela** | Gestiona vacantes y resuelve las solicitudes de su escuela |
+| **Administrador general** | Gestiona escuelas y usuarios |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tecnologías
+
+- **Frontend:** React, Vite, React Router, React-Bootstrap, Axios, SweetAlert2
+- **Backend:** Node.js, NestJS
+- **Base de datos:** PostgreSQL
+
+## Cómo correrlo
+
+**Requisitos:** Node.js 18+, PostgreSQL 14+ y Git.
+
+```bash
+# 1. Clonar
+git clone https://github.com/SheylaAstorga/Preinscribe-Frontend.git
+cd preinscribe
+npm install
+npm run dev
+```
+
+
+
+
+## Integrantes
+
+- _Astorga Sheyla_
+- _Boixados Facundo_
+
