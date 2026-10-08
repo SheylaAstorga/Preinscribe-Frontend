@@ -40,7 +40,8 @@ const FiltroEscuelas = () => {
       }}
     >
      <Container className="text-center mb-4" style={{ color: "white", }}>
-        <h2>Explorá las escuelas disponibles</h2>
+        <p >¿Ya sabés qué escuela estás buscando? </p> 
+        <h2>Explorá las escuelas disponibles:</h2>
      </Container>
       <Container>
        
@@ -166,9 +167,7 @@ const FiltroEscuelas = () => {
             </div>
           </div>
 
-          {/* CAMPOS DE BÚSQUEDA */}
           <Row className="g-3">
-            {/* LOCALIDAD */}
             <Col xs={12} md={4}>
               <div
                 style={{
@@ -207,7 +206,6 @@ const FiltroEscuelas = () => {
               </div>
             </Col>
 
-            {/* ESCUELA */}
             <Col xs={12} md={4}>
               <div
                 style={{
@@ -246,7 +244,6 @@ const FiltroEscuelas = () => {
               </div>
             </Col>
 
-            {/* BOTÓN */}
             <Col xs={12} md={4}>
               <Button
                 onClick={handleBuscar}
@@ -266,7 +263,6 @@ const FiltroEscuelas = () => {
             </Col>
           </Row>
 
-          {/* BÚSQUEDAS SUGERIDAS */}
           <div
             className="d-flex flex-wrap align-items-center gap-2 mt-4"
           >

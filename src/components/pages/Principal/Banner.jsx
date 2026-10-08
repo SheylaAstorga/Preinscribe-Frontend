@@ -9,6 +9,7 @@ const Banner = () => {
         width: "100%",
         minHeight: "500px",
         overflow: "hidden",
+        
       }}
     >
       <img
