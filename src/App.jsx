@@ -1,8 +1,9 @@
 import "./App.css";
+import Banner from "./components/pages/Principal/Banner";
 
 function App() {
   return <>
-  <h1>Bienvenidos a Preinscribe</h1>
+  <Banner></Banner>
   </>;
 }
 
