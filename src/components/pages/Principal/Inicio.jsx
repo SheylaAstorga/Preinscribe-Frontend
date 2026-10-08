@@ -7,8 +7,8 @@ const Inicio = () => {
   return (
     <>
      <Banner></Banner>
-     <ComoFunciona> </ComoFunciona>
      <FiltroEscuelas> </FiltroEscuelas>
+     <ComoFunciona> </ComoFunciona>
     </>
   )
 }
