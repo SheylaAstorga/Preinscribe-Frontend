@@ -36,9 +36,10 @@ const FiltroEscuelas = () => {
     <section
       style={{
         padding: "40px 0",
+        backgroundColor: "#f8fafc",
       }}
     >
-     <Container className="text-center mb-4 mt-4" style={{ color: "var(--pi-navy)", }}>
+     <Container className="text-center mb-4 mt" style={{ color: "var(--pi-navy)", }}>
         <h2>Explorá las escuelas disponibles:</h2>
      </Container>
       <Container>

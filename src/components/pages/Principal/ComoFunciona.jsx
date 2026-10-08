@@ -39,7 +39,7 @@ const ComoFunciona = () => {
   return (
     <section
       style={{
-        
+        backgroundColor: "#f8fafc",
         padding: "90px 0",
       }}
     >

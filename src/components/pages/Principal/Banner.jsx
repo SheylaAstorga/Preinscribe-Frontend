@@ -139,7 +139,7 @@ const Banner = () => {
         L0,120
         Z
       "
-            fill="white"
+            fill="#f8fafc"
           />
         </svg>
       </div>
