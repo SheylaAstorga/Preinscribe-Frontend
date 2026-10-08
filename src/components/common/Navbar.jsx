@@ -5,8 +5,16 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="shadow-sm">
       <Container>
-        <Navbar.Brand href="/" className="fw-bold">
-          🎓 Preinscribe
+        <Navbar.Brand href="/" className="fw-bold d-flex align-items-center gap-2">
+          <img 
+            src="/Logo.jpg" 
+            alt="Logo" 
+            width="35" 
+            height="35" 
+            className="d-inline-block align-top rounded" 
+          />
+
+          <span>PreInscribe</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="menu-navegacion" />
         <Navbar.Collapse id="menu-navegacion">
