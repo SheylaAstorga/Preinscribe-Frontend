@@ -5,12 +5,9 @@ const Banner = () => {
   return (
     <section
       style={{
-        position: "relative",
-        width: "100%",
         minHeight: "500px",
-        overflow: "hidden",
-        
       }}
+      className= "position-relative w-100 overflow-hidden"
     >
       <img
         src={escuelaImg}

@@ -40,10 +40,9 @@ function QuePodesHacer() {
     <section
       style={{
         backgroundColor: "#0A2540",
-        padding: "clamp(70px, 8vw, 110px) 0",
-        overflow: "hidden",
-        position: "relative",
+        padding: "clamp(40px, 8vw, 10px) 0",
       }}
+      className="mb-5 position-relative overflow-hidden "
     >
       <div
         style={{
