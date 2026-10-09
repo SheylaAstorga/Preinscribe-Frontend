@@ -1,9 +1,12 @@
-import "./App.css";
+import { FamiliaLayout } from './layouts/FamiliaLayout';
+import { AlumnosView } from './views/familia/AlumnosView';
 
 function App() {
-  return <>
-  <h1>Bienvenidos a Preinscribe</h1>
-  </>;
+  return (
+    <FamiliaLayout>
+      <AlumnosView />
+    </FamiliaLayout>
+  );
 }
 
 export default App;

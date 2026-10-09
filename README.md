@@ -1,4 +1,4 @@
-# 🎒 PreInscribe
+#  PreInscribe
 
 Plataforma web de preinscripciones escolares para nivel inicial, primario y secundario.
 Trabajo Final Integrador · Tecnicatura Universitaria en Programación · UTN FRT.
