@@ -1,4 +1,3 @@
-import React from 'react';
 import { BarraNavegacion } from '../components/common/Navbar';
 import { Footer } from '../components/common/Footer';
 

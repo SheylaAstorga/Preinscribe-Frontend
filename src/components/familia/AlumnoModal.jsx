@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 
 export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) => {
@@ -46,10 +46,8 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
     setTocoEdad(false);
   }, [alumnoAEditar, mostrar]);
 
-  // ----------------------------------------------------
-  // FUNCIÓN AUXILIAR PARA FORMATEAR MAYÚSCULAS Y MINÚSCULAS
-  // ----------------------------------------------------
-  const formatearTextoCapitalizado = (texto) => {
+  // Funcion auxiliar para formatear mayusculas y minusculas
+  const formatearTexto = (texto) => {
     const palabras = texto.trim().toLowerCase().split(/\s+/);
     let textoFormateado = '';
 
@@ -68,10 +66,7 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
     return textoFormateado;
   };
 
-  // ----------------------------------------------------
-  // FUNCIONES DE VALIDACIÓN INDIVIDUALES
-  // ----------------------------------------------------
-
+  // Funciones de validacion individuales
   const validarNombre = (valorActual) => {
     const valorLimpio = valorActual.trim();
     const letrasRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
@@ -145,10 +140,7 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
     }
   };
 
-  // ----------------------------------------------------
-  // MANEJADORES DE CAMBIO (onChange) y FOCO (onBlur)
-  // ----------------------------------------------------
-
+  // Manejadores de cambio (onChange) y foco (onBlur)
   const cambiarNombre = (evento) => {
     const nuevoValor = evento.target.value;
     setNombre(nuevoValor);
@@ -203,10 +195,7 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
     setErrorEdad(validarEdad(edad));
   };
 
-  // ----------------------------------------------------
-  // MANEJO DE ENVÍO Y VALIDACIÓN FINAL
-  // ----------------------------------------------------
-
+  // Manejo de envio y validacion final
   const manejarEnvio = (evento) => {
     evento.preventDefault();
 
@@ -237,8 +226,8 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
     }
 
     // Aplicamos el formateo para que el nombre y apellido queden con la primera letra en mayúscula
-    const nombreFormateado = formatearTextoCapitalizado(nombre);
-    const apellidoFormateado = formatearTextoCapitalizado(apellido);
+    const nombreFormateado = formatearTexto(nombre);
+    const apellidoFormateado = formatearTexto(apellido);
 
     const datosAlumno = {
       id: identificador,

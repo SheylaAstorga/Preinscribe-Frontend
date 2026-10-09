@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge, Modal } from 'react-bootstrap';
 import { AlumnoModal } from '../../components/familia/AlumnoModal';
 
@@ -145,8 +145,8 @@ export const AlumnosView = () => {
                     </div>
                     {alumno.nivel && (
                       <Badge 
-                        className="px-3 py-2 fw-semibold rounded-pill" 
-                        style={{ backgroundColor: 'var(--pi-tint, #E6F3FB)', color: 'var(--pi-blue, #1D4E89)' }}
+                        className="px-3 py-2 fw-semibold rounded-pill text-white" 
+                        style={{ backgroundColor: 'var(--pi-blue, #1D4E89)' }}
                       >
                         {alumno.nivel}
                       </Badge>

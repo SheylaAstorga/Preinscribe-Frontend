@@ -1,4 +1,3 @@
-import React from 'react';
 import { FamiliaLayout } from './layouts/FamiliaLayout';
 import { AlumnosView } from './views/familia/AlumnosView';
 

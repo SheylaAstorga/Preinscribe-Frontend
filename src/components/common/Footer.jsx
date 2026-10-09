@@ -1,8 +1,7 @@
-import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 export const Footer = () => {
-  const anioActual = new Date().getFullYear();
+  const añoActual = new Date().getFullYear();
 
   return (
     <footer 
@@ -64,7 +63,7 @@ export const Footer = () => {
         {/* Franja Inferior */}
         <div className="border-top pt-4 mt-3 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 text-center text-md-start" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
           <p className="text-white-50 small mb-0">
-            © {anioActual} PreInscribe. Todos los derechos reservados.
+            © {añoActual} PreInscribe. Todos los derechos reservados.
           </p>
           <div className="d-flex gap-4 small text-white-50">
             <span style={{ cursor: 'pointer' }}>Términos y condiciones</span>
