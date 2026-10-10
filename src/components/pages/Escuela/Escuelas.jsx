@@ -141,7 +141,7 @@ const Escuelas = () => {
 
   return (
     <>
-    <BarraNavegacion></BarraNavegacion>
+    
     <main className="pagina-escuelas">
       <Container className="py-5">
         <div className="encabezado-escuelas mb-4">
@@ -310,7 +310,7 @@ const Escuelas = () => {
         </Row>
       </Container>
     </main>
-    <Footer></Footer>
+    
     </>
   );
 };
