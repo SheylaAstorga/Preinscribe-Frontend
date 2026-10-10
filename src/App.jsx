@@ -1,14 +1,10 @@
-import { FamiliaLayout } from "./layouts/FamiliaLayout";
-import { AlumnosView } from "./views/familia/AlumnosView";
-import Inicio from "./components/pages/Principal/Inicio";
+
+import AppRoutes from "./components/routes/AppRoutes";
 
 function App() {
   return (
     <>
-      <Inicio></Inicio>
-      {/* <FamiliaLayout>
-        <AlumnosView />
-      </FamiliaLayout> */}
+     <AppRoutes></AppRoutes>
     </>
   );
 }
