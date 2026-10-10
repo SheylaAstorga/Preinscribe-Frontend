@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { buscarLocalidades } from "../../../api/geocodingApi";
 
 import {
   Container,
@@ -28,7 +28,6 @@ const FiltroEscuelas = () => {
   const [localidad, setLocalidad] = useState("");
   const [escuela, setEscuela] = useState("");
 
-  // Estados para la búsqueda de localidades
   const [localidadesEncontradas, setLocalidadesEncontradas] = useState([]);
   const [cargandoLocalidades, setCargandoLocalidades] = useState(false);
   const [errorLocalidades, setErrorLocalidades] = useState("");
@@ -36,12 +35,10 @@ const FiltroEscuelas = () => {
 
   const navigate = useNavigate();
 
-  // Consulta la API cuando se escribe una localidad
+
   useEffect(() => {
     const nombreLocalidad = localidad.trim();
 
-    // No consultamos si hay menos de 3 caracteres
-    // o si ya se seleccionó una sugerencia.
     if (nombreLocalidad.length < 3 || localidadSeleccionada) {
       setLocalidadesEncontradas([]);
       setCargandoLocalidades(false);
@@ -49,41 +46,40 @@ const FiltroEscuelas = () => {
       return;
     }
 
-    // Esperamos un momento antes de consultar la API
+    let cancelado = false;
+
     const temporizador = setTimeout(async () => {
       try {
         setCargandoLocalidades(true);
         setErrorLocalidades("");
 
-        const respuesta = await axios.get(
-          "https://geocoding-api.open-meteo.com/v1/search",
-          {
-            params: {
-              name: nombreLocalidad,
-              count: 6,
-              language: "es",
-              countryCode: "AR",
-            },
-          },
-        );
+        const resultados = await buscarLocalidades(nombreLocalidad);
 
-        setLocalidadesEncontradas(respuesta.data.results || []);
+        if (!cancelado) {
+          setLocalidadesEncontradas(resultados);
+        }
       } catch (error) {
         console.error("Error al buscar localidades:", error);
-        setLocalidadesEncontradas([]);
-        setErrorLocalidades(
-          "No pudimos cargar las localidades. Intentá nuevamente.",
-        );
+
+        if (!cancelado) {
+          setLocalidadesEncontradas([]);
+          setErrorLocalidades(
+            "No pudimos cargar las localidades. Intentá nuevamente.",
+          );
+        }
       } finally {
-        setCargandoLocalidades(false);
+        if (!cancelado) {
+          setCargandoLocalidades(false);
+        }
       }
     }, 400);
 
-    // Cancelamos el temporizador si cambia el texto
-    return () => clearTimeout(temporizador);
+    return () => {
+      cancelado = true;
+      clearTimeout(temporizador);
+    };
   }, [localidad, localidadSeleccionada]);
 
-  // Selecciona una localidad sugerida
   const handleSeleccionarLocalidad = (resultado) => {
     setLocalidad(resultado.name);
     setLocalidadSeleccionada(true);
@@ -106,7 +102,6 @@ const FiltroEscuelas = () => {
       params.set("escuela", escuela.trim());
     }
 
-    // Agregamos filtros adicionales, como comedor o vacantes.
     Object.entries(filtrosExtra).forEach(([clave, valor]) => {
       params.set(clave, valor);
     });
@@ -142,7 +137,7 @@ const FiltroEscuelas = () => {
             boxShadow: "0 10px 30px rgba(0, 0, 0, 0.10)",
           }}
         >
-          {/* Nivel educativo */}
+
           <div className="mb-4">
             <div className="d-flex flex-wrap align-items-center gap-2">
               <span
@@ -188,7 +183,7 @@ const FiltroEscuelas = () => {
           </div>
 
           <Row className="g-3">
-            {/* Localidad con API pública */}
+
             <Col xs={12} md={4}>
               <div
                 style={{
@@ -234,7 +229,6 @@ const FiltroEscuelas = () => {
                   }}
                 />
 
-                {/* Estado de carga */}
                 {cargandoLocalidades && (
                   <div className="small text-secondary mt-2">
                     <Spinner size="sm" animation="border" className="me-2" />
@@ -242,7 +236,6 @@ const FiltroEscuelas = () => {
                   </div>
                 )}
 
-                {/* Sugerencias de la API */}
                 {localidadesEncontradas.length > 0 && (
                   <div
                     className="bg-white rounded-3 shadow border mt-2"
@@ -279,7 +272,6 @@ const FiltroEscuelas = () => {
                   </div>
                 )}
 
-                {/* Sin resultados */}
                 {!cargandoLocalidades &&
                   localidad.trim().length >= 3 &&
                   !localidadSeleccionada &&
@@ -290,7 +282,6 @@ const FiltroEscuelas = () => {
                     </div>
                   )}
 
-                {/* Error de conexión */}
                 {errorLocalidades && (
                   <div className="small text-danger mt-2">
                     {errorLocalidades}
@@ -299,7 +290,6 @@ const FiltroEscuelas = () => {
               </div>
             </Col>
 
-            {/* Nombre de la escuela */}
             <Col xs={12} md={4}>
               <div
                 style={{
@@ -337,7 +327,6 @@ const FiltroEscuelas = () => {
               </div>
             </Col>
 
-            {/* Botón de búsqueda */}
             <Col xs={12} md={4}>
               <Button
                 onClick={handleBuscar}
@@ -357,7 +346,6 @@ const FiltroEscuelas = () => {
             </Col>
           </Row>
 
-          {/* Búsquedas sugeridas */}
           <div className="d-flex flex-wrap align-items-center gap-2 mt-4">
             <span
               style={{
