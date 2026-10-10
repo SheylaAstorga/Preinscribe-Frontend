@@ -1,73 +1,118 @@
 import { useState } from "react";
-import { Container, Row, Col, Card, Badge, Button, Form, InputGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Container, Row, Col, Card, Badge, Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
 
-// Datos de prueba integrados con el listado oficial de escuelas
 const SOLICITUDES_INICIALES = [
   {
     id: 101,
     alumno: "Lucas Gómez",
     dniAlumno: "48.123.456",
     escuela: "Colegio San Martín",
+    localidad: "San Miguel de Tucumán",
     nivel: "Primario",
     grado: "1° Grado",
     fecha: "10/03/2026",
     estado: "Pendiente",
+    tutor: "Facundo Gómez",
+    documentos: [
+      { nombre: "DNI del Alumno", estado: "Entregado" },
+      { nombre: "Partida de Nacimiento", estado: "Entregado" },
+      { nombre: "Ficha de Salud", estado: "Pendiente" }
+    ]
   },
   {
     id: 102,
     alumno: "Sofía Gómez",
     dniAlumno: "50.987.654",
     escuela: "Instituto Los Lapachos",
+    localidad: "Yerba Buena",
     nivel: "Secundario",
     grado: "1° Año",
     fecha: "08/03/2026",
     estado: "Aprobada",
+    tutor: "Facundo Gómez",
+    documentos: [
+      { nombre: "DNI del Alumno", estado: "Entregado" },
+      { nombre: "Partida de Nacimiento", estado: "Entregado" },
+      { nombre: "Boletín del Nivel Anterior", estado: "Entregado" }
+    ]
   },
   {
     id: 103,
     alumno: "Lucas Gómez",
     dniAlumno: "48.123.456",
     escuela: "Escuela Nueva Esperanza",
+    localidad: "Tafí Viejo",
     nivel: "Primario",
     grado: "1° Grado",
     fecha: "25/02/2026",
     estado: "Rechazada",
+    tutor: "Facundo Gómez",
+    documentos: [
+      { nombre: "DNI del Alumno", estado: "Entregado" },
+      { nombre: "Partida de Nacimiento", estado: "Entregado" },
+      { nombre: "Certificado de Vacunación", estado: "Pendiente" }
+    ]
   },
   {
     id: 104,
     alumno: "Mateo Gómez",
     dniAlumno: "52.333.111",
     escuela: "Colegio del Norte",
+    localidad: "San Miguel de Tucumán",
     nivel: "Inicial",
     grado: "Sala de 4",
     fecha: "12/03/2026",
     estado: "En Revisión",
-  },
+    tutor: "Facundo Gómez",
+    documentos: [
+      { nombre: "DNI del Alumno", estado: "Entregado" },
+      { nombre: "Partida de Nacimiento", estado: "Entregado" }
+    ]
+  }
 ];
 
 const MisSolicitudesView = () => {
   const [solicitudes] = useState(SOLICITUDES_INICIALES);
   const [busqueda, setBusqueda] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("Todos");
+  
+  // Modal de Detalle
+  const [solicitudSeleccionada, setSolicitudSeleccionada] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
-  // Helper para asignar la clase y estilo accesible de la etiqueta de estado
-  const renderBadgeEstado = (estado) => {
+  const handleAbrirDetalle = (solicitud) => {
+    setSolicitudSeleccionada(solicitud);
+    setShowModal(true);
+  };
+
+  const handleCerrarModal = () => {
+    setShowModal(false);
+    setSolicitudSeleccionada(null);
+  };
+
+  const getIniciales = (nombre) => {
+    const partes = nombre.split(" ");
+    if (partes.length >= 2) {
+      return `${partes[0].charAt(0)}${partes[1].charAt(0)}`.toUpperCase();
+    }
+    return nombre.slice(0, 2).toUpperCase();
+  };
+
+  const renderBadgeEstadoHeader = (estado) => {
     switch (estado) {
       case "Aprobada":
-        return <Badge bg="success-subtle" className="text-success border border-success-subtle px-2.5 py-1.5 rounded-pill fw-semibold">Aprobada</Badge>;
+        return <Badge bg="success" className="px-2.5 py-1 label-md">Aprobada</Badge>;
       case "Pendiente":
-        return <Badge bg="warning-subtle" className="text-warning-emphasis border border-warning-subtle px-2.5 py-1.5 rounded-pill fw-semibold">Pendiente</Badge>;
+        return <Badge style={{ backgroundColor: "var(--pi-amber)", color: "#fff" }} className="px-2.5 py-1 label-md">Pendiente</Badge>;
       case "En Revisión":
-        return <Badge bg="info-subtle" className="text-info-emphasis border border-info-subtle px-2.5 py-1.5 rounded-pill fw-semibold">En Revisión</Badge>;
+        return <Badge style={{ backgroundColor: "var(--pi-sky)", color: "#000" }} className="px-2.5 py-1 label-md">En Revisión</Badge>;
       case "Rechazada":
-        return <Badge bg="danger-subtle" className="text-danger border border-danger-subtle px-2.5 py-1.5 rounded-pill fw-semibold">Rechazada</Badge>;
+        return <Badge bg="danger" className="px-2.5 py-1 label-md">Rechazada</Badge>;
       default:
-        return <Badge bg="secondary-subtle" className="text-secondary border px-2.5 py-1.5 rounded-pill fw-semibold">{estado}</Badge>;
+        return <Badge bg="secondary" className="label-md">{estado}</Badge>;
     }
   };
 
-  // Filtrado dinámico por texto y por combo de estado
   const solicitudesFiltradas = solicitudes.filter((sol) => {
     const coincideTexto =
       sol.alumno.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -78,162 +123,272 @@ const MisSolicitudesView = () => {
   });
 
   return (
-    <Container className="py-2" style={{ maxWidth: "1100px" }}>
-      {/* 1. Encabezado de la página */}
-      <header className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center pb-3 mb-4 border-bottom gap-3">
-        <div>
-          <div className="d-flex align-items-center gap-2">
-            <h2 className="h4 fw-bold text-dark mb-0">Mis Solicitudes de Preinscripción</h2>
-            <Badge bg="primary-subtle" className="text-primary rounded-circle px-2 py-1 fs-6">
-              {solicitudes.length}
-            </Badge>
-          </div>
-          <p className="text-muted small mb-0 mt-1">
-            Consultá y gestioná el estado de las vacantes escolares solicitadas para tus hijos.
-          </p>
-        </div>
-        <div>
-          <Button variant="primary" className="fw-medium shadow-sm px-3">
-            + Nueva solicitud
-          </Button>
-        </div>
-      </header>
+    <Container fluid className="px-4 py-3" style={{ maxWidth: "1300px" }}>
+      {/* HEADER DE SECCIÓN */}
+      <div className="mb-4">
+        <span className="label-md text-uppercase" style={{ color: "var(--pi-blue)" }}>GESTIÓN FAMILIAR</span>
+        <h1 className="h2 mb-1" style={{ color: "var(--pi-navy)" }}>Mis solicitudes de preinscripción</h1>
+        <p className="text-muted mb-0 body-sm">Consultá el estado y avance de las vacantes escolares de tus hijos.</p>
+      </div>
 
-      {/* 2. Barra de Búsqueda y Filtros */}
-      <Card className="border-0 shadow-sm mb-4 bg-white rounded-3">
-        <Card.Body className="p-2.5">
-          <Row className="g-2 align-items-center">
-            <Col xs={12} md={7} lg={8}>
-              <InputGroup>
-                <InputGroup.Text className="bg-transparent border-end-0 text-muted ps-3">
-                  🔍
-                </InputGroup.Text>
-                <Form.Control
-                  type="search"
-                  placeholder="Buscar por alumno, DNI o escuela..."
-                  className="border-start-0 ps-0 shadow-none"
-                  value={busqueda}
-                  onChange={(e) => setBusqueda(e.target.value)}
-                />
-              </InputGroup>
-            </Col>
-            <Col xs={12} md={5} lg={4}>
-              <Form.Select
-                className="shadow-none border"
-                value={filtroEstado}
-                onChange={(e) => setFiltroEstado(e.target.value)}
-              >
-                <option value="Todos">Todos los estados</option>
-                <option value="Pendiente">Pendientes</option>
-                <option value="En Revisión">En Revisión</option>
-                <option value="Aprobada">Aprobadas</option>
-                <option value="Rechazada">Rechazadas</option>
-              </Form.Select>
-            </Col>
-          </Row>
+      {/* BUSCADOR SUPERIOR */}
+      <Card className="border shadow-sm mb-4 rounded-3">
+        <Card.Body className="p-2">
+          <InputGroup>
+            <Form.Control
+              type="search"
+              placeholder="Buscá por alumno, DNI o escuela..."
+              className="border-0 shadow-none ps-3"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+            />
+            {busqueda && (
+              <Button variant="link" className="text-muted text-decoration-none body-sm" onClick={() => setBusqueda("")}>
+                Limpiar
+              </Button>
+            )}
+            <Button style={{ backgroundColor: "var(--pi-blue)", borderColor: "var(--pi-blue)" }} className="px-4 fw-semibold rounded-2 ms-2 text-white">
+              Buscar
+            </Button>
+          </InputGroup>
         </Card.Body>
       </Card>
 
-      {/* Resumen de resultados dinámicos */}
-      <div className="d-flex justify-content-between align-items-center mb-3 px-1">
-        <span className="text-muted small fw-semibold">
-          Mostrando {solicitudesFiltradas.length} de {solicitudes.length} solicitudes
-        </span>
-        {(busqueda || filtroEstado !== "Todos") && (
-          <Button
-            variant="link"
-            size="sm"
-            className="p-0 text-decoration-none text-primary small"
-            onClick={() => {
-              setBusqueda("");
-              setFiltroEstado("Todos");
-            }}
-          >
-            Limpiar filtros
-          </Button>
-        )}
-      </div>
+      {/* LAYOUT PRINCIPAL */}
+      <Row className="g-4">
+        {/* PANEL DE FILTROS LATERAL */}
+        <Col xs={12} lg={3}>
+          <Card className="border-0 shadow-sm rounded-3 p-3">
+            <div className="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+              <h5 className="h6 mb-0" style={{ color: "var(--pi-navy)" }}>Filtros de búsqueda</h5>
+            </div>
 
-      {/* 3. Listado en Formato de Tarjetas Individiales (Grid 2 Columnas) */}
-      {solicitudesFiltradas.length > 0 ? (
-        <Row className="g-3">
-          {solicitudesFiltradas.map((sol) => (
-            <Col xs={12} lg={6} key={sol.id}>
-              <Card className="h-100 border-0 shadow-sm rounded-3 hover-shadow transition-all">
-                <Card.Body className="d-flex flex-column p-3.5">
-                  {/* Nivel 1: Alumno y Estado */}
-                  <div className="d-flex justify-content-between align-items-start mb-2 gap-2">
-                    <div className="d-flex align-items-center gap-2">
-                      <div
-                        className="rounded-circle bg-primary-subtle text-primary fw-bold d-flex align-items-center justify-content-center"
-                        style={{ width: "36px", height: "36px", fontSize: "0.9rem" }}
+            <div className="mb-3">
+              <label className="label-sm text-uppercase text-muted d-block mb-2">
+                Estado de la solicitud
+              </label>
+              <div className="d-flex flex-wrap gap-1.5">
+                {[
+                  { label: "Todas", value: "Todos" },
+                  { label: "Pendientes", value: "Pendiente" },
+                  { label: "En Revisión", value: "En Revisión" },
+                  { label: "Aprobadas", value: "Aprobada" },
+                  { label: "Rechazadas", value: "Rechazada" },
+                ].map((item) => {
+                  const isActive = filtroEstado === item.value;
+                  return (
+                    <Button
+                      key={item.value}
+                      size="sm"
+                      style={{
+                        backgroundColor: isActive ? "var(--pi-blue)" : "transparent",
+                        borderColor: "var(--pi-blue)",
+                        color: isActive ? "#fff" : "var(--pi-blue)"
+                      }}
+                      className="rounded-pill px-3 py-1 label-md"
+                      onClick={() => setFiltroEstado(item.value)}
+                    >
+                      {item.label}
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              className="w-100 mt-2 label-md"
+              onClick={() => {
+                setBusqueda("");
+                setFiltroEstado("Todos");
+              }}
+            >
+              Restablecer filtros
+            </Button>
+          </Card>
+        </Col>
+
+        {/* LISTADO DE TARJETAS */}
+        <Col xs={12} lg={9}>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h2 className="h4 mb-0" style={{ color: "var(--pi-navy)" }}>Solicitudes registradas</h2>
+              <span className="text-muted small">Se encontraron {solicitudesFiltradas.length} solicitudes</span>
+            </div>
+            <Button style={{ backgroundColor: "var(--pi-amber)", borderColor: "var(--pi-amber)", color: "#fff" }} className="fw-semibold px-3 shadow-sm border-0">
+              + Nueva solicitud
+            </Button>
+          </div>
+
+          {solicitudesFiltradas.length > 0 ? (
+            <Row className="g-3">
+              {solicitudesFiltradas.map((sol) => (
+                <Col xs={12} md={6} xl={4} key={sol.id}>
+                  <Card className="h-100 border shadow-sm rounded-3 overflow-hidden d-flex flex-column bg-white">
+                    {/* BANNER INSTITUCIONAL USANDO VARS BRAND */}
+                    <div 
+                      className="p-3 text-white position-relative d-flex justify-content-between align-items-start"
+                      style={{
+                        background: "linear-gradient(135deg, var(--pi-navy) 0%, var(--pi-blue) 100%)",
+                        minHeight: "95px"
+                      }}
+                    >
+                      <div>{renderBadgeEstadoHeader(sol.estado)}</div>
+                      <Badge bg="light" text="dark" className="label-md px-2 py-1">
+                        #{sol.id}
+                      </Badge>
+
+                      {/* INICIALES CIRCULARES */}
+                      <div 
+                        className="position-absolute bg-white fw-bold shadow-sm d-flex align-items-center justify-content-center rounded-circle border border-2 border-white"
+                        style={{
+                          width: "48px",
+                          height: "48px",
+                          bottom: "-24px",
+                          left: "16px",
+                          fontSize: "1rem",
+                          color: "var(--pi-blue)"
+                        }}
                       >
-                        {sol.alumno.charAt(0)}
-                      </div>
-                      <div>
-                        <h3 className="h6 fw-bold text-dark mb-0">{sol.alumno}</h3>
-                        <span className="text-muted extra-small d-block">DNI {sol.dniAlumno}</span>
+                        {getIniciales(sol.alumno)}
                       </div>
                     </div>
-                    <div>{renderBadgeEstado(sol.estado)}</div>
-                  </div>
 
-                  <hr className="my-2.5 text-muted opacity-25" />
+                    {/* CUERPO DE LA TARJETA */}
+                    <Card.Body className="pt-4 px-3 pb-3 d-flex flex-column flex-grow-1">
+                      <div className="mt-2 mb-2">
+                        <h3 className="h5 mb-0" style={{ color: "var(--pi-navy)" }}>{sol.alumno}</h3>
+                        <span className="text-muted body-sm">DNI {sol.dniAlumno}</span>
+                      </div>
 
-                  {/* Nivel 2: Escuela y Nivel/Grado */}
-                  <div className="my-1 flex-grow-1">
-                    <div className="d-flex align-items-center gap-1.5 text-dark fw-semibold mb-1">
-                      <span className="text-primary small">🏫</span>
-                      <span>{sol.escuela}</span>
-                    </div>
-                    <div className="text-muted small ms-4">
-                      {sol.nivel} • <span className="text-body-secondary">{sol.grado}</span>
-                    </div>
-                  </div>
+                      <div className="mb-3">
+                        <div className="fw-semibold small" style={{ color: "var(--pi-navy-deep)" }}>
+                          {sol.escuela}
+                        </div>
+                        <small className="text-muted d-block">{sol.localidad}</small>
+                      </div>
 
-                  <hr className="my-2.5 text-muted opacity-25" />
+                      {/* BADGES DE NIVEL / GRADO */}
+                      <div className="d-flex flex-wrap gap-1 mb-3 mt-auto">
+                        <Badge style={{ backgroundColor: "var(--pi-tint)", color: "#fff" }} className="border-0 label-md">
+                          {sol.nivel}
+                        </Badge>
+                        <Badge bg="secondary-subtle" className="text-secondary border label-md">
+                          {sol.grado}
+                        </Badge>
+                      </div>
 
-                  {/* Nivel 3 y 4: Metadata y Acción */}
-                  <div className="d-flex justify-content-between align-items-center pt-1 mt-auto">
-                    <div>
-                      <div className="text-muted extra-small">Solicitud #{sol.id}</div>
-                      <div className="text-muted extra-small">Presentado: {sol.fecha}</div>
-                    </div>
-                    <Link to={`/familia/solicitudes/${sol.id}`}>
-                      <Button variant="outline-primary" size="sm" className="fw-medium px-3 rounded-2">
-                        Ver detalle
-                      </Button>
-                    </Link>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      ) : (
-        /* Estado vacío / Búsqueda sin coincidencias */
-        <Card className="border-0 shadow-sm text-center py-5 my-3 rounded-3 bg-white">
-          <Card.Body>
-            <div className="fs-1 mb-2 text-muted">📋</div>
-            <h3 className="h6 fw-bold text-dark">No se encontraron solicitudes</h3>
-            <p className="text-muted small mx-auto mb-3" style={{ maxWidth: "380px" }}>
-              No hay preinscripciones que coincidan con los criterios de búsqueda o filtro aplicados.
-            </p>
-            {(busqueda || filtroEstado !== "Todos") && (
-              <Button
-                variant="outline-secondary"
-                size="sm"
-                onClick={() => {
-                  setBusqueda("");
-                  setFiltroEstado("Todos");
-                }}
+                      <hr className="my-2 text-muted opacity-25" />
+
+                      {/* FOOTER CON FECHA Y ACCIÓN */}
+                      <div className="d-flex justify-content-between align-items-center pt-1">
+                        <span className="text-muted body-sm">Fecha: {sol.fecha}</span>
+                        <Button
+                          size="sm"
+                          style={{ backgroundColor: "var(--pi-blue)", borderColor: "var(--pi-blue)", color: "#fff" }}
+                          className="fw-semibold px-3 rounded-2"
+                          onClick={() => handleAbrirDetalle(sol)}
+                        >
+                          Ver detalle →
+                        </Button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <Card className="border text-center py-5 rounded-3 bg-white">
+              <Card.Body>
+                <h3 className="h6 fw-bold text-dark">No se encontraron solicitudes</h3>
+                <p className="text-muted small mb-3">No existen resultados que coincidan con los filtros seleccionados.</p>
+                <Button variant="outline-primary" size="sm" onClick={() => { setBusqueda(""); setFiltroEstado("Todos"); }}>
+                  Restablecer búsqueda
+                </Button>
+              </Card.Body>
+            </Card>
+          )}
+        </Col>
+      </Row>
+
+      {/* MODAL DE DETALLE CON BRAND COLORS */}
+      <Modal show={showModal} onHide={handleCerrarModal} centered size="lg">
+        {solicitudSeleccionada && (
+          <>
+            <Modal.Header closeButton className="border-bottom bg-light px-4 py-3">
+              <Modal.Title className="h5 fw-bold" style={{ color: "var(--pi-navy)" }}>
+                Detalle de Solicitud <span style={{ color: "var(--pi-blue)" }}>#{solicitudSeleccionada.id}</span>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="p-4 bg-white">
+              {/* BLOQUE 1: INSTITUCIÓN Y ESTADO */}
+              <div 
+                className="p-3 rounded-3 text-white mb-3 d-flex justify-content-between align-items-center shadow-sm"
+                style={{ background: "linear-gradient(135deg, var(--pi-navy) 0%, var(--pi-blue) 100%)" }}
               >
-                Restablecer filtros
-              </Button>
-            )}
-          </Card.Body>
-        </Card>
-      )}
+                <div>
+                  <span className="label-sm text-uppercase d-block text-white-50">Establecimiento Educativo</span>
+                  <h4 className="h5 fw-bold mb-0 text-white">{solicitudSeleccionada.escuela}</h4>
+                  <small className="text-white-50">{solicitudSeleccionada.localidad} • Presentado el {solicitudSeleccionada.fecha}</small>
+                </div>
+                <div>{renderBadgeEstadoHeader(solicitudSeleccionada.estado)}</div>
+              </div>
+
+              {/* BLOQUE 2: POSTULANTE Y TUTOR */}
+              <div className="p-3 border rounded-3 mb-3 bg-light">
+                <h5 className="h6 fw-bold mb-3 border-bottom pb-2" style={{ color: "var(--pi-blue)" }}>Información del Alumno y Tutor</h5>
+                <Row className="g-3">
+                  <Col xs={12} sm={6}>
+                    <small className="text-muted d-block label-sm text-uppercase">Alumno Postulante</small>
+                    <span className="fw-bold" style={{ color: "var(--pi-navy)" }}>{solicitudSeleccionada.alumno}</span>
+                  </Col>
+                  <Col xs={12} sm={6}>
+                    <small className="text-muted d-block label-sm text-uppercase">DNI del Alumno</small>
+                    <span className="fw-semibold text-dark">{solicitudSeleccionada.dniAlumno}</span>
+                  </Col>
+                  <Col xs={12} sm={6}>
+                    <small className="text-muted d-block label-sm text-uppercase">Nivel Educativo y Grado</small>
+                    <span className="fw-semibold text-dark">{solicitudSeleccionada.nivel} • {solicitudSeleccionada.grado}</span>
+                  </Col>
+                  <Col xs={12} sm={6}>
+                    <small className="text-muted d-block label-sm text-uppercase">Tutor Responsable</small>
+                    <span className="fw-semibold text-dark">{solicitudSeleccionada.tutor}</span>
+                  </Col>
+                </Row>
+              </div>
+
+              {/* BLOQUE 3: DOCUMENTACIÓN */}
+              <div className="p-3 border rounded-3 bg-white">
+                <h5 className="h6 fw-bold mb-2" style={{ color: "var(--pi-navy)" }}>Estado de Documentación</h5>
+                <Table size="sm" borderless hover className="align-middle mb-0">
+                  <tbody>
+                    {solicitudSeleccionada.documentos?.map((doc, i) => (
+                      <tr key={i} className="border-bottom">
+                        <td className="py-2 text-dark small fw-medium">{doc.nombre}</td>
+                        <td className="py-2 text-end">
+                          <Badge bg={doc.estado === "Entregado" ? "success" : "warning"} text={doc.estado === "Entregado" ? "white" : "dark"} className="label-md">
+                            {doc.estado}
+                          </Badge>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </Modal.Body>
+            <Modal.Footer className="border-top bg-light px-4 py-3">
+                <Button 
+                    style={{ backgroundColor: "var(--pi-blue)", borderColor: "var(--pi-blue)", color: "#fff" }} 
+                    onClick={handleCerrarModal} 
+                    className="px-4 label-md fw-semibold"
+                >
+                    Cerrar
+                </Button>
+            </Modal.Footer>
+          </>
+        )}
+      </Modal>
     </Container>
   );
 };
