@@ -16,7 +16,6 @@ export  const BarraNavegacion = ({ usuario, cerrarSesion, rutaActual = '/familia
       }}
     >
       <Container>
-        {/* Marca / Logo principal con integración visual perfecta */}
         <Navbar.Brand 
           href="/" 
           className="fw-bold d-flex align-items-center gap-3 text-white text-decoration-none py-0"
@@ -42,7 +41,6 @@ export  const BarraNavegacion = ({ usuario, cerrarSesion, rutaActual = '/familia
           </span>
         </Navbar.Brand>
 
-        {/* Botón Hamburguesa */}
         <Navbar.Toggle 
           aria-controls="menu-navegacion" 
           className="border-0 shadow-none text-white" 
@@ -50,12 +48,12 @@ export  const BarraNavegacion = ({ usuario, cerrarSesion, rutaActual = '/familia
         />
 
         <Navbar.Collapse id="menu-navegacion">
-          {/* Enlaces de navegación centrales con diseño moderno */}
+
           <Nav className="mx-auto my-2 my-lg-0 gap-lg-2">
             {!usuario ? (
               <>
                 <Nav.Link href="/" onClick={() => setMenuExpandido(false)} className="text-white-50 px-3 py-2 fw-medium transition-all">Inicio</Nav.Link>
-                <Nav.Link href="/escuelas" onClick={() => setMenuExpandido(false)} className="text-white-50 px-3 py-2 fw-medium transition-all">Escuelas</Nav.Link>
+                <Nav.Link href="/escuelas"  onClick={() => setMenuExpandido(false)} className="text-white-50 px-3 py-2 fw-medium transition-all">Escuelas</Nav.Link>
                 <Nav.Link href="/como-funciona" onClick={() => setMenuExpandido(false)} className="text-white-50 px-3 py-2 fw-medium transition-all">Cómo funciona</Nav.Link>
               </>
             ) : (
