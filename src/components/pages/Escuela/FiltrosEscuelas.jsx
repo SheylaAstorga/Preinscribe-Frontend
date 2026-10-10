@@ -7,11 +7,14 @@ import {
   Offcanvas,
   Badge,
 } from "react-bootstrap";
-import { Sliders, X, Puzzle, Backpack, Mortarboard } from "react-bootstrap-icons";
+import {
+  Sliders,
+  X,
+  Puzzle,
+  Backpack,
+  Mortarboard,
+} from "react-bootstrap-icons";
 
-/* ---------------------------------------------------------------------
-   Opciones de cada filtro
-   --------------------------------------------------------------------- */
 const LOCALIDADES = [
   "San Miguel de Tucumán",
   "Yerba Buena",
@@ -19,8 +22,6 @@ const LOCALIDADES = [
   "Banda del Río Salí",
 ];
 
-// Hasta esta cantidad de localidades se muestran como botones (sin desplegable).
-// Si la lista crece más, se usa el select.
 const MAX_LOCALIDADES_EN_PILDORAS = 6;
 
 const GESTION = [
@@ -42,15 +43,9 @@ const NIVELES = [
   { valor: "Secundario", texto: "Secundario", Icono: Mortarboard },
 ];
 
-// Altura real de la navbar (ajustar si cambia) + un respiro.
-// El panel se queda fijo justo debajo de ella en escritorio.
 const ALTURA_NAVBAR = 96;
 const TOP_STICKY = ALTURA_NAVBAR + 16;
 
-/* ---------------------------------------------------------------------
-   Único bloque de estilo: el aspecto de "tarjeta" solo en escritorio.
-   En celular el panel vive dentro del offcanvas y no necesita borde.
-   --------------------------------------------------------------------- */
 const estilos = `
 @media (min-width: 992px) {
   .ff-panel {
@@ -63,19 +58,15 @@ const estilos = `
 }
 `;
 
-/* ---------------------------------------------------------------------
-   Piezas chicas
-   --------------------------------------------------------------------- */
-
-// Grupo de filtro con título accesible (fieldset + legend)
 const Grupo = ({ etiqueta, children }) => (
   <fieldset className="mb-4">
-    <legend className="label-sm text-secondary text-uppercase mb-2">{etiqueta}</legend>
+    <legend className="label-sm text-secondary text-uppercase mb-2">
+      {etiqueta}
+    </legend>
     {children}
   </fieldset>
 );
 
-// Control segmentado: una sola fila de botones de igual ancho
 const Segmentado = ({ nombre, valor, opciones, onChange }) => (
   <ButtonGroup className="w-100">
     {opciones.map((op) => (
@@ -95,10 +86,6 @@ const Segmentado = ({ nombre, valor, opciones, onChange }) => (
   </ButtonGroup>
 );
 
-/* ---------------------------------------------------------------------
-   Componente
-   Props nuevas (opcionales): totalResultados, localidades
-   --------------------------------------------------------------------- */
 const FiltrosEscuelas = ({
   localidad,
   gestion,
@@ -113,16 +100,30 @@ const FiltrosEscuelas = ({
   totalResultados,
   localidades = LOCALIDADES,
 }) => {
-  const [show, setShow] = useState(false); // solo afecta al panel en celular/tablet
+  const [show, setShow] = useState(false);
 
-  // Filtros aplicados, para mostrarlos como chips que se pueden quitar de a uno
   const activos = [
-    localidad && { clave: "localidad", texto: localidad, quitar: () => onLocalidadChange("") },
-    gestion && { clave: "gestion", texto: `Gestión ${gestion.toLowerCase()}`, quitar: () => onGestionChange("") },
-    nivel && { clave: "nivel", texto: `Nivel ${nivel.toLowerCase()}`, quitar: () => onNivelChange("") },
+    localidad && {
+      clave: "localidad",
+      texto: localidad,
+      quitar: () => onLocalidadChange(""),
+    },
+    gestion && {
+      clave: "gestion",
+      texto: `Gestión ${gestion.toLowerCase()}`,
+      quitar: () => onGestionChange(""),
+    },
+    nivel && {
+      clave: "nivel",
+      texto: `Nivel ${nivel.toLowerCase()}`,
+      quitar: () => onNivelChange(""),
+    },
     estado && {
       clave: "estado",
-      texto: estado === "abierta" ? "Preinscripción abierta" : "Preinscripción cerrada",
+      texto:
+        estado === "abierta"
+          ? "Preinscripción abierta"
+          : "Preinscripción cerrada",
       quitar: () => onEstadoChange(""),
     },
   ].filter(Boolean);
@@ -138,9 +139,6 @@ const FiltrosEscuelas = ({
     <>
       <style>{estilos}</style>
 
-      {/* En escritorio el panel queda fijo mientras se recorren los resultados.
-          zIndex bajo: así la navbar (sticky/fixed, z-index 1020+) siempre queda por encima.
-          maxHeight + overflow: si la pantalla es baja, el panel hace scroll en lugar de cortarse. */}
       <div
         className="sticky-lg-top"
         style={{
@@ -150,7 +148,6 @@ const FiltrosEscuelas = ({
           overflowY: "auto",
         }}
       >
-        {/* ---------- Botón que abre los filtros (solo celular y tableta) ---------- */}
         <Button
           variant="outline-primary"
           style={{ backgroundColor: "var(--pi-blue,)", color: "white" }}
@@ -166,7 +163,6 @@ const FiltrosEscuelas = ({
           )}
         </Button>
 
-        {/* ---------- Panel: offcanvas inferior en < lg, tarjeta fija en >= lg ---------- */}
         <Offcanvas
           responsive="lg"
           placement="bottom"
@@ -176,7 +172,10 @@ const FiltrosEscuelas = ({
           style={{ height: "auto", maxHeight: "85vh" }}
         >
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title as="h2" className="h5 d-flex align-items-center gap-2">
+            <Offcanvas.Title
+              as="h2"
+              className="h5 d-flex align-items-center gap-2"
+            >
               <Sliders aria-hidden="true" />
               Filtros
             </Offcanvas.Title>
@@ -184,7 +183,6 @@ const FiltrosEscuelas = ({
 
           <Offcanvas.Body>
             <div className="ff-panel w-100">
-              {/* Título del panel (solo escritorio: en celular está en la cabecera) */}
               <div className="d-none d-lg-flex align-items-center justify-content-between mb-3">
                 <h2 className="h5 d-flex align-items-center gap-2 mb-0">
                   <Sliders aria-hidden="true" />
@@ -197,22 +195,29 @@ const FiltrosEscuelas = ({
                 </h2>
 
                 {hay && (
-                  <Button variant="link" size="sm" className="p-0 text-decoration-none" onClick={onLimpiar}>
+                  <Button
+                    variant="link"
+                    size="sm"
+                    className="p-0 text-decoration-none"
+                    onClick={onLimpiar}
+                  >
                     Limpiar todo
                   </Button>
                 )}
               </div>
 
-              {/* Filtros aplicados */}
               {activos.length > 0 && (
-                <div className="d-flex flex-wrap gap-2 mb-4" aria-label="Filtros aplicados">
+                <div
+                  className="d-flex flex-wrap gap-2 mb-4"
+                  aria-label="Filtros aplicados"
+                >
                   {activos.map((f) => (
                     <Button
                       key={f.clave}
                       variant="outline-primary"
                       size="sm"
                       className="rounded-pill d-inline-flex align-items-center gap-1"
-                      style={{background:"var(--pi-blue)", color: "white"}}
+                      style={{ background: "var(--pi-blue)", color: "white" }}
                       onClick={f.quitar}
                       aria-label={`Quitar filtro: ${f.texto}`}
                     >
@@ -225,7 +230,6 @@ const FiltrosEscuelas = ({
 
               <Grupo etiqueta="Localidad">
                 {localidades.length <= MAX_LOCALIDADES_EN_PILDORAS ? (
-                  // Pocas opciones: botones a la vista, sin desplegable que se pueda salir de pantalla
                   <div className="d-flex flex-wrap gap-2">
                     {["", ...localidades].map((l, i) => (
                       <ToggleButton
@@ -233,7 +237,7 @@ const FiltrosEscuelas = ({
                         id={`localidad-${i}`}
                         type="radio"
                         variant="outline-primary"
-                        style={{background:"var(--pi-blue)", color: "white"}}
+                        style={{ background: "var(--pi-blue)", color: "white" }}
                         name="localidad"
                         value={l}
                         checked={localidad === l}
@@ -245,7 +249,6 @@ const FiltrosEscuelas = ({
                     ))}
                   </div>
                 ) : (
-                  // Muchas opciones: select nativo
                   <Form.Select
                     value={localidad}
                     onChange={(e) => onLocalidadChange(e.target.value)}
@@ -269,14 +272,16 @@ const FiltrosEscuelas = ({
                       id={`nivel-${valor || "todos"}`}
                       type="radio"
                       variant="outline-primary"
-                      style={{background:"var(--pi-blue)", color: "white"}}
+                      style={{ background: "var(--pi-blue)", color: "white" }}
                       name="nivel"
                       value={valor}
                       checked={nivel === valor}
                       onChange={() => onNivelChange(valor)}
                       className="rounded-pill"
                     >
-                      {Icono && <Icono size={14} className="me-2" aria-hidden="true" />}
+                      {Icono && (
+                        <Icono size={14} className="me-2" aria-hidden="true" />
+                      )}
                       {texto}
                     </ToggleButton>
                   ))}
@@ -284,17 +289,31 @@ const FiltrosEscuelas = ({
               </Grupo>
 
               <Grupo etiqueta="Tipo de gestión">
-                <Segmentado nombre="gestion" valor={gestion} opciones={GESTION} onChange={onGestionChange} />
+                <Segmentado
+                  nombre="gestion"
+                  valor={gestion}
+                  opciones={GESTION}
+                  onChange={onGestionChange}
+                />
               </Grupo>
 
               <Grupo etiqueta="Preinscripción">
-                <Segmentado nombre="estado" valor={estado} opciones={ESTADOS} onChange={onEstadoChange} />
+                <Segmentado
+                  nombre="estado"
+                  valor={estado}
+                  opciones={ESTADOS}
+                  onChange={onEstadoChange}
+                />
               </Grupo>
-
-              {/* Acciones fijas al pie del panel (solo celular y tableta) */}
               <div className="sticky-bottom bg-white pt-3 d-lg-none">
                 <div className="d-flex gap-2">
-                  <Button variant="outline-primary" style={{background:"var(--pi-blue)", color: "white"}} className="flex-fill" onClick={onLimpiar} disabled={!hay}>
+                  <Button
+                    variant="outline-primary"
+                    style={{ background: "var(--pi-blue)", color: "white" }}
+                    className="flex-fill"
+                    onClick={onLimpiar}
+                    disabled={!hay}
+                  >
                     Limpiar
                   </Button>
                   <Button className="flex-fill" onClick={() => setShow(false)}>
