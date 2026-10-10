@@ -45,7 +45,6 @@ const FiltrosEscuelas = ({
           alwaysOpen
           flush
         >
-          {/* Localidad */}
           <Accordion.Item eventKey="0">
             <Accordion.Header>Localidad</Accordion.Header>
 
@@ -68,7 +67,6 @@ const FiltrosEscuelas = ({
             </Accordion.Body>
           </Accordion.Item>
 
-          {/* Gestión */}
           <Accordion.Item eventKey="1">
             <Accordion.Header>Tipo de gestión</Accordion.Header>
 
@@ -96,7 +94,6 @@ const FiltrosEscuelas = ({
             </Accordion.Body>
           </Accordion.Item>
 
-          {/* Nivel educativo */}
           <Accordion.Item eventKey="2">
             <Accordion.Header>Nivel educativo</Accordion.Header>
 
@@ -124,7 +121,6 @@ const FiltrosEscuelas = ({
             </Accordion.Body>
           </Accordion.Item>
 
-          {/* Estado de preinscripción */}
           <Accordion.Item eventKey="3">
             <Accordion.Header>Preinscripción</Accordion.Header>
 

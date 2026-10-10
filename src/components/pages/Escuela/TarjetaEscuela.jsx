@@ -1,9 +1,5 @@
-
-import {
-  Card,
-  Badge,
-  Button,
-} from "react-bootstrap";
+import { Card, Badge, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import {
   GeoAlt,
@@ -28,16 +24,17 @@ const TarjetaEscuela = ({ escuela }) => {
             {escuela.gestion}
           </Badge>
 
-          <Badge bg={escuela.abierta ? "success" : "light"} text={escuela.abierta ? undefined : "dark"}>
+          <Badge
+            bg={escuela.abierta ? "success" : "light"}
+            text={escuela.abierta ? undefined : "dark"}
+          >
             {escuela.abierta
               ? "Preinscripción abierta"
               : "Preinscripción cerrada"}
           </Badge>
         </div>
 
-        <Card.Title className="nombre-escuela">
-          {escuela.nombre}
-        </Card.Title>
+        <Card.Title className="nombre-escuela">{escuela.nombre}</Card.Title>
 
         <Card.Text className="ubicacion-escuela">
           <GeoAlt className="me-2" />
@@ -45,9 +42,7 @@ const TarjetaEscuela = ({ escuela }) => {
         </Card.Text>
 
         <div className="mb-3">
-          <p className="etiqueta-niveles mb-2">
-            Niveles educativos
-          </p>
+          <p className="etiqueta-niveles mb-2">Niveles educativos</p>
 
           <div className="d-flex flex-wrap gap-1">
             {escuela.niveles.map((nivel) => (
@@ -65,12 +60,11 @@ const TarjetaEscuela = ({ escuela }) => {
 
         <div className="mt-auto pt-3 border-top">
           <Button
+            as={Link}
+            to={`/escuelas/${escuela.id}`}
             variant="link"
             style={{ backgroundColor: "var(--pi-amber)" }}
-            className="boton-detalle p-1 text-decoration-none text-white  w-100 d-flex align-items-center justify-content-between"
-            onClick={() =>
-              console.log("Ver institución:", escuela.id)
-            }
+            className="boton-detalle p-1 text-decoration-none text-white w-100 d-flex align-items-center justify-content-between"
           >
             Ver institución
             <ArrowRight />
