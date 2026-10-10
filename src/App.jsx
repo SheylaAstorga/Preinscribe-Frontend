@@ -1,11 +1,15 @@
-import { FamiliaLayout } from './layouts/FamiliaLayout';
-import { AlumnosView } from './views/familia/AlumnosView';
+import { FamiliaLayout } from "./layouts/FamiliaLayout";
+import { AlumnosView } from "./views/familia/AlumnosView";
+import Inicio from "./components/pages/Principal/Inicio";
 
 function App() {
   return (
-    <FamiliaLayout>
-      <AlumnosView />
-    </FamiliaLayout>
+    <>
+      <Inicio></Inicio>
+      {/* <FamiliaLayout>
+        <AlumnosView />
+      </FamiliaLayout> */}
+    </>
   );
 }
 

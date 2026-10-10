@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 
-export const BarraNavegacion = ({ usuario, cerrarSesion, rutaActual = '/familia/alumnos' }) => {
+export  const BarraNavegacion = ({ usuario, cerrarSesion, rutaActual = '/familia/alumnos' }) => {
   const [menuExpandido, setMenuExpandido] = useState(false);
 
   return (
