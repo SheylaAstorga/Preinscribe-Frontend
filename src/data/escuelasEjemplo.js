@@ -1,3 +1,11 @@
+
+import colegioSM from "../img/ColegioSM.webp";
+import nuevaEsperanza from "../img/NuevaEsperanza.webp";
+import colegioNorte from "../img/ColegioNorte.webp";
+import jardinSemillita from "../img/JardinSemillita.webp";
+import escuelaBelgrano from "../img/EscuelaBelgrano.webp";
+import colegioNacional from "../img/ColegioNacional.webp";
+
 export const escuelasEjemplo = [
   {
     id: 1,
@@ -6,14 +14,23 @@ export const escuelasEjemplo = [
     gestion: "Pública",
     niveles: ["Primario", "Secundario"],
     abierta: true,
+    jornadaExtendida: true,
+    comedor: true,
+    plurilingue: false,
+    imagen: colegioSM,
   },
+ 
   {
     id: 2,
-    nombre: "Instituto Los Lapachos",
-    localidad: "Yerba Buena",
-    gestion: "Privada",
-    niveles: ["Inicial", "Primario"],
+    nombre: "Colegio Nacional",
+    localidad: "San Miguel de Tucumán",
+    gestion: "Pública",
+    niveles: ["Primario", "Secundario"],
     abierta: true,
+    jornadaExtendida: true,
+    comedor: true,
+    plurilingue: false,
+    imagen: colegioNacional,
   },
   {
     id: 3,
@@ -22,6 +39,10 @@ export const escuelasEjemplo = [
     gestion: "Pública",
     niveles: ["Primario"],
     abierta: false,
+    jornadaExtendida: true,
+    comedor: true,
+    plurilingue: false,
+    imagen: nuevaEsperanza,
   },
   {
     id: 4,
@@ -30,14 +51,22 @@ export const escuelasEjemplo = [
     gestion: "Privada",
     niveles: ["Secundario"],
     abierta: true,
+    jornadaExtendida: false,
+    comedor: false,
+    plurilingue: true,
+    imagen: colegioNorte,
   },
   {
     id: 5,
-    nombre: "Jardín Arcoíris",
-    localidad: "Yerba Buena",
+    nombre: "Jardín Maternal Semillitas",
+    localidad: "San Miguel de Tucumán",
     gestion: "Privada",
     niveles: ["Inicial"],
     abierta: true,
+    jornadaExtendida: false,
+    comedor: false,
+    plurilingue: false,
+    imagen: jardinSemillita,
   },
   {
     id: 6,
@@ -46,5 +75,9 @@ export const escuelasEjemplo = [
     gestion: "Pública",
     niveles: ["Primario", "Secundario"],
     abierta: false,
+    jornadaExtendida: true,
+    comedor: false,
+    plurilingue: false,
+    imagen: escuelaBelgrano,
   },
 ];
