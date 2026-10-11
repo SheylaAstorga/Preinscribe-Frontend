@@ -9,7 +9,6 @@ import {
   ArrowLeft,
 } from "react-bootstrap-icons";
 
-
 const ATAJOS = [
   { to: "/", Icono: House, titulo: "Inicio", texto: "Volver al comienzo" },
   {
@@ -38,7 +37,11 @@ const FONDO = {
     "radial-gradient(rgba(29,78,137,.1) 1.5px, transparent 1.5px)",
   backgroundSize: "24px 24px",
 };
-const NUMERO = { fontSize: "clamp(5.5rem, 22vw, 11rem)" }; 
+const NUMERO = { fontSize: "clamp(5.5rem, 22vw, 11rem)" };
+const CIRCULO = {
+  width: "0.8em",
+  height: "0.8em",
+};
 const HALO = { width: "150%", height: "150%" };
 const BURBUJA = { width: 44, height: 44 };
 
@@ -53,7 +56,6 @@ const Error404 = () => {
     >
       <Container>
         <div className="text-center">
-
           <div
             className="d-inline-flex align-items-center justify-content-center gap-1 fw-bold lh-1 text-primary"
             style={NUMERO}
@@ -66,7 +68,6 @@ const Error404 = () => {
               className="position-relative d-inline-flex align-items-center justify-content-center"
               style={CIRCULO}
             >
-
               <Spinner
                 animation="grow"
                 variant="info"
