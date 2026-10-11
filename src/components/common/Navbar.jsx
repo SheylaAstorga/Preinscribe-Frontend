@@ -16,6 +16,9 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
     navigate('/', { replace: true });
   };
 
+  // Ruta dinámica para el enlace de Escuelas según si hay sesión iniciada
+  const rutaEscuelas = usuario ? '/familia/escuelas' : '/escuelas';
+
   return (
     <Navbar 
       expand="lg" 
@@ -63,8 +66,8 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
         <Navbar.Collapse id="menu-navegacion">
           <Nav className="mx-auto my-2 my-lg-0 gap-lg-2">
             {!usuario ? (
+              /* --- MENÚ PARA VISITANTES (SIN SESIÓN) --- */
               <>
-                {/* INICIO */}
                 <Nav.Link 
                   as={Link} 
                   to="/" 
@@ -74,7 +77,6 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                   Inicio
                 </Nav.Link>
 
-                {/* ESCUELAS */}
                 <Nav.Link 
                   as={Link} 
                   to="/escuelas" 
@@ -84,13 +86,12 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                   Escuelas
                 </Nav.Link>
 
-                {/* CÓMO FUNCIONA (Scroll suave si estamos en inicio) */}
                 <Nav.Link 
                   as={Link} 
                   to="/#como-funciona" 
                   onClick={(e) => {
                     setMenuExpandido(false);
-                    if (window.location.pathname === '/') {
+                    if (location.pathname === '/') {
                       e.preventDefault();
                       const seccion = document.getElementById('como-funciona');
                       if (seccion) {
@@ -104,10 +105,11 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                 </Nav.Link>
               </>
             ) : (
+              /* --- MENÚ PARA USUARIO AUTENTICADO --- */
               <>
                 <Nav.Link
                   as={Link}
-                  to="/familia/escuelas" 
+                  to={rutaEscuelas} 
                   onClick={() => setMenuExpandido(false)} 
                   className={`px-3 py-2 fw-medium position-relative ${ruta.includes('/escuelas') ? 'text-white fw-bold' : 'text-white-50'}`}
                 >
@@ -183,3 +185,5 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
     </Navbar>
   );
 };
+
+export default BarraNavegacion;

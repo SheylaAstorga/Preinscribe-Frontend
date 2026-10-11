@@ -5,7 +5,7 @@ import Escuelas from "../pages/Escuela/Escuelas";
 import DetalleEscuela from "../pages/Escuela/DetalleEscuela";
 
 import { FamiliaLayout } from "../../layouts/FamiliaLayout";
-import { AlumnosView } from "../pages/Familia/AlumnosView";
+import AlumnosView from "../pages/Familia/AlumnosView";
 import MisSolicitudesView from "../pages/Familia/MisSolicitudesViews";
 import Login from "../pages/Auth/Login";
 import Registro from "../pages/Auth/Registro";
