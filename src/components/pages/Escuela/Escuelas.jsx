@@ -15,7 +15,6 @@ import { useSearchParams } from "react-router-dom";
 
 import FiltrosEscuelas from "./FiltrosEscuelas";
 import TarjetaEscuela from "./TarjetaEscuela";
-import { BarraNavegacion } from "../../common/Navbar";
 import { Footer } from "../../common/Footer";
 import { escuelasEjemplo } from "../../../data/escuelasEjemplo";
 
@@ -166,8 +165,6 @@ const Escuelas = () => {
 
   return (
     <>
-      <BarraNavegacion />
-
       <main className="pagina-escuelas">
         <Container className="py-5">
           <div className="encabezado-escuelas mb-4">
@@ -335,8 +332,7 @@ const Escuelas = () => {
           </Row>
         </Container>
       </main>
-
-      <Footer />
+    <Footer />
     </>
   );
 };

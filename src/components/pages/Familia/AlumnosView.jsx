@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge, Modal } from 'react-bootstrap';
-import { AlumnoModal } from '../../components/familia/AlumnoModal';
+import { AlumnoModal } from './AlumnoModal';
 
 export const AlumnosView = () => {
   // Estado local con los datos de ejemplo solicitados

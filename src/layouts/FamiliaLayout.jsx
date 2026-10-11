@@ -1,7 +1,8 @@
+import { Outlet } from 'react-router-dom';
 import { BarraNavegacion } from '../components/common/Navbar';
 import { Footer } from '../components/common/Footer';
 
-export const FamiliaLayout = ({ usuario, cerrarSesion, children }) => {
+export const FamiliaLayout = ({ usuario, cerrarSesion }) => {
   const usuarioPrueba = usuario || { nombre: 'Facu (Tutor)' };
 
   return (
@@ -11,7 +12,7 @@ export const FamiliaLayout = ({ usuario, cerrarSesion, children }) => {
 
       {/* Contenedor principal de las vistas del módulo de familia */}
       <main className="flex-fill container my-4">
-        {children}
+        <Outlet/>
       </main>
 
       {/* Pie de página corporativo institucional */}

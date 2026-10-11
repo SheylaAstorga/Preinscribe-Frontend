@@ -38,6 +38,7 @@ const pasos = [
 const ComoFunciona = () => {
   return (
     <section
+      id="como-funciona"
       style={{
         backgroundColor: "#f8fafc",
         padding: "90px 0",
