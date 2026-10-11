@@ -3,7 +3,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Inicio from "../pages/Principal/Inicio";
 import Escuelas from "../pages/Escuela/Escuelas";
 import DetalleEscuela from "../pages/Escuela/DetalleEscuela";
-
 import { FamiliaLayout } from "../../layouts/FamiliaLayout";
 import AlumnosView from "../pages/Familia/AlumnosView";
 import MisSolicitudesView from "../pages/Familia/MisSolicitudesViews";
@@ -12,6 +11,8 @@ import Registro from "../pages/Auth/Registro";
 
 import { BarraNavegacion } from "../common/Navbar";
 import { Footer } from "../common/Footer";
+import Error404 from "../pages/shared/Error404";
+import SinPermiso from "../pages/shared/SinPermiso";
 
 const AppRoutes = () => {
   const [usuario, setUsuario] = useState(null);
@@ -37,7 +38,7 @@ const AppRoutes = () => {
     <div className="d-flex flex-column min-vh-100" >
       <BarraNavegacion usuario={usuario} cerrarSesion={cerrarSesion} />
       <div className="flex-grow-1">{children}</div>
-      <Footer />
+      <Footer usuario={usuario} />
     </div>
   );
 
@@ -58,6 +59,9 @@ const AppRoutes = () => {
         <Route path="escuelas" element={<Escuelas />} />
         <Route path="solicitudes" element={<MisSolicitudesView />} />
       </Route>
+
+      <Route path="/sin-permiso" element ={<SinPermiso></SinPermiso>} />
+      <Route path="*" element={<Error404></Error404>} />
     </Routes>
   );
 };
