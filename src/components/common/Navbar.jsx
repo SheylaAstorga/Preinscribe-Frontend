@@ -1,8 +1,21 @@
 import { useState } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
-export  const BarraNavegacion = ({ usuario, cerrarSesion, rutaActual = '/familia/alumnos' }) => {
+export const BarraNavegacion = ({ usuario, cerrarSesion, rutaActual = '/familia/alumnos' }) => {
   const [menuExpandido, setMenuExpandido] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const ruta = location.pathname;
+
+  // Handler centralizado para cerrar sesión y redirigir al inicio público
+  const handleCerrarSesion = () => {
+    if (cerrarSesion) {
+      cerrarSesion();
+    }
+    setMenuExpandido(false);
+    navigate('/'); // Redirige a la portada pública "/"
+  };
 
   return (
     <Navbar 
@@ -53,45 +66,45 @@ export  const BarraNavegacion = ({ usuario, cerrarSesion, rutaActual = '/familia
             {!usuario ? (
               <>
                 <Nav.Link href="/" onClick={() => setMenuExpandido(false)} className="text-white-50 px-3 py-2 fw-medium transition-all">Inicio</Nav.Link>
-                <Nav.Link href="/escuelas"  onClick={() => setMenuExpandido(false)} className="text-white-50 px-3 py-2 fw-medium transition-all">Escuelas</Nav.Link>
-                <Nav.Link href="/como-funciona" onClick={() => setMenuExpandido(false)} className="text-white-50 px-3 py-2 fw-medium transition-all">Cómo funciona</Nav.Link>
+                <Nav.Link href="/escuelas" onClick={() => setMenuExpandido(false)} className="text-white-50 px-3 py-2 fw-medium transition-all">Escuelas</Nav.Link>
+                <Nav.Link href="/#como-funciona" onClick={() => setMenuExpandido(false)} className="text-white-50 px-3 py-2 fw-medium transition-all">Cómo funciona</Nav.Link>
               </>
             ) : (
               <>
-                <Nav.Link 
-                  href="/" 
+                <Nav.Link
+                  as={Link}
+                  to="/familia/escuelas" 
                   onClick={() => setMenuExpandido(false)} 
-                  className={`px-3 py-2 fw-medium position-relative ${rutaActual === '/' ? 'text-white' : 'text-white-50'}`}
-                >
-                  Inicio
-                  {rutaActual === '/' && <span className="position-absolute bottom-0 start-50 translate-middle-x w-75 bg-info rounded-pill" style={{ height: '3px' }}></span>}
-                </Nav.Link>
-
-                <Nav.Link 
-                  href="/escuelas" 
-                  onClick={() => setMenuExpandido(false)} 
-                  className={`px-3 py-2 fw-medium position-relative ${rutaActual === '/escuelas' ? 'text-white' : 'text-white-50'}`}
+                  className={`px-3 py-2 fw-medium position-relative ${(ruta === '/familia/escuelas' || ruta === '/escuelas') ? 'text-white' : 'text-white-50'}`}
                 >
                   Escuelas
-                  {rutaActual === '/escuelas' && <span className="position-absolute bottom-0 start-50 translate-middle-x w-75 bg-info rounded-pill" style={{ height: '3px' }}></span>}
+                  {(ruta === '/familia/escuelas' || ruta === '/escuelas') && (
+                    <span className="position-absolute bottom-0 start-50 translate-middle-x w-75 bg-info rounded-pill" style={{ height: '3px' }}></span>
+                  )}
                 </Nav.Link>
 
                 <Nav.Link 
-                  href="/familia/alumnos" 
+                  as={Link}
+                  to="/familia/alumnos" 
                   onClick={() => setMenuExpandido(false)} 
-                  className={`px-3 py-2 fw-semibold position-relative ${rutaActual === '/familia/alumnos' ? 'text-white' : 'text-white-50'}`}
+                  className={`px-3 py-2 fw-semibold position-relative ${ruta === '/familia/alumnos' ? 'text-white' : 'text-white-50'}`}
                 >
                   Mis hijos
-                  {rutaActual === '/familia/alumnos' && <span className="position-absolute bottom-0 start-50 translate-middle-x w-75 bg-info rounded-pill" style={{ height: '3px' }}></span>}
+                  {ruta === '/familia/alumnos' && (
+                    <span className="position-absolute bottom-0 start-50 translate-middle-x w-75 bg-info rounded-pill" style={{ height: '3px' }}></span>
+                  )}
                 </Nav.Link>
 
                 <Nav.Link 
-                  href="/familia/solicitudes" 
+                  as={Link}
+                  to="/familia/solicitudes" 
                   onClick={() => setMenuExpandido(false)} 
-                  className={`px-3 py-2 fw-medium position-relative ${rutaActual === '/familia/solicitudes' ? 'text-white' : 'text-white-50'}`}
+                  className={`px-3 py-2 fw-medium position-relative ${ruta === '/familia/solicitudes' ? 'text-white' : 'text-white-50'}`}
                 >
                   Mis solicitudes
-                  {rutaActual === '/familia/solicitudes' && <span className="position-absolute bottom-0 start-50 translate-middle-x w-75 bg-info rounded-pill" style={{ height: '3px' }}></span>}
+                  {ruta === '/familia/solicitudes' && (
+                    <span className="position-absolute bottom-0 start-50 translate-middle-x w-75 bg-info rounded-pill" style={{ height: '3px' }}></span>
+                  )}
                 </Nav.Link>
               </>
             )}
@@ -122,7 +135,7 @@ export  const BarraNavegacion = ({ usuario, cerrarSesion, rutaActual = '/familia
                   >
                     <NavDropdown.Item href="/perfil" className="fw-medium py-2"> Mi perfil</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={cerrarSesion} className="text-danger fw-semibold py-2"> Cerrar sesión</NavDropdown.Item>
+                    <NavDropdown.Item onClick={handleCerrarSesion} className="text-danger fw-semibold py-2"> Cerrar sesión</NavDropdown.Item>
                   </NavDropdown>
                 </div>
 
@@ -135,7 +148,7 @@ export  const BarraNavegacion = ({ usuario, cerrarSesion, rutaActual = '/familia
                     <span className="fw-semibold small">{usuario.nombre || 'Mi Cuenta'}</span>
                   </div>
                   <Nav.Link href="/perfil" onClick={() => setMenuExpandido(false)} className="text-white-50 px-2 py-1"> Mi perfil</Nav.Link>
-                  <Nav.Link onClick={() => { cerrarSesion(); setMenuExpandido(false); }} className="text-danger px-2 py-1 fw-semibold"> Cerrar sesión</Nav.Link>
+                  <Nav.Link onClick={handleCerrarSesion} className="text-danger px-2 py-1 fw-semibold"> Cerrar sesión</Nav.Link>
                 </div>
               </>
             )}
