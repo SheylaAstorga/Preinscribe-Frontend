@@ -8,6 +8,7 @@ import MisSolicitudesView from "../pages/Familia/MisSolicitudesViews";
 import { BarraNavegacion } from "../common/Navbar";
 import { Footer } from "../common/Footer";
 import Error404 from "../pages/shared/Error404";
+import SinPermiso from "../pages/shared/SinPermiso";
 
 // Wrapper rápido para las páginas públicas
 const PaginaPublica = ({ children }) => (
@@ -29,6 +30,7 @@ const AppRoutes = () => {
         <Route path="escuelas" element={<Escuelas />}/>
         <Route path="solicitudes" element={<MisSolicitudesView />}/>
       </Route>
+      <Route path="/sin-permiso" element ={<SinPermiso></SinPermiso>} />
       <Route path="*" element={<Error404></Error404>} />
     </Routes>
   );
