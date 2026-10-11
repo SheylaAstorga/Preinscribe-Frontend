@@ -15,7 +15,6 @@ import { useSearchParams } from "react-router-dom";
 
 import FiltrosEscuelas from "./FiltrosEscuelas";
 import TarjetaEscuela from "./TarjetaEscuela";
-import { Footer } from "../../common/Footer";
 import { escuelasEjemplo } from "../../../data/escuelasEjemplo";
 
 const Escuelas = () => {
@@ -332,7 +331,6 @@ const Escuelas = () => {
           </Row>
         </Container>
       </main>
-    <Footer />
     </>
   );
 };

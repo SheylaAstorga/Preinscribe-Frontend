@@ -42,7 +42,7 @@ function QuePodesHacer() {
         backgroundColor: "#0A2540",
         padding: "clamp(40px, 8vw, 10px) 0",
       }}
-      className="mb-5 position-relative overflow-hidden "
+      className=" mb-5 position-relative overflow-hidden "
     >
       <div
         style={{
