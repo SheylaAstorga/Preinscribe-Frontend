@@ -101,7 +101,11 @@ const MisSolicitudesView = () => {
     alumnoIndex: "",
     escuelaIndex: "",
     nivel: "Primario",
-    grado: "1° Grado"
+    grado: "1° Grado",
+    dniFile: null,
+    partidaFile: null,
+    boletinFile: null,
+    saludFile: null
   });
 
   const handleAbrirDetalle = (solicitud) => {
@@ -125,6 +129,20 @@ const MisSolicitudesView = () => {
     const alumnoSel = ALUMNOS_DISPONIBLES[parseInt(formNueva.alumnoIndex)];
     const escuelaSel = ESCUELAS_DISPONIBLES[parseInt(formNueva.escuelaIndex)];
 
+    // Documentos base obligatorios
+    const documentosCargados = [
+      { nombre: "DNI del Alumno", estado: "Entregado" },
+      { nombre: "Partida de Nacimiento", estado: "Entregado" }
+    ];
+
+    // Agregar condicionalmente según el nivel
+    if (formNueva.nivel === "Primario" || formNueva.nivel === "Secundario") {
+      documentosCargados.push({ nombre: "Boletín del Nivel Anterior", estado: "Entregado" });
+    }
+    if (formNueva.nivel === "Inicial" || formNueva.nivel === "Primario") {
+      documentosCargados.push({ nombre: "Ficha de Salud / Vacunación", estado: "Entregado" });
+    }
+
     const nuevaSolicitud = {
       id: 100 + solicitudes.length + 1,
       alumno: alumnoSel.nombre,
@@ -136,15 +154,12 @@ const MisSolicitudesView = () => {
       fecha: new Date().toLocaleDateString("es-AR"),
       estado: "Pendiente",
       tutor: "Facundo Gómez",
-      documentos: [
-        { nombre: "DNI del Alumno", estado: "Entregado" },
-        { nombre: "Partida de Nacimiento", estado: "Pendiente" }
-      ]
+      documentos: documentosCargados
     };
 
     setSolicitudes([nuevaSolicitud, ...solicitudes]);
     setShowModalNueva(false);
-    setFormNueva({ alumnoIndex: "", escuelaIndex: "", nivel: "Primario", grado: "1° Grado" });
+    setFormNueva({ alumnoIndex: "", escuelaIndex: "", nivel: "Primario", grado: "1° Grado", dniFile: null, partidaFile: null, boletinFile: null, saludFile: null });
   };
 
   const getIniciales = (nombre) => {
@@ -473,7 +488,64 @@ const MisSolicitudesView = () => {
                     </Col>
                 </Row>
                 </Card.Body>
-            </Card>
+             </Card>
+
+            {/* BLOQUE 3: DOCUMENTACIÓN REQUERIDA CON DISEÑO DE BOTÓN BOOTSTRAP */}
+            <Card className="border-0 shadow-sm rounded-3 bg-white mt-3">
+              <Card.Body className="p-3">
+                <div className="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                  <span className="fw-bold" style={{ color: "var(--pi-blue)" }}>
+                    3. Documentación Requerida ({formNueva.nivel})
+                  </span>
+                </div>
+
+                {[
+                  { label: "DNI del Alumno (Frente y Dorso) *", key: "dniFile", show: true },
+                  { label: "Partida de Nacimiento *", key: "partidaFile", show: true },
+                  { label: "Boletín del Nivel Anterior *", key: "boletinFile", show: formNueva.nivel === "Primario" || formNueva.nivel === "Secundario" },
+                  { label: "Ficha de Salud / Certificado de Vacunación *", key: "saludFile", show: formNueva.nivel === "Inicial" || formNueva.nivel === "Primario" }
+                ]
+                  .filter((item) => item.show)
+                  .map((doc, idx, arr) => (
+                    <div key={doc.key} className={idx < arr.length - 1 ? "mb-3" : ""}>
+                      <Form.Label className="label-sm text-uppercase text-muted fw-bold">
+                        {doc.label}
+                      </Form.Label>
+                      
+                      {/* Contenedor tipo InputGroup de Bootstrap */}
+                      <div className="input-group input-group-sm">
+                        {/* Input file real pero oculto */}
+                        <input
+                          type="file"
+                          id={`file-${doc.key}`}
+                          required
+                          className="d-none"
+                          onChange={(e) => {
+                            if (e.target.files[0]) {
+                              setFormNueva({ ...formNueva, [doc.key]: e.target.files[0] });
+                            }
+                          }}
+                        />
+                        
+                        {/* Botón visual real de Bootstrap (Azul corporativo) */}
+                        <label
+                          htmlFor={`file-${doc.key}`}
+                          className="btn text-white fw-semibold px-3 mb-0 d-flex align-items-center gap-1"
+                          style={{ backgroundColor: "var(--pi-blue)", borderColor: "var(--pi-blue)", cursor: "pointer" }}
+                        >
+                          Seleccionar archivo
+                        </label>
+
+                        {/* Texto que muestra si hay archivo seleccionado o no */}
+                        <span className="form-control bg-light text-muted d-flex align-items-center">
+                          {formNueva[doc.key] ? formNueva[doc.key].name : "Ningún archivo seleccionado"}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+              </Card.Body>
+            </Card>              
+
             </Modal.Body>
 
             {/* Footer de Acciones */}
