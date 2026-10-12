@@ -1,7 +1,13 @@
 import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-export const Footer = () => {
+export const Footer = ({ usuario }) => {
   const añoActual = new Date().getFullYear();
+
+  // Definimos las rutas dinámicamente según si hay usuario logueado o no
+  const rutaEscuelas = usuario ? '/familia/escuelas' : '/escuelas';
+  const rutaAlumnos = usuario ? '/familia/alumnos' : '/login';
+  const rutaSolicitudes = usuario ? '/familia/solicitudes' : '/login';
 
   return (
     <footer 
@@ -28,14 +34,22 @@ export const Footer = () => {
             </p>
           </Col>
 
-          {/* Columna 2: Navegación */}
+          {/* Columna 2: Navegación corregida con Link y rutas dinámicas */}
           <Col lg={2} md={6} xs={6}>
             <h6 className="fw-bold mb-3 text-white">Navegación</h6>
             <ul className="list-unstyled d-flex flex-column gap-2 small">
-              <li><a href="/" className="text-decoration-none text-white-50">Inicio</a></li>
-              <li><a href="/escuelas" className="text-decoration-none text-white-50">Escuelas</a></li>
-              <li><a href="/familia/alumnos" className="text-decoration-none text-white-50">Mis hijos</a></li>
-              <li><a href="/familia/solicitudes" className="text-decoration-none text-white-50">Mis solicitudes</a></li>
+              <li>
+                <Link to="/" className="text-decoration-none text-white-50">Inicio</Link>
+              </li>
+              <li>
+                <Link to={rutaEscuelas} className="text-decoration-none text-white-50">Escuelas</Link>
+              </li>
+              <li>
+                <Link to={rutaAlumnos} className="text-decoration-none text-white-50">Mis hijos</Link>
+              </li>
+              <li>
+                <Link to={rutaSolicitudes} className="text-decoration-none text-white-50">Mis solicitudes</Link>
+              </li>
             </ul>
           </Col>
 
@@ -50,7 +64,7 @@ export const Footer = () => {
             </ul>
           </Col>
 
-          {/* Columna 4: Stack Tecnológico */}
+          {/* Columna 4: Plataforma */}
           <Col lg={3} md={6}>
             <h6 className="fw-bold mb-3 text-white">Plataforma</h6>
             <p className="text-white-50 small mb-2">
@@ -76,3 +90,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;
