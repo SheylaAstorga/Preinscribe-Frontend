@@ -4,7 +4,7 @@ import nuevaEsperanza from "../img/NuevaEsperanza.webp";
 import colegioNorte from "../img/ColegioNorte.webp";
 import jardinSemillita from "../img/JardinSemillita.webp";
 import escuelaBelgrano from "../img/EscuelaBelgrano.webp";
-import colegioNacional from "../img/ColegioNacional.webp";
+import colegioNacional from "../img/colegioNacional.webp";
 
 export const escuelasEjemplo = [
   {
