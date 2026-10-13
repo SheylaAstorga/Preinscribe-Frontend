@@ -77,7 +77,6 @@ function QuePodesHacer() {
           zIndex: 2,
         }}
       >
-
         <Row className="justify-content-center text-center">
           <Col xs={12} md={10} lg={8}>
             <div className="d-flex justify-content-center align-items-center gap-2 mb-3">
@@ -129,7 +128,6 @@ function QuePodesHacer() {
             </p>
           </Col>
         </Row>
-
 
         <div
           className="position-relative"
@@ -198,7 +196,6 @@ function QuePodesHacer() {
                     {accion.icono}
                   </div>
 
-
                   <div
                     className="text-center d-flex flex-column"
                     style={{
@@ -260,7 +257,6 @@ function QuePodesHacer() {
                       </Button>
                     </div>
                   </div>
-
 
                   {index < acciones.length - 1 && (
                     <div

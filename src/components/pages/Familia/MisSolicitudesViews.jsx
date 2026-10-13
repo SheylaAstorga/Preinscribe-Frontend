@@ -1,19 +1,28 @@
 import { useState } from "react";
-import { Container, Row, Col, Card, Badge, Button, Form, InputGroup, Modal, Table } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Badge,
+  Button,
+  Form,
+  InputGroup,
+  Modal,
+  Table,
+} from "react-bootstrap";
 
-// Hijos registrados del tutor (sincronizados con la sección Mis Hijos)
 const ALUMNOS_DISPONIBLES = [
   { nombre: "Lucas Gómez", dni: "48.123.456" },
   { nombre: "Sofía Gómez", dni: "50.987.654" },
-  { nombre: "Mateo Gómez", dni: "52.333.111" }
+  { nombre: "Mateo Gómez", dni: "52.333.111" },
 ];
 
-// Escuelas oficiales disponibles
 const ESCUELAS_DISPONIBLES = [
   { nombre: "Colegio San Martín", localidad: "San Miguel de Tucumán" },
   { nombre: "Instituto Los Lapachos", localidad: "Yerba Buena" },
   { nombre: "Escuela Nueva Esperanza", localidad: "Tafí Viejo" },
-  { nombre: "Colegio del Norte", localidad: "San Miguel de Tucumán" }
+  { nombre: "Colegio del Norte", localidad: "San Miguel de Tucumán" },
 ];
 
 const SOLICITUDES_INICIALES = [
@@ -31,8 +40,8 @@ const SOLICITUDES_INICIALES = [
     documentos: [
       { nombre: "DNI del Alumno", estado: "Entregado" },
       { nombre: "Partida de Nacimiento", estado: "Entregado" },
-      { nombre: "Ficha de Salud", estado: "Pendiente" }
-    ]
+      { nombre: "Ficha de Salud", estado: "Pendiente" },
+    ],
   },
   {
     id: 102,
@@ -48,8 +57,8 @@ const SOLICITUDES_INICIALES = [
     documentos: [
       { nombre: "DNI del Alumno", estado: "Entregado" },
       { nombre: "Partida de Nacimiento", estado: "Entregado" },
-      { nombre: "Boletín del Nivel Anterior", estado: "Entregado" }
-    ]
+      { nombre: "Boletín del Nivel Anterior", estado: "Entregado" },
+    ],
   },
   {
     id: 103,
@@ -65,8 +74,8 @@ const SOLICITUDES_INICIALES = [
     documentos: [
       { nombre: "DNI del Alumno", estado: "Entregado" },
       { nombre: "Partida de Nacimiento", estado: "Entregado" },
-      { nombre: "Certificado de Vacunación", estado: "Pendiente" }
-    ]
+      { nombre: "Certificado de Vacunación", estado: "Pendiente" },
+    ],
   },
   {
     id: 104,
@@ -81,21 +90,19 @@ const SOLICITUDES_INICIALES = [
     tutor: "Facundo Gómez",
     documentos: [
       { nombre: "DNI del Alumno", estado: "Entregado" },
-      { nombre: "Partida de Nacimiento", estado: "Entregado" }
-    ]
-  }
+      { nombre: "Partida de Nacimiento", estado: "Entregado" },
+    ],
+  },
 ];
 
 const MisSolicitudesView = () => {
   const [solicitudes, setSolicitudes] = useState(SOLICITUDES_INICIALES);
   const [busqueda, setBusqueda] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("Todos");
-  
-  // Modal de Detalle
+
   const [solicitudSeleccionada, setSolicitudSeleccionada] = useState(null);
   const [showModalDetalle, setShowModalDetalle] = useState(false);
 
-  // Modal de Nueva Solicitud
   const [showModalNueva, setShowModalNueva] = useState(false);
   const [formNueva, setFormNueva] = useState({
     alumnoIndex: "",
@@ -105,7 +112,7 @@ const MisSolicitudesView = () => {
     dniFile: null,
     partidaFile: null,
     boletinFile: null,
-    saludFile: null
+    saludFile: null,
   });
 
   const handleAbrirDetalle = (solicitud) => {
@@ -118,7 +125,6 @@ const MisSolicitudesView = () => {
     setSolicitudSeleccionada(null);
   };
 
-  // Manejo de Formulario de Nueva Solicitud
   const handleCrearSolicitud = (e) => {
     e.preventDefault();
     if (formNueva.alumnoIndex === "" || formNueva.escuelaIndex === "") {
@@ -129,18 +135,22 @@ const MisSolicitudesView = () => {
     const alumnoSel = ALUMNOS_DISPONIBLES[parseInt(formNueva.alumnoIndex)];
     const escuelaSel = ESCUELAS_DISPONIBLES[parseInt(formNueva.escuelaIndex)];
 
-    // Documentos base obligatorios
     const documentosCargados = [
       { nombre: "DNI del Alumno", estado: "Entregado" },
-      { nombre: "Partida de Nacimiento", estado: "Entregado" }
+      { nombre: "Partida de Nacimiento", estado: "Entregado" },
     ];
 
-    // Agregar condicionalmente según el nivel
     if (formNueva.nivel === "Primario" || formNueva.nivel === "Secundario") {
-      documentosCargados.push({ nombre: "Boletín del Nivel Anterior", estado: "Entregado" });
+      documentosCargados.push({
+        nombre: "Boletín del Nivel Anterior",
+        estado: "Entregado",
+      });
     }
     if (formNueva.nivel === "Inicial" || formNueva.nivel === "Primario") {
-      documentosCargados.push({ nombre: "Ficha de Salud / Vacunación", estado: "Entregado" });
+      documentosCargados.push({
+        nombre: "Ficha de Salud / Vacunación",
+        estado: "Entregado",
+      });
     }
 
     const nuevaSolicitud = {
@@ -154,12 +164,21 @@ const MisSolicitudesView = () => {
       fecha: new Date().toLocaleDateString("es-AR"),
       estado: "Pendiente",
       tutor: "Facundo Gómez",
-      documentos: documentosCargados
+      documentos: documentosCargados,
     };
 
     setSolicitudes([nuevaSolicitud, ...solicitudes]);
     setShowModalNueva(false);
-    setFormNueva({ alumnoIndex: "", escuelaIndex: "", nivel: "Primario", grado: "1° Grado", dniFile: null, partidaFile: null, boletinFile: null, saludFile: null });
+    setFormNueva({
+      alumnoIndex: "",
+      escuelaIndex: "",
+      nivel: "Primario",
+      grado: "1° Grado",
+      dniFile: null,
+      partidaFile: null,
+      boletinFile: null,
+      saludFile: null,
+    });
   };
 
   const getIniciales = (nombre) => {
@@ -173,15 +192,41 @@ const MisSolicitudesView = () => {
   const renderBadgeEstadoHeader = (estado) => {
     switch (estado) {
       case "Aprobada":
-        return <Badge bg="success" className="px-2.5 py-1 label-md">Aprobada</Badge>;
+        return (
+          <Badge bg="success" className="px-2.5 py-1 label-md">
+            Aprobada
+          </Badge>
+        );
       case "Pendiente":
-        return <Badge style={{ backgroundColor: "var(--pi-amber)", color: "#fff" }} className="px-2.5 py-1 label-md">Pendiente</Badge>;
+        return (
+          <Badge
+            style={{ backgroundColor: "var(--pi-amber)", color: "#fff" }}
+            className="px-2.5 py-1 label-md"
+          >
+            Pendiente
+          </Badge>
+        );
       case "En Revisión":
-        return <Badge style={{ backgroundColor: "var(--pi-sky)", color: "#000" }} className="px-2.5 py-1 label-md">En Revisión</Badge>;
+        return (
+          <Badge
+            style={{ backgroundColor: "var(--pi-sky)", color: "#000" }}
+            className="px-2.5 py-1 label-md"
+          >
+            En Revisión
+          </Badge>
+        );
       case "Rechazada":
-        return <Badge bg="danger" className="px-2.5 py-1 label-md">Rechazada</Badge>;
+        return (
+          <Badge bg="danger" className="px-2.5 py-1 label-md">
+            Rechazada
+          </Badge>
+        );
       default:
-        return <Badge bg="secondary" className="label-md">{estado}</Badge>;
+        return (
+          <Badge bg="secondary" className="label-md">
+            {estado}
+          </Badge>
+        );
     }
   };
 
@@ -190,20 +235,28 @@ const MisSolicitudesView = () => {
       sol.alumno.toLowerCase().includes(busqueda.toLowerCase()) ||
       sol.escuela.toLowerCase().includes(busqueda.toLowerCase()) ||
       sol.dniAlumno.includes(busqueda);
-    const coincideEstado = filtroEstado === "Todos" || sol.estado === filtroEstado;
+    const coincideEstado =
+      filtroEstado === "Todos" || sol.estado === filtroEstado;
     return coincideTexto && coincideEstado;
   });
 
   return (
     <Container fluid className="px-4 py-3" style={{ maxWidth: "1300px" }}>
-      {/* HEADER DE SECCIÓN */}
       <div className="mb-4">
-        <span className="label-md text-uppercase" style={{ color: "var(--pi-blue)" }}>GESTIÓN FAMILIAR</span>
-        <h1 className="h2 mb-1" style={{ color: "var(--pi-navy)" }}>Mis solicitudes de preinscripción</h1>
-        <p className="text-muted mb-0 body-sm">Consultá el estado y avance de las vacantes escolares de tus hijos.</p>
+        <span
+          className="label-md text-uppercase"
+          style={{ color: "var(--pi-blue)" }}
+        >
+          GESTIÓN FAMILIAR
+        </span>
+        <h1 className="h2 mb-1" style={{ color: "var(--pi-navy)" }}>
+          Mis solicitudes de preinscripción
+        </h1>
+        <p className="text-muted mb-0 body-sm">
+          Consultá el estado y avance de las vacantes escolares de tus hijos.
+        </p>
       </div>
 
-      {/* BUSCADOR SUPERIOR */}
       <Card className="border shadow-sm mb-4 rounded-3">
         <Card.Body className="p-2">
           <InputGroup>
@@ -215,24 +268,34 @@ const MisSolicitudesView = () => {
               onChange={(e) => setBusqueda(e.target.value)}
             />
             {busqueda && (
-              <Button variant="link" className="text-muted text-decoration-none body-sm" onClick={() => setBusqueda("")}>
+              <Button
+                variant="link"
+                className="text-muted text-decoration-none body-sm"
+                onClick={() => setBusqueda("")}
+              >
                 Limpiar
               </Button>
             )}
-            <Button style={{ backgroundColor: "var(--pi-blue)", borderColor: "var(--pi-blue)" }} className="px-4 fw-semibold rounded-2 ms-2 text-white">
+            <Button
+              style={{
+                backgroundColor: "var(--pi-blue)",
+                borderColor: "var(--pi-blue)",
+              }}
+              className="px-4 fw-semibold rounded-2 ms-2 text-white"
+            >
               Buscar
             </Button>
           </InputGroup>
         </Card.Body>
       </Card>
 
-      {/* LAYOUT PRINCIPAL */}
       <Row className="g-4">
-        {/* PANEL DE FILTROS LATERAL */}
         <Col xs={12} lg={3}>
           <Card className="border-0 shadow-sm rounded-3 p-3">
             <div className="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
-              <h5 className="h6 mb-0" style={{ color: "var(--pi-navy)" }}>Filtros de búsqueda</h5>
+              <h5 className="h6 mb-0" style={{ color: "var(--pi-navy)" }}>
+                Filtros de búsqueda
+              </h5>
             </div>
 
             <div className="mb-3">
@@ -253,9 +316,11 @@ const MisSolicitudesView = () => {
                       key={item.value}
                       size="sm"
                       style={{
-                        backgroundColor: isActive ? "var(--pi-blue)" : "transparent",
+                        backgroundColor: isActive
+                          ? "var(--pi-blue)"
+                          : "transparent",
                         borderColor: "var(--pi-blue)",
-                        color: isActive ? "#fff" : "var(--pi-blue)"
+                        color: isActive ? "#fff" : "var(--pi-blue)",
                       }}
                       className="rounded-pill px-3 py-1 label-md"
                       onClick={() => setFiltroEstado(item.value)}
@@ -281,15 +346,22 @@ const MisSolicitudesView = () => {
           </Card>
         </Col>
 
-        {/* LISTADO DE TARJETAS */}
         <Col xs={12} lg={9}>
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div>
-              <h2 className="h4 mb-0" style={{ color: "var(--pi-navy)" }}>Solicitudes registradas</h2>
-              <span className="text-muted small">Se encontraron {solicitudesFiltradas.length} solicitudes</span>
+              <h2 className="h4 mb-0" style={{ color: "var(--pi-navy)" }}>
+                Solicitudes registradas
+              </h2>
+              <span className="text-muted small">
+                Se encontraron {solicitudesFiltradas.length} solicitudes
+              </span>
             </div>
             <Button
-              style={{ backgroundColor: "var(--pi-amber)", borderColor: "var(--pi-amber)", color: "#fff" }}
+              style={{
+                backgroundColor: "var(--pi-amber)",
+                borderColor: "var(--pi-amber)",
+                color: "#fff",
+              }}
               className="fw-semibold px-3 shadow-sm border-0 label-md"
               onClick={() => setShowModalNueva(true)}
             >
@@ -302,19 +374,24 @@ const MisSolicitudesView = () => {
               {solicitudesFiltradas.map((sol) => (
                 <Col xs={12} md={6} xl={4} key={sol.id}>
                   <Card className="h-100 border shadow-sm rounded-3 overflow-hidden d-flex flex-column bg-white">
-                    <div 
+                    <div
                       className="p-3 text-white position-relative d-flex justify-content-between align-items-start"
                       style={{
-                        background: "linear-gradient(135deg, var(--pi-navy) 0%, var(--pi-blue) 100%)",
-                        minHeight: "95px"
+                        background:
+                          "linear-gradient(135deg, var(--pi-navy) 0%, var(--pi-blue) 100%)",
+                        minHeight: "95px",
                       }}
                     >
                       <div>{renderBadgeEstadoHeader(sol.estado)}</div>
-                      <Badge bg="light" text="dark" className="label-md px-2 py-1">
+                      <Badge
+                        bg="light"
+                        text="dark"
+                        className="label-md px-2 py-1"
+                      >
                         #{sol.id}
                       </Badge>
 
-                      <div 
+                      <div
                         className="position-absolute bg-white fw-bold shadow-sm d-flex align-items-center justify-content-center rounded-circle border border-2 border-white"
                         style={{
                           width: "48px",
@@ -322,7 +399,7 @@ const MisSolicitudesView = () => {
                           bottom: "-24px",
                           left: "16px",
                           fontSize: "1rem",
-                          color: "var(--pi-blue)"
+                          color: "var(--pi-blue)",
                         }}
                       >
                         {getIniciales(sol.alumno)}
@@ -331,22 +408,43 @@ const MisSolicitudesView = () => {
 
                     <Card.Body className="pt-4 px-3 pb-3 d-flex flex-column flex-grow-1">
                       <div className="mt-2 mb-2">
-                        <h3 className="h5 mb-0" style={{ color: "var(--pi-navy)" }}>{sol.alumno}</h3>
-                        <span className="text-muted body-sm">DNI {sol.dniAlumno}</span>
+                        <h3
+                          className="h5 mb-0"
+                          style={{ color: "var(--pi-navy)" }}
+                        >
+                          {sol.alumno}
+                        </h3>
+                        <span className="text-muted body-sm">
+                          DNI {sol.dniAlumno}
+                        </span>
                       </div>
 
                       <div className="mb-3">
-                        <div className="fw-semibold small" style={{ color: "var(--pi-navy-deep)" }}>
+                        <div
+                          className="fw-semibold small"
+                          style={{ color: "var(--pi-navy-deep)" }}
+                        >
                           {sol.escuela}
                         </div>
-                        <small className="text-muted d-block">{sol.localidad}</small>
+                        <small className="text-muted d-block">
+                          {sol.localidad}
+                        </small>
                       </div>
 
                       <div className="d-flex flex-wrap gap-1 mb-3 mt-auto">
-                        <Badge style={{ backgroundColor: "var(--pi-blue)", color: "#fff" }} className="border-0 label-md">
+                        <Badge
+                          style={{
+                            backgroundColor: "var(--pi-blue)",
+                            color: "#fff",
+                          }}
+                          className="border-0 label-md"
+                        >
                           {sol.nivel}
                         </Badge>
-                        <Badge bg="secondary-subtle" className="text-secondary border label-md">
+                        <Badge
+                          bg="secondary-subtle"
+                          className="text-secondary border label-md"
+                        >
                           {sol.grado}
                         </Badge>
                       </div>
@@ -354,10 +452,16 @@ const MisSolicitudesView = () => {
                       <hr className="my-2 text-muted opacity-25" />
 
                       <div className="d-flex justify-content-between align-items-center pt-1">
-                        <span className="text-muted body-sm">Fecha: {sol.fecha}</span>
+                        <span className="text-muted body-sm">
+                          Fecha: {sol.fecha}
+                        </span>
                         <Button
                           size="sm"
-                          style={{ backgroundColor: "var(--pi-blue)", borderColor: "var(--pi-blue)", color: "#fff" }}
+                          style={{
+                            backgroundColor: "var(--pi-blue)",
+                            borderColor: "var(--pi-blue)",
+                            color: "#fff",
+                          }}
                           className="fw-semibold px-3 rounded-2 label-md"
                           onClick={() => handleAbrirDetalle(sol)}
                         >
@@ -372,9 +476,21 @@ const MisSolicitudesView = () => {
           ) : (
             <Card className="border text-center py-5 rounded-3 bg-white">
               <Card.Body>
-                <h3 className="h6 fw-bold text-dark">No se encontraron solicitudes</h3>
-                <p className="text-muted small mb-3">No existen resultados que coincidan con los filtros seleccionados.</p>
-                <Button variant="outline-primary" size="sm" onClick={() => { setBusqueda(""); setFiltroEstado("Todos"); }}>
+                <h3 className="h6 fw-bold text-dark">
+                  No se encontraron solicitudes
+                </h3>
+                <p className="text-muted small mb-3">
+                  No existen resultados que coincidan con los filtros
+                  seleccionados.
+                </p>
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  onClick={() => {
+                    setBusqueda("");
+                    setFiltroEstado("Todos");
+                  }}
+                >
                   Restablecer búsqueda
                 </Button>
               </Card.Body>
@@ -383,114 +499,145 @@ const MisSolicitudesView = () => {
         </Col>
       </Row>
 
-      {/* MODAL 1: NUEVA SOLICITUD DE PREINSCRIPCIÓN (REDISEÑADO CON BLOQUES Y MARCA) */}
-    <Modal show={showModalNueva} onHide={() => setShowModalNueva(false)} centered size="lg">
+      <Modal
+        show={showModalNueva}
+        onHide={() => setShowModalNueva(false)}
+        centered
+        size="lg"
+      >
         <Form onSubmit={handleCrearSolicitud}>
-            {/* Banner Header Institucional */}
-            <Modal.Header 
-            closeButton 
+          <Modal.Header
+            closeButton
             closeVariant="white"
             className="p-4 text-white border-0"
-            style={{ background: "linear-gradient(135deg, var(--pi-navy) 0%, var(--pi-blue) 100%)" }}
-            >
+            style={{
+              background:
+                "linear-gradient(135deg, var(--pi-navy) 0%, var(--pi-blue) 100%)",
+            }}
+          >
             <div>
-                <span className="label-sm text-uppercase d-block text-white-50">PROCESO DE REGISTRO</span>
-                <Modal.Title className="h5 fw-bold mb-0 text-white">
+              <span className="label-sm text-uppercase d-block text-white-50">
+                PROCESO DE REGISTRO
+              </span>
+              <Modal.Title className="h5 fw-bold mb-0 text-white">
                 Nueva Solicitud de Preinscripción
-                </Modal.Title>
-                <small className="text-white-50 body-sm">Completá los datos del alumno y la escuela para iniciar el trámite.</small>
+              </Modal.Title>
+              <small className="text-white-50 body-sm">
+                Completá los datos del alumno y la escuela para iniciar el
+                trámite.
+              </small>
             </div>
-            </Modal.Header>
+          </Modal.Header>
 
-            <Modal.Body className="p-4" style={{ backgroundColor: "#f8fafc" }}>
-            {/* BLOQUE 1: DATOS DEL ALUMNO */}
+          <Modal.Body className="p-4" style={{ backgroundColor: "#f8fafc" }}>
             <Card className="border-0 shadow-sm rounded-3 mb-3 bg-white">
-                <Card.Body className="p-3">
+              <Card.Body className="p-3">
                 <div className="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
-                    <span className="fw-bold" style={{ color: "var(--pi-blue)" }}>1. Datos del Postulante</span>
+                  <span className="fw-bold" style={{ color: "var(--pi-blue)" }}>
+                    1. Datos del Postulante
+                  </span>
                 </div>
 
                 <div>
-                    <Form.Label className="label-sm text-uppercase text-muted fw-bold">
+                  <Form.Label className="label-sm text-uppercase text-muted fw-bold">
                     Seleccionar Hijo / Alumno
-                    </Form.Label>
-                    <Form.Select
+                  </Form.Label>
+                  <Form.Select
                     required
                     className="shadow-none border py-2"
-                    style={{ backgroundColor: "var(--pi-tint)", borderColor: "var(--pi-sky)" }}
+                    style={{
+                      backgroundColor: "var(--pi-tint)",
+                      borderColor: "var(--pi-sky)",
+                    }}
                     value={formNueva.alumnoIndex}
-                    onChange={(e) => setFormNueva({ ...formNueva, alumnoIndex: e.target.value })}
-                    >
-                    <option value="">-- Seleccioná un alumno de tu familia --</option>
+                    onChange={(e) =>
+                      setFormNueva({
+                        ...formNueva,
+                        alumnoIndex: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">
+                      -- Seleccioná un alumno de tu familia --
+                    </option>
                     {ALUMNOS_DISPONIBLES.map((alum, idx) => (
-                        <option key={idx} value={idx}>
+                      <option key={idx} value={idx}>
                         {alum.nombre} (DNI: {alum.dni})
-                        </option>
+                      </option>
                     ))}
-                    </Form.Select>
+                  </Form.Select>
                 </div>
-                </Card.Body>
+              </Card.Body>
             </Card>
 
-            {/* BLOQUE 2: DATOS DE LA ESCUELA Y ACADÉMICOS */}
             <Card className="border-0 shadow-sm rounded-3 bg-white">
-                <Card.Body className="p-3">
+              <Card.Body className="p-3">
                 <div className="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
-                    <span className="fw-bold" style={{ color: "var(--pi-blue)" }}>2. Destino Educativo</span>
+                  <span className="fw-bold" style={{ color: "var(--pi-blue)" }}>
+                    2. Destino Educativo
+                  </span>
                 </div>
 
                 <div className="mb-3">
-                    <Form.Label className="label-sm text-uppercase text-muted fw-bold">
+                  <Form.Label className="label-sm text-uppercase text-muted fw-bold">
                     Escuela de Destino
-                    </Form.Label>
-                    <Form.Select
+                  </Form.Label>
+                  <Form.Select
                     required
                     className="shadow-none border py-2"
                     value={formNueva.escuelaIndex}
-                    onChange={(e) => setFormNueva({ ...formNueva, escuelaIndex: e.target.value })}
-                    >
+                    onChange={(e) =>
+                      setFormNueva({
+                        ...formNueva,
+                        escuelaIndex: e.target.value,
+                      })
+                    }
+                  >
                     <option value="">-- Seleccioná la institución --</option>
                     {ESCUELAS_DISPONIBLES.map((esc, idx) => (
-                        <option key={idx} value={idx}>
+                      <option key={idx} value={idx}>
                         {esc.nombre} ({esc.localidad})
-                        </option>
+                      </option>
                     ))}
-                    </Form.Select>
+                  </Form.Select>
                 </div>
 
                 <Row className="g-3">
-                    <Col xs={12} sm={6}>
+                  <Col xs={12} sm={6}>
                     <Form.Label className="label-sm text-uppercase text-muted fw-bold">
-                        Nivel Educativo
+                      Nivel Educativo
                     </Form.Label>
                     <Form.Select
-                        className="shadow-none border"
-                        value={formNueva.nivel}
-                        onChange={(e) => setFormNueva({ ...formNueva, nivel: e.target.value })}
+                      className="shadow-none border"
+                      value={formNueva.nivel}
+                      onChange={(e) =>
+                        setFormNueva({ ...formNueva, nivel: e.target.value })
+                      }
                     >
-                        <option value="Inicial">Inicial</option>
-                        <option value="Primario">Primario</option>
-                        <option value="Secundario">Secundario</option>
+                      <option value="Inicial">Inicial</option>
+                      <option value="Primario">Primario</option>
+                      <option value="Secundario">Secundario</option>
                     </Form.Select>
-                    </Col>
-                    <Col xs={12} sm={6}>
+                  </Col>
+                  <Col xs={12} sm={6}>
                     <Form.Label className="label-sm text-uppercase text-muted fw-bold">
-                        Grado / Sala / Año
+                      Grado / Sala / Año
                     </Form.Label>
                     <Form.Control
-                        type="text"
-                        required
-                        placeholder="Ej: 1° Grado / Sala 4"
-                        className="shadow-none border"
-                        value={formNueva.grado}
-                        onChange={(e) => setFormNueva({ ...formNueva, grado: e.target.value })}
+                      type="text"
+                      required
+                      placeholder="Ej: 1° Grado / Sala 4"
+                      className="shadow-none border"
+                      value={formNueva.grado}
+                      onChange={(e) =>
+                        setFormNueva({ ...formNueva, grado: e.target.value })
+                      }
                     />
-                    </Col>
+                  </Col>
                 </Row>
-                </Card.Body>
-             </Card>
+              </Card.Body>
+            </Card>
 
-            {/* BLOQUE 3: DOCUMENTACIÓN REQUERIDA CON DISEÑO DE BOTÓN BOOTSTRAP */}
             <Card className="border-0 shadow-sm rounded-3 bg-white mt-3">
               <Card.Body className="p-3">
                 <div className="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
@@ -500,21 +647,41 @@ const MisSolicitudesView = () => {
                 </div>
 
                 {[
-                  { label: "DNI del Alumno (Frente y Dorso) *", key: "dniFile", show: true },
-                  { label: "Partida de Nacimiento *", key: "partidaFile", show: true },
-                  { label: "Boletín del Nivel Anterior *", key: "boletinFile", show: formNueva.nivel === "Primario" || formNueva.nivel === "Secundario" },
-                  { label: "Ficha de Salud / Certificado de Vacunación *", key: "saludFile", show: formNueva.nivel === "Inicial" || formNueva.nivel === "Primario" }
+                  {
+                    label: "DNI del Alumno (Frente y Dorso) *",
+                    key: "dniFile",
+                    show: true,
+                  },
+                  {
+                    label: "Partida de Nacimiento *",
+                    key: "partidaFile",
+                    show: true,
+                  },
+                  {
+                    label: "Boletín del Nivel Anterior *",
+                    key: "boletinFile",
+                    show:
+                      formNueva.nivel === "Primario" ||
+                      formNueva.nivel === "Secundario",
+                  },
+                  {
+                    label: "Ficha de Salud / Certificado de Vacunación *",
+                    key: "saludFile",
+                    show:
+                      formNueva.nivel === "Inicial" ||
+                      formNueva.nivel === "Primario",
+                  },
                 ]
                   .filter((item) => item.show)
                   .map((doc, idx, arr) => (
-                    <div key={doc.key} className={idx < arr.length - 1 ? "mb-3" : ""}>
+                    <div
+                      key={doc.key}
+                      className={idx < arr.length - 1 ? "mb-3" : ""}
+                    >
                       <Form.Label className="label-sm text-uppercase text-muted fw-bold">
                         {doc.label}
                       </Form.Label>
-                      
-                      {/* Contenedor tipo InputGroup de Bootstrap */}
                       <div className="input-group input-group-sm">
-                        {/* Input file real pero oculto */}
                         <input
                           type="file"
                           id={`file-${doc.key}`}
@@ -522,105 +689,175 @@ const MisSolicitudesView = () => {
                           className="d-none"
                           onChange={(e) => {
                             if (e.target.files[0]) {
-                              setFormNueva({ ...formNueva, [doc.key]: e.target.files[0] });
+                              setFormNueva({
+                                ...formNueva,
+                                [doc.key]: e.target.files[0],
+                              });
                             }
                           }}
                         />
-                        
-                        {/* Botón visual real de Bootstrap (Azul corporativo) */}
                         <label
                           htmlFor={`file-${doc.key}`}
                           className="btn text-white fw-semibold px-3 mb-0 d-flex align-items-center gap-1"
-                          style={{ backgroundColor: "var(--pi-blue)", borderColor: "var(--pi-blue)", cursor: "pointer" }}
+                          style={{
+                            backgroundColor: "var(--pi-blue)",
+                            borderColor: "var(--pi-blue)",
+                            cursor: "pointer",
+                          }}
                         >
                           Seleccionar archivo
                         </label>
-
-                        {/* Texto que muestra si hay archivo seleccionado o no */}
                         <span className="form-control bg-light text-muted d-flex align-items-center">
-                          {formNueva[doc.key] ? formNueva[doc.key].name : "Ningún archivo seleccionado"}
+                          {formNueva[doc.key]
+                            ? formNueva[doc.key].name
+                            : "Ningún archivo seleccionado"}
                         </span>
                       </div>
                     </div>
                   ))}
               </Card.Body>
-            </Card>              
+            </Card>
+          </Modal.Body>
 
-            </Modal.Body>
-
-            {/* Footer de Acciones */}
-            <Modal.Footer className="border-top bg-light px-4 py-3">
-            <Button 
-                variant="outline-secondary" 
-                onClick={() => setShowModalNueva(false)} 
-                className="px-3 label-md"
+          <Modal.Footer className="border-top bg-light px-4 py-3">
+            <Button
+              variant="outline-secondary"
+              onClick={() => setShowModalNueva(false)}
+              className="px-3 label-md"
             >
-                Cancelar
+              Cancelar
             </Button>
             <Button
-                type="submit"
-                style={{ backgroundColor: "var(--pi-amber)", borderColor: "var(--pi-amber)", color: "#fff" }}
-                className="px-4 label-md fw-semibold shadow-sm border-0"
+              type="submit"
+              style={{
+                backgroundColor: "var(--pi-amber)",
+                borderColor: "var(--pi-amber)",
+                color: "#fff",
+              }}
+              className="px-4 label-md fw-semibold shadow-sm border-0"
             >
-                Confirmar Solicitud
+              Confirmar Solicitud
             </Button>
-            </Modal.Footer>
+          </Modal.Footer>
         </Form>
-    </Modal>
+      </Modal>
 
-      {/* MODAL 2: DETALLE DE SOLICITUD */}
-      <Modal show={showModalDetalle} onHide={handleCerrarDetalle} centered size="lg">
+      <Modal
+        show={showModalDetalle}
+        onHide={handleCerrarDetalle}
+        centered
+        size="lg"
+      >
         {solicitudSeleccionada && (
           <>
-            <Modal.Header closeButton className="border-bottom bg-light px-4 py-3">
-              <Modal.Title className="h5 fw-bold" style={{ color: "var(--pi-navy)" }}>
-                Detalle de Solicitud <span style={{ color: "var(--pi-blue)" }}>#{solicitudSeleccionada.id}</span>
+            <Modal.Header
+              closeButton
+              className="border-bottom bg-light px-4 py-3"
+            >
+              <Modal.Title
+                className="h5 fw-bold"
+                style={{ color: "var(--pi-navy)" }}
+              >
+                Detalle de Solicitud{" "}
+                <span style={{ color: "var(--pi-blue)" }}>
+                  #{solicitudSeleccionada.id}
+                </span>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body className="p-4 bg-white">
-              <div 
+              <div
                 className="p-3 rounded-3 text-white mb-3 d-flex justify-content-between align-items-center shadow-sm"
-                style={{ background: "linear-gradient(135deg, var(--pi-navy) 0%, var(--pi-blue) 100%)" }}
+                style={{
+                  background:
+                    "linear-gradient(135deg, var(--pi-navy) 0%, var(--pi-blue) 100%)",
+                }}
               >
                 <div>
-                  <span className="label-sm text-uppercase d-block text-white-50">Establecimiento Educativo</span>
-                  <h4 className="h5 fw-bold mb-0 text-white">{solicitudSeleccionada.escuela}</h4>
-                  <small className="text-white-50">{solicitudSeleccionada.localidad} • Presentado el {solicitudSeleccionada.fecha}</small>
+                  <span className="label-sm text-uppercase d-block text-white-50">
+                    Establecimiento Educativo
+                  </span>
+                  <h4 className="h5 fw-bold mb-0 text-white">
+                    {solicitudSeleccionada.escuela}
+                  </h4>
+                  <small className="text-white-50">
+                    {solicitudSeleccionada.localidad} • Presentado el{" "}
+                    {solicitudSeleccionada.fecha}
+                  </small>
                 </div>
-                <div>{renderBadgeEstadoHeader(solicitudSeleccionada.estado)}</div>
+                <div>
+                  {renderBadgeEstadoHeader(solicitudSeleccionada.estado)}
+                </div>
               </div>
 
               <div className="p-3 border rounded-3 mb-3 bg-light">
-                <h5 className="h6 fw-bold mb-3 border-bottom pb-2" style={{ color: "var(--pi-blue)" }}>Información del Alumno y Tutor</h5>
+                <h5
+                  className="h6 fw-bold mb-3 border-bottom pb-2"
+                  style={{ color: "var(--pi-blue)" }}
+                >
+                  Información del Alumno y Tutor
+                </h5>
                 <Row className="g-3">
                   <Col xs={12} sm={6}>
-                    <small className="text-muted d-block label-sm text-uppercase">Alumno Postulante</small>
-                    <span className="fw-bold" style={{ color: "var(--pi-navy)" }}>{solicitudSeleccionada.alumno}</span>
+                    <small className="text-muted d-block label-sm text-uppercase">
+                      Alumno Postulante
+                    </small>
+                    <span
+                      className="fw-bold"
+                      style={{ color: "var(--pi-navy)" }}
+                    >
+                      {solicitudSeleccionada.alumno}
+                    </span>
                   </Col>
                   <Col xs={12} sm={6}>
-                    <small className="text-muted d-block label-sm text-uppercase">DNI del Alumno</small>
-                    <span className="fw-semibold text-dark">{solicitudSeleccionada.dniAlumno}</span>
+                    <small className="text-muted d-block label-sm text-uppercase">
+                      DNI del Alumno
+                    </small>
+                    <span className="fw-semibold text-dark">
+                      {solicitudSeleccionada.dniAlumno}
+                    </span>
                   </Col>
                   <Col xs={12} sm={6}>
-                    <small className="text-muted d-block label-sm text-uppercase">Nivel Educativo y Grado</small>
-                    <span className="fw-semibold text-dark">{solicitudSeleccionada.nivel} • {solicitudSeleccionada.grado}</span>
+                    <small className="text-muted d-block label-sm text-uppercase">
+                      Nivel Educativo y Grado
+                    </small>
+                    <span className="fw-semibold text-dark">
+                      {solicitudSeleccionada.nivel} •{" "}
+                      {solicitudSeleccionada.grado}
+                    </span>
                   </Col>
                   <Col xs={12} sm={6}>
-                    <small className="text-muted d-block label-sm text-uppercase">Tutor Responsable</small>
-                    <span className="fw-semibold text-dark">{solicitudSeleccionada.tutor}</span>
+                    <small className="text-muted d-block label-sm text-uppercase">
+                      Tutor Responsable
+                    </small>
+                    <span className="fw-semibold text-dark">
+                      {solicitudSeleccionada.tutor}
+                    </span>
                   </Col>
                 </Row>
               </div>
 
               <div className="p-3 border rounded-3 bg-white">
-                <h5 className="h6 fw-bold mb-2" style={{ color: "var(--pi-navy)" }}>Estado de Documentación</h5>
+                <h5
+                  className="h6 fw-bold mb-2"
+                  style={{ color: "var(--pi-navy)" }}
+                >
+                  Estado de Documentación
+                </h5>
                 <Table size="sm" borderless hover className="align-middle mb-0">
                   <tbody>
                     {solicitudSeleccionada.documentos?.map((doc, i) => (
                       <tr key={i} className="border-bottom">
-                        <td className="py-2 text-dark small fw-medium">{doc.nombre}</td>
+                        <td className="py-2 text-dark small fw-medium">
+                          {doc.nombre}
+                        </td>
                         <td className="py-2 text-end">
-                          <Badge bg={doc.estado === "Entregado" ? "success" : "warning"} text={doc.estado === "Entregado" ? "white" : "dark"} className="label-md">
+                          <Badge
+                            bg={
+                              doc.estado === "Entregado" ? "success" : "warning"
+                            }
+                            text={doc.estado === "Entregado" ? "white" : "dark"}
+                            className="label-md"
+                          >
                             {doc.estado}
                           </Badge>
                         </td>
@@ -631,9 +868,13 @@ const MisSolicitudesView = () => {
               </div>
             </Modal.Body>
             <Modal.Footer className="border-top bg-light px-4 py-3">
-              <Button 
-                style={{ backgroundColor: "var(--pi-blue)", borderColor: "var(--pi-blue)", color: "#fff" }} 
-                onClick={handleCerrarDetalle} 
+              <Button
+                style={{
+                  backgroundColor: "var(--pi-blue)",
+                  borderColor: "var(--pi-blue)",
+                  color: "#fff",
+                }}
+                onClick={handleCerrarDetalle}
                 className="px-4 label-md fw-semibold"
               >
                 Cerrar

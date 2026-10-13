@@ -1,130 +1,131 @@
-import { useState, useEffect } from 'react';
-import { Modal, Form, Button, Row, Col, Badge } from 'react-bootstrap';
+import { useState, useEffect } from "react";
+import { Modal, Form, Button, Row, Col, Badge } from "react-bootstrap";
 
-export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) => {
-  // Estado local para los campos del formulario
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-  const [dni, setDni] = useState('');
-  const [edad, setEdad] = useState('');
-  const [nivel, setNivel] = useState('Primario');
-  const [gradoAno, setGradoAno] = useState('1° Grado');
+export const AlumnoModal = ({
+  mostrar,
+  ocultar,
+  guardarAlumno,
+  alumnoAEditar,
+}) => {
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [dni, setDni] = useState("");
+  const [edad, setEdad] = useState("");
+  const [nivel, setNivel] = useState("Primario");
+  const [gradoAno, setGradoAno] = useState("1° Grado");
 
-  // Estados locales para los mensajes de error de cada campo
-  const [errorNombre, setErrorNombre] = useState('');
-  const [errorApellido, setErrorApellido] = useState('');
-  const [errorDni, setErrorDni] = useState('');
-  const [errorEdad, setErrorEdad] = useState('');
+  const [errorNombre, setErrorNombre] = useState("");
+  const [errorApellido, setErrorApellido] = useState("");
+  const [errorDni, setErrorDni] = useState("");
+  const [errorEdad, setErrorEdad] = useState("");
 
-  // Estados para saber si el usuario ya interactuó con los campos
   const [tocoNombre, setTocoNombre] = useState(false);
   const [tocoApellido, setTocoApellido] = useState(false);
   const [tocoDni, setTocoDni] = useState(false);
   const [tocoEdad, setTocoEdad] = useState(false);
 
-  // Cada vez que se abre el modal o cambia el alumno a editar, cargamos los datos y reseteamos errores
   useEffect(() => {
     if (alumnoAEditar) {
-      setNombre(alumnoAEditar.nombre || '');
-      setApellido(alumnoAEditar.apellido || '');
-      setDni(alumnoAEditar.dni || '');
-      setEdad(alumnoAEditar.edad !== undefined ? String(alumnoAEditar.edad) : '');
-      setNivel(alumnoAEditar.nivel || 'Primario');
-      setGradoAno(alumnoAEditar.gradoAno || '1° Grado');
+      setNombre(alumnoAEditar.nombre || "");
+      setApellido(alumnoAEditar.apellido || "");
+      setDni(alumnoAEditar.dni || "");
+      setEdad(
+        alumnoAEditar.edad !== undefined ? String(alumnoAEditar.edad) : "",
+      );
+      setNivel(alumnoAEditar.nivel || "Primario");
+      setGradoAno(alumnoAEditar.gradoAno || "1° Grado");
     } else {
-      setNombre('');
-      setApellido('');
-      setDni('');
-      setEdad('');
-      setNivel('Primario');
-      setGradoAno('1° Grado');
+      setNombre("");
+      setApellido("");
+      setDni("");
+      setEdad("");
+      setNivel("Primario");
+      setGradoAno("1° Grado");
     }
-    setErrorNombre('');
-    setErrorApellido('');
-    setErrorDni('');
-    setErrorEdad('');
+    setErrorNombre("");
+    setErrorApellido("");
+    setErrorDni("");
+    setErrorEdad("");
     setTocoNombre(false);
     setTocoApellido(false);
     setTocoDni(false);
     setTocoEdad(false);
   }, [alumnoAEditar, mostrar]);
 
-  // Funcion auxiliar para formatear mayusculas y minusculas
   const formatearTexto = (texto) => {
     const palabras = texto.trim().toLowerCase().split(/\s+/);
-    let textoFormateado = '';
+    let textoFormateado = "";
 
     for (let indice = 0; indice < palabras.length; indice++) {
       const palabraActual = palabras[indice];
       if (palabraActual.length > 0) {
-        const palabraCapitalizada = palabraActual.charAt(0).toUpperCase() + palabraActual.slice(1);
-        if (textoFormateado === '') {
+        const palabraCapitalizada =
+          palabraActual.charAt(0).toUpperCase() + palabraActual.slice(1);
+        if (textoFormateado === "") {
           textoFormateado = palabraCapitalizada;
         } else {
-          textoFormateado = textoFormateado + ' ' + palabraCapitalizada;
+          textoFormateado = textoFormateado + " " + palabraCapitalizada;
         }
       }
     }
     return textoFormateado;
   };
 
-  // Funciones de validacion individuales
   const validarNombre = (valorActual) => {
     const valorLimpio = valorActual.trim();
     const letrasRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
 
-    if (valorLimpio === '') {
-      return 'El nombre es obligatorio';
+    if (valorLimpio === "") {
+      return "El nombre es obligatorio";
     } else if (!letrasRegex.test(valorLimpio)) {
-      return 'El nombre solo puede contener letras y espacios';
+      return "El nombre solo puede contener letras y espacios";
     }
-    return '';
+    return "";
   };
 
   const validarApellido = (valorActual) => {
     const valorLimpio = valorActual.trim();
     const letrasRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
 
-    if (valorLimpio === '') {
-      return 'El apellido es obligatorio';
+    if (valorLimpio === "") {
+      return "El apellido es obligatorio";
     } else if (!letrasRegex.test(valorLimpio)) {
-      return 'El apellido solo puede contener letras y espacios';
+      return "El apellido solo puede contener letras y espacios";
     }
-    return '';
+    return "";
   };
 
   const validarDni = (valorActual) => {
     const valorLimpio = valorActual.trim();
     const numerosRegex = /^\d+$/;
 
-    if (valorLimpio === '') {
-      return 'El DNI es obligatorio';
+    if (valorLimpio === "") {
+      return "El DNI es obligatorio";
     } else if (!numerosRegex.test(valorLimpio)) {
-      return 'El DNI solo puede contener números';
+      return "El DNI solo puede contener números";
     } else if (valorLimpio.length !== 8) {
-      return 'El DNI debe contener exactamente 8 dígitos';
+      return "El DNI debe contener exactamente 8 dígitos";
     }
-    return '';
+    return "";
   };
 
   const validarEdad = (valorActual) => {
     const valorLimpio = valorActual.trim();
     const numerosRegex = /^\d+$/;
 
-    if (valorLimpio === '') {
-      return 'La edad es obligatoria';
+    if (valorLimpio === "") {
+      return "La edad es obligatoria";
     } else if (!numerosRegex.test(valorLimpio)) {
-      return 'La edad solo puede contener números';
+      return "La edad solo puede contener números";
     } else {
       const edadNumerica = Number(valorLimpio);
       if (edadNumerica < 3 || edadNumerica > 20) {
-        return 'La edad debe ser entre 3 y 20 años';
+        return "La edad debe ser entre 3 y 20 años";
       }
     }
-    return '';
+    return "";
   };
 
-  // Manejadores de cambio y foco
   const cambiarNombre = (evento) => {
     const nuevoValor = evento.target.value;
     setNombre(nuevoValor);
@@ -171,7 +172,6 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
     setErrorEdad(validarEdad(edad));
   };
 
-  // Manejo de envio y validacion final
   const manejarEnvio = (evento) => {
     evento.preventDefault();
 
@@ -190,7 +190,12 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
     setErrorDni(errorDniActual);
     setErrorEdad(errorEdadActual);
 
-    if (errorNombreActual || errorApellidoActual || errorDniActual || errorEdadActual) {
+    if (
+      errorNombreActual ||
+      errorApellidoActual ||
+      errorDniActual ||
+      errorEdadActual
+    ) {
       return;
     }
 
@@ -205,7 +210,7 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
       dni: dni.trim(),
       edad: Number(edad),
       nivel: nivel,
-      gradoAno: gradoAno || '1° Grado'
+      gradoAno: gradoAno || "1° Grado",
     };
 
     guardarAlumno(datosAlumno);
@@ -215,33 +220,38 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
   const esEdicion = Boolean(alumnoAEditar);
 
   return (
-    <Modal 
-      show={mostrar} 
-      onHide={ocultar} 
-      centered 
+    <Modal
+      show={mostrar}
+      onHide={ocultar}
+      centered
       size="lg"
       contentClassName="border-0 shadow-lg rounded-4 overflow-hidden"
     >
-      {/* Cabecera Institucional Estilizada */}
-      <div 
+      <div
         className="px-4 py-3 text-white d-flex justify-content-between align-items-center position-relative"
-        style={{ backgroundColor: '#000F22', borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}
+        style={{
+          backgroundColor: "#000F22",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+        }}
       >
         <div>
-          <span 
+          <span
             className="badge px-2.5 py-1 rounded-pill fw-semibold mb-1 text-dark"
-            style={{ backgroundColor: 'var(--pi-amber, #F5A524)', fontSize: '11px' }}
+            style={{
+              backgroundColor: "var(--pi-amber, #F5A524)",
+              fontSize: "11px",
+            }}
           >
-            {esEdicion ? 'MODIFICACIÓN DE LEGAJO' : 'NUEVO REGISTRO'}
+            {esEdicion ? "MODIFICACIÓN DE LEGAJO" : "NUEVO REGISTRO"}
           </span>
-          <h5 className="fw-bold mb-0 text-white" style={{ fontSize: '20px' }}>
-            {esEdicion ? 'Editar datos del Alumno' : 'Registrar Nuevo Alumno'}
+          <h5 className="fw-bold mb-0 text-white" style={{ fontSize: "20px" }}>
+            {esEdicion ? "Editar datos del Alumno" : "Registrar Nuevo Alumno"}
           </h5>
         </div>
 
-        <button 
-          type="button" 
-          className="btn-close btn-close-white shadow-none" 
+        <button
+          type="button"
+          className="btn-close btn-close-white shadow-none"
           aria-label="Cerrar"
           onClick={ocultar}
         />
@@ -250,14 +260,16 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
       <Form onSubmit={manejarEnvio} noValidate>
         <Modal.Body className="p-4 bg-white">
           <p className="text-muted small mb-4">
-            Completá los datos del alumno de manera precisa. Las validaciones aseguran que la información del legajo familiar sea correcta.
+            Completá los datos del alumno de manera precisa. Las validaciones
+            aseguran que la información del legajo familiar sea correcta.
           </p>
 
           <Row className="g-3">
-            {/* Campo Nombre */}
             <Col md={6}>
               <Form.Group>
-                <Form.Label className="fw-semibold text-dark small mb-1">Nombre</Form.Label>
+                <Form.Label className="fw-semibold text-dark small mb-1">
+                  Nombre
+                </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Ej: Juan Carlos"
@@ -273,10 +285,11 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
               </Form.Group>
             </Col>
 
-            {/* Campo Apellido */}
             <Col md={6}>
               <Form.Group>
-                <Form.Label className="fw-semibold text-dark small mb-1">Apellido</Form.Label>
+                <Form.Label className="fw-semibold text-dark small mb-1">
+                  Apellido
+                </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Ej: Gómez"
@@ -291,11 +304,11 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
-
-            {/* Campo DNI */}
             <Col md={6}>
               <Form.Group>
-                <Form.Label className="fw-semibold text-dark small mb-1">DNI (8 dígitos)</Form.Label>
+                <Form.Label className="fw-semibold text-dark small mb-1">
+                  DNI (8 dígitos)
+                </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Ej: 45123456"
@@ -311,11 +324,11 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
-
-            {/* Campo Edad */}
             <Col md={6}>
               <Form.Group>
-                <Form.Label className="fw-semibold text-dark small mb-1">Edad</Form.Label>
+                <Form.Label className="fw-semibold text-dark small mb-1">
+                  Edad
+                </Form.Label>
                 <Form.Control
                   type="number"
                   placeholder="Ej: 14"
@@ -333,10 +346,11 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
               </Form.Group>
             </Col>
 
-            {/* Campo Nivel Educativo */}
             <Col md={6}>
               <Form.Group>
-                <Form.Label className="fw-semibold text-dark small mb-1">Nivel Educativo</Form.Label>
+                <Form.Label className="fw-semibold text-dark small mb-1">
+                  Nivel Educativo
+                </Form.Label>
                 <Form.Select
                   value={nivel}
                   onChange={(evento) => setNivel(evento.target.value)}
@@ -348,11 +362,11 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
                 </Form.Select>
               </Form.Group>
             </Col>
-
-            {/* Campo Grado / Año */}
             <Col md={6}>
               <Form.Group>
-                <Form.Label className="fw-semibold text-dark small mb-1">Grado / Año Académico</Form.Label>
+                <Form.Label className="fw-semibold text-dark small mb-1">
+                  Grado / Año Académico
+                </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Ej: 6° Grado / 1° Año"
@@ -364,23 +378,21 @@ export const AlumnoModal = ({ mostrar, ocultar, guardarAlumno, alumnoAEditar }) 
             </Col>
           </Row>
         </Modal.Body>
-
-        {/* Botonera Inferior */}
         <Modal.Footer className="px-4 py-3 bg-light border-top border-light d-flex justify-content-end gap-2">
-          <Button 
-            variant="outline-secondary" 
+          <Button
+            variant="outline-secondary"
             onClick={ocultar}
             className="px-4 py-2 fw-semibold rounded-3 small border-secondary border-opacity-25 shadow-none"
           >
             Cancelar
           </Button>
 
-          <Button 
+          <Button
             type="submit"
             className="px-4 py-2 fw-bold rounded-3 small border-0 shadow-sm text-dark"
-            style={{ backgroundColor: 'var(--pi-amber, #F5A524)' }}
+            style={{ backgroundColor: "var(--pi-amber, #F5A524)" }}
           >
-            {esEdicion ? 'Guardar Cambios' : 'Registrar Alumno'}
+            {esEdicion ? "Guardar Cambios" : "Registrar Alumno"}
           </Button>
         </Modal.Footer>
       </Form>
