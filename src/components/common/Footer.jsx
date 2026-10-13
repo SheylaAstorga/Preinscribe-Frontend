@@ -22,7 +22,7 @@ export const Footer = ({ usuario }) => {
           
           {/* Columna 1: Marca y Eslogan */}
           <Col lg={4} md={6}>
-            <h5 className="fw-bold mb-2 d-flex align-items-center gap-2">
+            <h5 className="fw-bold mb-2">
               <span>Pre</span>
               <span style={{ color: 'var(--pi-sky, #5BC0EB)' }}>Inscribe</span>
             </h5>
@@ -53,14 +53,14 @@ export const Footer = ({ usuario }) => {
             </ul>
           </Col>
 
-          {/* Columna 3: Información */}
+          {/* Columna 3: Información vinculada a /404 */}
           <Col lg={3} md={6} xs={6}>
             <h6 className="fw-bold mb-3 text-white">Información</h6>
             <ul className="list-unstyled d-flex flex-column gap-2 small">
-              <li><span className="text-white-50" style={{ cursor: 'pointer' }}>Preguntas frecuentes</span></li>
-              <li><span className="text-white-50" style={{ cursor: 'pointer' }}>Ayuda y contacto</span></li>
-              <li><span className="text-white-50" style={{ cursor: 'pointer' }}>Términos y condiciones</span></li>
-              <li><span className="text-white-50" style={{ cursor: 'pointer' }}>Política de privacidad</span></li>
+              <li><Link to="/404" className="text-decoration-none text-white-50">Preguntas frecuentes</Link></li>
+              <li><Link to="/404" className="text-decoration-none text-white-50">Ayuda y contacto</Link></li>
+              <li><Link to="/404" className="text-decoration-none text-white-50">Términos y condiciones</Link></li>
+              <li><Link to="/404" className="text-decoration-none text-white-50">Política de privacidad</Link></li>
             </ul>
           </Col>
 
@@ -77,12 +77,12 @@ export const Footer = ({ usuario }) => {
         {/* Franja Inferior */}
         <div className="border-top pt-4 mt-3 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 text-center text-md-start" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
           <p className="text-white-50 small mb-0">
-            © {añoActual} PreInscribe. Todos los derechos reservados.
+            &copy; {añoActual} PreInscribe. Todos los derechos reservados.
           </p>
           <div className="d-flex gap-4 small text-white-50">
-            <span style={{ cursor: 'pointer' }}>Términos y condiciones</span>
-            <span>•</span>
-            <span style={{ cursor: 'pointer' }}>Política de privacidad</span>
+            <Link to="/404" className="text-decoration-none text-white-50">Términos y condiciones</Link>
+            <span>&bull;</span>
+            <Link to="/404" className="text-decoration-none text-white-50">Política de privacidad</Link>
           </div>
         </div>
 
