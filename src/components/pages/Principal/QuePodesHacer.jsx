@@ -15,7 +15,8 @@ const acciones = [
     titulo: "Encontrá tu escuela",
     descripcion:
       "Explorá las instituciones disponibles y encontrá la que mejor se adapte a lo que estás buscando.",
-    boton: "Explorar instituciones",
+    boton : "Explorar instituciones",
+    ruta: "/Escuelas"
   },
   {
     numero: "02",
@@ -24,6 +25,7 @@ const acciones = [
     descripcion:
       "Completá tus datos de manera sencilla y comenzá tu proceso de preinscripción online.",
     boton: "Comenzar preinscripción",
+    ruta: "/login"
   },
   {
     numero: "03",
@@ -32,6 +34,7 @@ const acciones = [
     descripcion:
       "Realizá el seguimiento de tu solicitud y consultá el estado de tu preinscripción cuando quieras.",
     boton: "Consultar solicitud",
+    ruta: "/login"
   },
 ];
 
@@ -245,6 +248,7 @@ function QuePodesHacer() {
                     <div className="mt-2">
                       <Button
                         variant="link"
+                        href={accion.ruta}
                         className="text-decoration-none p-0"
                         style={{
                           color: "#5BC0EB",
@@ -300,6 +304,7 @@ function QuePodesHacer() {
               <Button
                 size="lg"
                 className="rounded-pill px-4 py-3"
+                href="/Escuelas"
                 style={{
                   backgroundColor: "#5BC0EB",
                   border: "none",
