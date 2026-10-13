@@ -1,9 +1,12 @@
-import "./App.css";
+
+import AppRoutes from "./components/routes/AppRoutes";
 
 function App() {
-  return <>
-  <h1>Bienvenidos a Preinscribe</h1>
-  </>;
+  return (
+    <>
+     <AppRoutes></AppRoutes>
+    </>
+  );
 }
 
 export default App;
