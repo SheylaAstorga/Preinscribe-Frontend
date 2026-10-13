@@ -33,14 +33,26 @@ const Registro = () => {
     
     // Validación Paso 1
     if (paso === 1) {
-      if (!formData.nombre.trim() || !formData.apellido.trim() || !formData.dni.trim()) {
+      const nombreTrim = formData.nombre.trim();
+      const apellidoTrim = formData.apellido.trim();
+      const dniTrim = formData.dni.trim();
+
+      if (!nombreTrim || !apellidoTrim || !dniTrim) {
         setError('Por favor, completá tu nombre, apellido y DNI.');
         return;
       }
 
-      // Validamos que el DNI tenga entre 7 y 8 dígitos exactos
-      const dniLimpio = formData.dni.trim();
-      if (!/^\d{7,8}$/.test(dniLimpio)) {
+      if (nombreTrim.length < 2 || nombreTrim.length > 20) {
+        setError('El nombre debe tener entre 2 y 20 caracteres.');
+        return;
+      }
+
+      if (apellidoTrim.length < 2 || apellidoTrim.length > 20) {
+        setError('El apellido debe tener entre 2 y 20 caracteres.');
+        return;
+      }
+
+      if (!/^\d{7,8}$/.test(dniTrim)) {
         setError('El DNI debe contener exactamente 7 u 8 números, sin puntos ni espacios.');
         return;
       }
@@ -48,14 +60,23 @@ const Registro = () => {
 
     // Validación Paso 2
     if (paso === 2) {
-      if (!formData.email.trim() || !formData.password || !formData.confirmPassword) {
+      const emailTrim = formData.email.trim();
+
+      if (!emailTrim || !formData.password || !formData.confirmPassword) {
         setError('Por favor, completá el correo y las contraseñas.');
         return;
       }
-      if (formData.password.length < 6) {
-        setError('La contraseña debe tener al menos 6 caracteres.');
+
+      if (emailTrim.length > 30) {
+        setError('El correo electrónico no puede superar los 30 caracteres.');
         return;
       }
+
+      if (formData.password.length < 6 || formData.password.length > 20) {
+        setError('La contraseña debe tener entre 6 y 20 caracteres.');
+        return;
+      }
+
       if (formData.password !== formData.confirmPassword) {
         setError('Las contraseñas ingresadas no coinciden.');
         return;
@@ -315,6 +336,7 @@ const Registro = () => {
                               <Form.Control
                                 type="text"
                                 name="nombre"
+                                maxLength={20}
                                 placeholder="Ej: Mario"
                                 value={formData.nombre}
                                 onChange={handleChange}
@@ -335,6 +357,7 @@ const Registro = () => {
                               <Form.Control
                                 type="text"
                                 name="apellido"
+                                maxLength={20}
                                 placeholder="Ej: Gómez"
                                 value={formData.apellido}
                                 onChange={handleChange}
@@ -400,6 +423,7 @@ const Registro = () => {
                           <Form.Control
                             type="email"
                             name="email"
+                            maxLength={30}
                             placeholder="nombre@ejemplo.com"
                             value={formData.email}
                             onChange={handleChange}
@@ -419,6 +443,7 @@ const Registro = () => {
                           <Form.Control
                             type="password"
                             name="password"
+                            maxLength={20}
                             placeholder="••••••••"
                             value={formData.password}
                             onChange={handleChange}
@@ -438,6 +463,7 @@ const Registro = () => {
                           <Form.Control
                             type="password"
                             name="confirmPassword"
+                            maxLength={20}
                             placeholder="••••••••"
                             value={formData.confirmPassword}
                             onChange={handleChange}
@@ -633,6 +659,7 @@ const Registro = () => {
                           <Form.Control
                             type="text"
                             name="nombre"
+                            maxLength={20}
                             placeholder="Ej: Mario"
                             value={formData.nombre}
                             onChange={handleChange}
@@ -646,6 +673,7 @@ const Registro = () => {
                           <Form.Control
                             type="text"
                             name="apellido"
+                            maxLength={20}
                             placeholder="Ej: Gómez"
                             value={formData.apellido}
                             onChange={handleChange}
@@ -691,6 +719,7 @@ const Registro = () => {
                           <Form.Control
                             type="email"
                             name="email"
+                            maxLength={30}
                             placeholder="nombre@ejemplo.com"
                             value={formData.email}
                             onChange={handleChange}
@@ -704,6 +733,7 @@ const Registro = () => {
                           <Form.Control
                             type="password"
                             name="password"
+                            maxLength={20}
                             placeholder="••••••••"
                             value={formData.password}
                             onChange={handleChange}
@@ -717,6 +747,7 @@ const Registro = () => {
                           <Form.Control
                             type="password"
                             name="confirmPassword"
+                            maxLength={20}
                             placeholder="••••••••"
                             value={formData.confirmPassword}
                             onChange={handleChange}

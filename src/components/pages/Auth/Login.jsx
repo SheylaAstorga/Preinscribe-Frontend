@@ -17,8 +17,20 @@ const Login = ({ setUsuario }) => {
     e.preventDefault();
     setError('');
 
-    if (!email.trim() || !password.trim()) {
+    const emailTrim = email.trim();
+
+    if (!email.trim || !password.trim()) {
       setError('Por favor, ingresá tu correo electrónico y contraseña.');
+      return;
+    }
+
+    if (emailTrim.length > 30) {
+      setError('El correo electrónico no puede superar los 30 caracteres.');
+      return;
+    }
+
+    if (password.length > 20) {
+      setError('La contraseña no puede superar los 20 caracteres.');
       return;
     }
 
@@ -265,6 +277,7 @@ const Login = ({ setUsuario }) => {
                         </div>
                         <Form.Control
                           type="email"
+                          maxLength={30}
                           placeholder="nombre@ejemplo.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
@@ -291,6 +304,7 @@ const Login = ({ setUsuario }) => {
                         </div>
                         <Form.Control
                           type={mostrarPassword ? 'text' : 'password'}
+                          maxLength={20}
                           placeholder="Ingresá tu contraseña"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
@@ -424,6 +438,7 @@ const Login = ({ setUsuario }) => {
                         </div>
                         <Form.Control
                           type="email"
+                          maxLength={30}
                           placeholder="nombre@ejemplo.com"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
@@ -444,6 +459,7 @@ const Login = ({ setUsuario }) => {
                         </div>
                         <Form.Control
                           type={mostrarPassword ? 'text' : 'password'}
+                          maxLength={20}
                           placeholder="Ingresá tu contraseña"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
