@@ -17,6 +17,7 @@ Un portal donde cualquier escuela puede darse de alta y las familias pueden busc
 | **Administrador de escuela** | Gestiona vacantes y resuelve las solicitudes de su escuela |
 | **Administrador general** | Gestiona escuelas y usuarios |
 
+
 ## Estrategias SEO
 
 Para mejorar la comprensión del sitio por parte de los motores de búsqueda y facilitar el acceso al contenido público, se incorporan las siguientes prácticas de optimización SEO.
@@ -54,11 +55,11 @@ Se utilizan conexiones anticipadas (preconnect) a los dominios de Google Fonts p
 
 También se contempla la optimización del tamaño y formato de las imágenes para reducir los tiempos de carga.
 
-4. Estructura y navegación
+4. **Estructura y navegación**
 
 Se busca organizar el contenido mediante etiquetas HTML semánticas, encabezados jerárquicos y enlaces internos que faciliten la navegación entre las secciones públicas.
 
-5. Diseño responsive y rendimiento
+5. **Diseño responsive y rendimiento**
 
 La interfaz se desarrolla con React-Bootstrap para adaptarse a diferentes tamaños de pantalla. Se consideran buenas prácticas de rendimiento, accesibilidad y experiencia de usuario.
 
