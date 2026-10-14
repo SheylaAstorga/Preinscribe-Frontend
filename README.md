@@ -17,11 +17,11 @@ Un portal donde cualquier escuela puede darse de alta y las familias pueden busc
 | **Administrador de escuela** | Gestiona vacantes y resuelve las solicitudes de su escuela |
 | **Administrador general** | Gestiona escuelas y usuarios |
 
-Estrategias SEO
+## Estrategias SEO
 
 Para mejorar la comprensión del sitio por parte de los motores de búsqueda y facilitar el acceso al contenido público, se incorporan las siguientes prácticas de optimización SEO.
 
-1. Metadatos HTML
+1. **Metadatos HTML**
 
 El archivo index.html contiene metadatos generales para describir la plataforma:
 
@@ -32,7 +32,7 @@ Meta description: resume el propósito de PreInscribe y el servicio que ofrece.
 Meta robots: declara las directivas index y follow para permitir la indexación y el seguimiento de enlaces, siempre que los buscadores puedan acceder al sitio.
 
 
-2. Open Graph
+2. **Open Graph**
 
 Se incorporan metadatos Open Graph para definir cómo se presenta el sitio al compartirlo en plataformas compatibles:
 
@@ -48,7 +48,7 @@ og:description
 
 La URL pública y la imagen de vista previa se configurarán cuando se disponga del dominio y los recursos definitivos.
 
-3. Optimización de recursos
+3. **Optimización de recursos**
 
 Se utilizan conexiones anticipadas (preconnect) a los dominios de Google Fonts para facilitar la carga de la tipografía utilizada por la interfaz.
 
