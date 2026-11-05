@@ -67,8 +67,6 @@ const Registro = () => {
         return;
       }
     }
-
-    // Validación Paso 2
     if (paso === 2) {
       const emailTrim = formData.email.trim();
 
@@ -170,7 +168,6 @@ const Registro = () => {
               }}
             />
 
-            {/* Cabecera del Panel Izquierdo */}
             <div className="position-relative z-2">
               <Link
                 to="/"
@@ -234,7 +231,6 @@ const Registro = () => {
                 vacantes, cargar documentación y hacer el seguimiento completo.
               </p>
 
-              {/* Tarjetas Glassmorphism de Beneficios */}
               <div className="d-flex flex-column gap-3 mt-4">
                 <div
                   className="p-3 rounded-4 d-flex align-items-center gap-3"
@@ -331,8 +327,6 @@ const Registro = () => {
                 </div>
               </div>
             </div>
-
-            {/* Pie de página del panel izquierdo */}
             <div className="position-relative z-2 small text-white-50 d-flex justify-content-between align-items-center">
               <span>
                 &copy; 2026 PreInscribe. Todos los derechos reservados.
@@ -392,8 +386,6 @@ const Registro = () => {
                 ← Volver al inicio
               </Link>
             </div>
-
-            {/* Tarjeta Central Glassmorphism Desktop */}
             <div className="my-auto w-100 d-flex justify-content-center py-3 position-relative z-2">
               <Card
                 className="rounded-4 border-0 w-100 p-4 position-relative"
@@ -864,8 +856,6 @@ const Registro = () => {
                 </Link>
               </div>
             </div>
-
-            {/* TARJETA BLANCA MÓVIL */}
             <div className="my-auto w-100 d-flex justify-content-center py-2">
               <Card
                 className="shadow-sm rounded-4 bg-white border-0 w-100 p-4"
@@ -886,8 +876,6 @@ const Registro = () => {
                       Gestioná las preinscripciones escolares de tus hijos.
                     </p>
                   </div>
-
-                  {/* Indicador de Pasos Móvil */}
                   <div className="p-2.5 rounded-3 border-0 d-flex justify-content-between align-items-center mb-4 bg-light">
                     <div className="d-flex align-items-center gap-2">
                       <span
@@ -1194,7 +1182,6 @@ const Registro = () => {
               </Card>
             </div>
 
-            {/* ILUSTRACIÓN COLORIDA DE LA ESCUELA INFERIOR EN MÓVIL */}
             <div className="w-100 mt-auto pt-2 text-center position-relative overflow-hidden pointer-events-none">
               <svg
                 viewBox="0 0 500 130"
@@ -1272,8 +1259,6 @@ const Registro = () => {
                     fill="#5BC0EB"
                   />
                 </g>
-
-                {/* Árboles en color azul corporativo fresco */}
                 <g transform="translate(120, 52)">
                   <rect x="8" y="25" width="6" height="18" fill="#475569" />
                   <circle cx="11" cy="18" r="16" fill="#0077B6" />

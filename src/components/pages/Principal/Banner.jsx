@@ -71,6 +71,7 @@ const Banner = () => {
           <div className="d-flex flex-column flex-sm-row justify-content-center align-items-stretch align-items-sm-center gap-3 mt-4">
             <Button
               size="lg"
+              href="/login"
               style={{
                 background: "var(--pi-amber)",
                 borderColor: "var(--pi-amber)",
@@ -90,7 +91,7 @@ const Banner = () => {
               Comenzar inscripción
             </Button>
 
-            <Button variant="outline-light" size="lg">
+            <Button variant="outline-light" size="lg" href="/escuelas">
               Explorar institución
             </Button>
           </div>

@@ -18,7 +18,6 @@ const Login = ({ setUsuario }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Mensaje que viene desde Registro al ser redireccionado
   const mensajeRegistro = location.state?.mensaje;
 
   const handleLogin = (e) => {
@@ -71,7 +70,6 @@ const Login = ({ setUsuario }) => {
     // Guardamos en localStorage
     localStorage.setItem("usuarioActivo", JSON.stringify(usuarioActivo));
 
-    // Actualizamos el estado global en AppRoutes para refrescar la Navbar
     if (setUsuario) {
       setUsuario(usuarioActivo);
     }
@@ -83,6 +81,7 @@ const Login = ({ setUsuario }) => {
     } else {
       navigate("/familia/solicitudes");
     }
+    navigate("/familia/solicitudes");
   };
 
   return (
@@ -92,18 +91,12 @@ const Login = ({ setUsuario }) => {
     >
       <Container fluid className="p-0 flex-grow-1 d-flex align-items-stretch">
         <Row className="g-0 w-100 min-vh-100">
-          {/* ==================================================================== */}
-          {/* VISTA DE ESCRITORIO (Desktop - lg en adelante)                        */}
-          {/* ==================================================================== */}
-
-          {/* Panel Izquierdo Azul Corporativo */}
           <Col
             lg={6}
             xl={6}
             className="d-none d-lg-flex flex-column justify-content-between p-5 text-white position-relative overflow-hidden"
             style={{ backgroundColor: "var(--pi-navy-deep, #000F22)" }}
           >
-            {/* Luces Ambientales de fondo */}
             <div
               className="position-absolute rounded-circle pointer-events-none"
               style={{
@@ -130,8 +123,6 @@ const Login = ({ setUsuario }) => {
                 zIndex: 1,
               }}
             />
-
-            {/* Cabecera del Panel Izquierdo */}
             <div className="position-relative z-2">
               <Link
                 to="/"
@@ -195,7 +186,6 @@ const Login = ({ setUsuario }) => {
                 plataforma ágil, transparente y accesible para todos.
               </p>
 
-              {/* Tarjetas Glassmorphism de Características */}
               <div className="d-flex flex-column gap-3 mt-4">
                 <div
                   className="p-3 rounded-4 d-flex align-items-center gap-3"
@@ -289,8 +279,6 @@ const Login = ({ setUsuario }) => {
                 </div>
               </div>
             </div>
-
-            {/* Pie de página del panel izquierdo */}
             <div className="position-relative z-2 small text-white-50 d-flex justify-content-between align-items-center">
               <span>
                 &copy; 2026 PreInscribe. Todos los derechos reservados.
@@ -350,8 +338,6 @@ const Login = ({ setUsuario }) => {
                 ← Volver al inicio
               </Link>
             </div>
-
-            {/* Tarjeta Central Glassmorphism Desktop */}
             <div className="my-auto w-100 d-flex justify-content-center py-3 position-relative z-2">
               <Card
                 className="rounded-4 border-0 w-100 p-4 position-relative"
@@ -621,8 +607,6 @@ const Login = ({ setUsuario }) => {
                 </Link>
               </div>
             </div>
-
-            {/* TARJETA BLANCA MÓVIL */}
             <div className="my-auto w-100 d-flex justify-content-center py-2">
               <Card
                 className="shadow-sm rounded-4 bg-white border-0 w-100 p-4"
@@ -802,8 +786,6 @@ const Login = ({ setUsuario }) => {
                 </Card.Body>
               </Card>
             </div>
-
-            {/* ILUSTRACIÓN DE LA ESCUELA INFERIOR EN MÓVIL */}
             <div className="w-100 mt-auto pt-2 text-center position-relative overflow-hidden pointer-events-none">
               <svg
                 viewBox="0 0 500 130"

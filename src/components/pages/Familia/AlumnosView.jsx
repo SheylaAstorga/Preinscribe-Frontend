@@ -51,7 +51,6 @@ const AlumnosView = () => {
     localStorage.setItem("alumnos", JSON.stringify(listaAlumnos));
   }, [listaAlumnos]);
 
-  // Estados para controlar los modales y las selecciones
   const [mostrarModal, setMostrarModal] = useState(false);
   const [alumnoAEditar, setAlumnoAEditar] = useState(null);
 
@@ -109,7 +108,6 @@ const AlumnosView = () => {
     }
   };
 
-  // Helper para asignar estilos con excelente contraste según el nivel educativo
   const getBadgeEstilo = (nivel) => {
     switch (nivel) {
       case "Inicial":
@@ -184,7 +182,6 @@ const AlumnosView = () => {
           />
         </div>
 
-        {/* Encabezado del listado */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h3
             className="fw-bold mb-0"
@@ -194,7 +191,6 @@ const AlumnosView = () => {
           </h3>
         </div>
 
-        {/* Listado de tarjetas */}
         {listaAlumnos.length === 0 ? (
           <Card className="text-center p-5 border-0 shadow-sm rounded-4 bg-white">
             <Card.Body>
@@ -231,7 +227,6 @@ const AlumnosView = () => {
                   >
                     <Card.Body className="p-4 d-flex flex-column justify-content-between">
                       <div>
-                        {/* Cabecera de la tarjeta con avatar y badge accesible */}
                         <div className="d-flex justify-content-between align-items-center mb-4">
                           <div
                             className="rounded-3 d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
@@ -294,8 +289,6 @@ const AlumnosView = () => {
                           </div>
                         </div>
                       </div>
-
-                      {/* Botonera de acciones */}
                       <div className="pt-3 border-top border-light d-flex flex-column gap-2">
                         <Button
                           variant="primary"
