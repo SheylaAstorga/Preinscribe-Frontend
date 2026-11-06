@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import {
   Container,
   Row,
@@ -11,38 +11,50 @@ import {
 import { AlumnoModal } from "./AlumnoModal";
 
 const AlumnosView = () => {
-  const [listaAlumnos, setListaAlumnos] = useState([
-    {
-      id: 1,
-      nombre: "Lucas",
-      apellido: "Gómez",
-      dni: "48.123.456",
-      edad: 11,
-      nivel: "Primario",
-      gradoAno: "6° Grado",
-    },
-    {
-      id: 2,
-      nombre: "Sofía",
-      apellido: "Gómez",
-      dni: "50.987.654",
-      edad: 8,
-      nivel: "Primario",
-      gradoAno: "3° Grado",
-    },
-    {
-      id: 3,
-      nombre: "Mateo",
-      apellido: "Gómez",
-      dni: "52.345.678",
-      edad: 5,
-      nivel: "Inicial",
-      gradoAno: "Sala de 5",
-    },
-  ]);
+  const [listaAlumnos, setListaAlumnos] = useState(() => {
+    const alumnosGuardados = localStorage.getItem("alumnos");
+
+    return alumnosGuardados
+      ? JSON.parse(alumnosGuardados)
+      : [
+          {
+            id: 1,
+            nombre: "Lucas",
+            apellido: "Gómez",
+            dni: "48.123.456",
+            edad: 11,
+            nivel: "Primario",
+            gradoAno: "6° Grado",
+          },
+          {
+            id: 2,
+            nombre: "Sofía",
+            apellido: "Gómez",
+            dni: "50.987.654",
+            edad: 8,
+            nivel: "Primario",
+            gradoAno: "3° Grado",
+          },
+          {
+            id: 3,
+            nombre: "Mateo",
+            apellido: "Gómez",
+            dni: "52.345.678",
+            edad: 5,
+            nivel: "Inicial",
+            gradoAno: "Sala de 5",
+          },
+        ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("alumnos", JSON.stringify(listaAlumnos));
+  }, [listaAlumnos]);
 
   const [mostrarModal, setMostrarModal] = useState(false);
   const [alumnoAEditar, setAlumnoAEditar] = useState(null);
+
+  // Estado para el modal de "Ver detalles"
   const [mostrarModalDetalles, setMostrarModalDetalles] = useState(false);
   const [alumnoSeleccionado, setAlumnoSeleccionado] = useState(null);
 
@@ -115,6 +127,7 @@ const AlumnosView = () => {
       style={{ backgroundColor: "#F1F5F9", minHeight: "calc(100vh - 140px)" }}
     >
       <Container>
+        {/* Banner superior de la sección */}
         <div
           className="p-4 p-md-5 rounded-4 shadow-sm text-white mb-5 position-relative overflow-hidden"
           style={{
@@ -241,12 +254,16 @@ const AlumnosView = () => {
                             {alumno.gradoAno ? ` • ${alumno.gradoAno}` : ""}
                           </span>
                         </div>
+
+                        {/* Nombre del Alumno */}
                         <h4
                           className="fw-bold mb-3"
                           style={{ color: "#000F22", fontSize: "20px" }}
                         >
                           {alumno.nombre} {alumno.apellido}
                         </h4>
+
+                        {/* Ficha de datos personales */}
                         <div
                           className="p-3 rounded-3 mb-4 d-flex flex-column gap-2"
                           style={{
@@ -306,6 +323,7 @@ const AlumnosView = () => {
           </Row>
         )}
 
+        {/* Modal de Alta y Edición */}
         <AlumnoModal
           mostrar={mostrarModal}
           ocultar={ocultarModal}
@@ -313,6 +331,7 @@ const AlumnosView = () => {
           alumnoAEditar={alumnoAEditar}
         />
 
+        {/* Modal de Detalles */}
         <Modal
           show={mostrarModalDetalles}
           onHide={() => setMostrarModalDetalles(false)}

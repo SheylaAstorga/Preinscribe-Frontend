@@ -24,6 +24,7 @@ const Registro = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
+    // Si es el campo DNI, filtramos solo caracteres numéricos
     if (e.target.name === "dni") {
       const valorNumerico = e.target.value.replace(/\D/g, "");
       setFormData({ ...formData, dni: valorNumerico });
@@ -37,6 +38,8 @@ const Registro = () => {
 
   const siguientePaso = () => {
     setError("");
+
+    // Validación Paso 1
     if (paso === 1) {
       const nombreTrim = formData.nombre.trim();
       const apellidoTrim = formData.apellido.trim();
@@ -106,7 +109,7 @@ const Registro = () => {
       email: formData.email.trim(),
       password: formData.password,
       dni: formData.dni.trim(),
-      rol: "Tutor",
+      rol: "FAMILIA",
     };
 
     localStorage.setItem("usuarioPreinscribe", JSON.stringify(nuevoUsuario));
@@ -126,12 +129,18 @@ const Registro = () => {
     >
       <Container fluid className="p-0 flex-grow-1 d-flex align-items-stretch">
         <Row className="g-0 w-100 min-vh-100">
+          {/* ==================================================================== */}
+          {/* VISTA DE ESCRITORIO (Desktop - lg en adelante)                        */}
+          {/* ==================================================================== */}
+
+          {/* Panel Izquierdo Azul Corporativo */}
           <Col
             lg={6}
             xl={6}
             className="d-none d-lg-flex flex-column justify-content-between p-5 text-white position-relative overflow-hidden"
             style={{ backgroundColor: "var(--pi-navy-deep, #000F22)" }}
           >
+            {/* Luces Ambientales de fondo */}
             <div
               className="position-absolute rounded-circle pointer-events-none"
               style={{
@@ -199,6 +208,7 @@ const Registro = () => {
               </Link>
             </div>
 
+            {/* Mensaje Principal y Beneficios del Registro */}
             <div
               className="position-relative z-2 mt-4 pt-4 pb-2 pe-xl-4"
               style={{ maxWidth: "500px" }}
@@ -323,12 +333,15 @@ const Registro = () => {
               </span>
             </div>
           </Col>
+
+          {/* Panel Derecho Desktop */}
           <Col
             lg={6}
             xl={6}
             className="d-none d-lg-flex flex-column justify-content-between p-5 position-relative overflow-hidden"
             style={{ backgroundColor: "#EEF4F8" }}
           >
+            {/* Destellos de Luz Ambiental */}
             <div
               className="position-absolute rounded-circle pointer-events-none"
               style={{
@@ -355,6 +368,8 @@ const Registro = () => {
                 zIndex: 0,
               }}
             />
+
+            {/* Botón Volver al Inicio en Escritorio */}
             <div
               className="w-100 d-flex justify-content-end mb-4 position-absolute top-0 end-0 p-4 z-3"
               style={{ maxWidth: "460px", margin: "0 auto" }}
@@ -402,6 +417,8 @@ const Registro = () => {
                       forma organizada.
                     </p>
                   </div>
+
+                  {/* Indicador de Pasos Desktop */}
                   <div
                     className="p-2.5 rounded-3 border-0 d-flex justify-content-between align-items-center mb-4"
                     style={{ backgroundColor: "#F3F6F9" }}
@@ -775,11 +792,16 @@ const Registro = () => {
               </Card>
             </div>
           </Col>
+
+          {/* ==================================================================== */}
+          {/* VISTA MÓVIL Y TABLET (Exclusiva para menos de lg)                   */}
+          {/* ==================================================================== */}
           <Col
             xs={12}
             className="d-lg-none d-flex flex-column justify-content-between p-4 position-relative"
             style={{ backgroundColor: "#EEF3F8" }}
           >
+            {/* CABECERA MÓVIL */}
             <div
               className="w-100 d-flex justify-content-between align-items-center mb-4 pt-2"
               style={{ maxWidth: "440px", margin: "0 auto" }}
@@ -1167,6 +1189,7 @@ const Registro = () => {
                 className="w-100"
                 style={{ maxHeight: "110px", display: "block" }}
               >
+                {/* Ondas con color de marca enriquecido */}
                 <path
                   d="M0,45 C160,100 340,-5 500,45 L500,130 L0,130 Z"
                   fill="#CBD5E1"
@@ -1177,12 +1200,16 @@ const Registro = () => {
                   fill="#5BC0EB"
                   opacity="0.45"
                 />
+
+                {/* Sol Ámbar Dorado Solido */}
                 <circle
                   cx="410"
                   cy="40"
                   r="15"
                   fill="var(--pi-amber, #F5A524)"
                 />
+
+                {/* Escuela Ilustrada con colores vivos */}
                 <g transform="translate(180, 22)">
                   <rect
                     x="20"

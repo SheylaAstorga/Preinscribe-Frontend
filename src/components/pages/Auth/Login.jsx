@@ -41,10 +41,13 @@ const Login = ({ setUsuario }) => {
       return;
     }
 
+    // Leemos el usuario guardado previamente en el registro
     const usuarioRegistrado = JSON.parse(
       localStorage.getItem("usuarioPreinscribe"),
     );
+    console.log("Usuario registrado:", usuarioRegistrado);
 
+    // Validamos existencia y contraseña
     if (
       !usuarioRegistrado ||
       usuarioRegistrado.email.toLowerCase() !== email.trim().toLowerCase()
@@ -61,15 +64,23 @@ const Login = ({ setUsuario }) => {
     const usuarioActivo = {
       nombre: usuarioRegistrado.nombre,
       email: usuarioRegistrado.email,
-      rol: usuarioRegistrado.rol || "Tutor",
+      rol: usuarioRegistrado.rol,
     };
 
+    // Guardamos en localStorage
     localStorage.setItem("usuarioActivo", JSON.stringify(usuarioActivo));
 
     if (setUsuario) {
       setUsuario(usuarioActivo);
     }
 
+    const destino = location.state?.from;
+
+    if (destino) {
+      navigate(`${destino.pathname}${destino.search || ""}`);
+    } else {
+      navigate("/familia/solicitudes");
+    }
     navigate("/familia/solicitudes");
   };
 
@@ -152,6 +163,7 @@ const Login = ({ setUsuario }) => {
               </Link>
             </div>
 
+            {/* Mensaje Principal y Tarjetas de Impacto */}
             <div
               className="position-relative z-2 mt-4 pt-4 pb-2 pe-xl-4"
               style={{ maxWidth: "500px" }}
@@ -273,12 +285,15 @@ const Login = ({ setUsuario }) => {
               </span>
             </div>
           </Col>
+
+          {/* Panel Derecho Desktop */}
           <Col
             lg={6}
             xl={6}
             className="d-none d-lg-flex flex-column justify-content-between p-5 position-relative overflow-hidden"
             style={{ backgroundColor: "#EEF4F8" }}
           >
+            {/* Destellos de Luz Ambiental */}
             <div
               className="position-absolute rounded-circle pointer-events-none"
               style={{
@@ -305,6 +320,8 @@ const Login = ({ setUsuario }) => {
                 zIndex: 0,
               }}
             />
+
+            {/* Botón Volver al Inicio en Escritorio */}
             <div
               className="w-100 d-flex justify-content-end mb-4 position-absolute top-0 end-0 p-4 z-3"
               style={{ maxWidth: "460px", margin: "0 auto" }}
@@ -526,11 +543,16 @@ const Login = ({ setUsuario }) => {
               </Card>
             </div>
           </Col>
+
+          {/* ==================================================================== */}
+          {/* VISTA MÓVIL Y TABLET (Exclusiva para menos de lg - Sin Emojis)       */}
+          {/* ==================================================================== */}
           <Col
             xs={12}
             className="d-lg-none d-flex flex-column justify-content-between p-4 position-relative"
             style={{ backgroundColor: "#EEF3F8" }}
           >
+            {/* CABECERA MÓVIL */}
             <div
               className="w-100 d-flex justify-content-between align-items-center mb-4 pt-2"
               style={{ maxWidth: "440px", margin: "0 auto" }}
