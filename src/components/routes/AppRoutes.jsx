@@ -13,7 +13,7 @@ import { BarraNavegacion } from "../common/Navbar";
 import { Footer } from "../common/Footer";
 import Error404 from "../pages/shared/Error404";
 import SinPermiso from "../pages/shared/SinPermiso";
-import { AdminEscuela } from "../../layouts/AdminEscuelaLayout";
+import AdminEscuelaLayout from "../../layouts/AdminEscuelaLayout";
 
 import PanelEscuela from "../pages/AdminEscuela/PanelEscuela";
 import SolicitudesEscuela from "../pages/AdminEscuela/SolicitudesEscuela";
@@ -94,14 +94,14 @@ const AppRoutes = () => {
       <Route path="*" element={<Error404></Error404>} />
       <Route
         path="/escuela"
-        element={<AdminEscuela usuario={usuario} cerrarSesion={cerrarSesion} />}
+        element={<AdminEscuelaLayout usuario={usuario} cerrarSesion={cerrarSesion} />}
       >
         <Route path="panel" element={<PanelEscuela />} />
         <Route path="solicitudes" element={<SolicitudesEscuela />} />
         <Route path="solicitudes/:id" element={<RevisarSolicitud />} />
         <Route path="vacantes" element={<VacantesEscuela />} />
         <Route path="reportes" element={<ReportesEscuela />} />
-        <Route path="configuracion" element={<ConfiguracionEscuela />} />
+        <Route path="configuracion" element={<ConfiguracionEscuela/>} />
       </Route>
     </Routes>
   );
