@@ -9,14 +9,20 @@ import MisSolicitudesView from "../pages/Familia/MisSolicitudesViews";
 import Login from "../pages/Auth/Login";
 import Registro from "../pages/Auth/Registro";
 import PreinscripcionNueva from "../pages/Familia/PreinscripcionNueva";
-
 import { BarraNavegacion } from "../common/Navbar";
 import { Footer } from "../common/Footer";
 import Error404 from "../pages/shared/Error404";
 import SinPermiso from "../pages/shared/SinPermiso";
+import { AdminEscuela } from "../../layouts/AdminEscuelaLayout";
+
+import PanelEscuela from "../pages/AdminEscuela/PanelEscuela";
+import SolicitudesEscuela from "../pages/AdminEscuela/SolicitudesEscuela";
+import RevisarSolicitud from "../pages/AdminEscuela/RevisarSolicitud";
+import VacantesEscuela from "../pages/AdminEscuela/VacantesEscuela";
+import ReportesEscuela from "../pages/AdminEscuela/ReportesEscuela";
+import ConfiguracionEscuela from "../pages/AdminEscuela/ConfiguracionEscuela";
 
 const AppRoutes = () => {
-  
   const [usuario, setUsuario] = useState(() => {
     const usuarioActivo = localStorage.getItem("usuarioActivo");
     return usuarioActivo ? JSON.parse(usuarioActivo) : null;
@@ -84,9 +90,19 @@ const AppRoutes = () => {
         <Route path="solicitudes" element={<MisSolicitudesView />} />
         <Route path="preinscripcion/nueva" element={<PreinscripcionNueva />} />
       </Route>
-
       <Route path="/sin-permiso" element={<SinPermiso></SinPermiso>} />
       <Route path="*" element={<Error404></Error404>} />
+      <Route
+        path="/escuela"
+        element={<AdminEscuela usuario={usuario} cerrarSesion={cerrarSesion} />}
+      >
+        <Route path="panel" element={<PanelEscuela />} />
+        <Route path="solicitudes" element={<SolicitudesEscuela />} />
+        <Route path="solicitudes/:id" element={<RevisarSolicitud />} />
+        <Route path="vacantes" element={<VacantesEscuela />} />
+        <Route path="reportes" element={<ReportesEscuela />} />
+        <Route path="configuracion" element={<ConfiguracionEscuela />} />
+      </Route>
     </Routes>
   );
 };

@@ -24,34 +24,27 @@ const Login = ({ setUsuario }) => {
     e.preventDefault();
     setError("");
 
-    const emailTrim = email.trim();
 
-    if (!email.trim || !password.trim()) {
+    if (!email.trim() || !password.trim()) {
       setError("Por favor, ingresá tu correo electrónico y contraseña.");
       return;
     }
 
-    if (emailTrim.length > 30) {
-      setError("El correo electrónico no puede superar los 30 caracteres.");
-      return;
-    }
-
-    if (password.length > 20) {
-      setError("La contraseña no puede superar los 20 caracteres.");
-      return;
-    }
-
-    // Leemos el usuario guardado previamente en el registro
-    const usuarioRegistrado = JSON.parse(
-      localStorage.getItem("usuarioPreinscribe"),
+    const usuarioFamilia = JSON.parse(
+      localStorage.getItem("usuarioPreinscribe") || "null",
     );
-    console.log("Usuario registrado:", usuarioRegistrado);
 
-    // Validamos existencia y contraseña
-    if (
-      !usuarioRegistrado ||
-      usuarioRegistrado.email.toLowerCase() !== email.trim().toLowerCase()
-    ) {
+    const usuarioAdmin = JSON.parse(
+      localStorage.getItem("adminEscuelaPrueba") || "null",
+    );
+
+    const usuarios = [usuarioFamilia, usuarioAdmin].filter(Boolean);
+
+    const usuarioRegistrado = usuarios.find(
+      (u) => u.email?.trim().toLowerCase() === email.trim().toLowerCase(),
+    );
+
+    if (!usuarioRegistrado) {
       setError("El correo electrónico no se encuentra registrado.");
       return;
     }
@@ -65,9 +58,11 @@ const Login = ({ setUsuario }) => {
       nombre: usuarioRegistrado.nombre,
       email: usuarioRegistrado.email,
       rol: usuarioRegistrado.rol,
+      ...(usuarioRegistrado.escuelaId
+        ? { escuelaId: usuarioRegistrado.escuelaId }
+        : {}),
     };
 
-    // Guardamos en localStorage
     localStorage.setItem("usuarioActivo", JSON.stringify(usuarioActivo));
 
     if (setUsuario) {
@@ -77,11 +72,16 @@ const Login = ({ setUsuario }) => {
     const destino = location.state?.from;
 
     if (destino) {
-      navigate(`${destino.pathname}${destino.search || ""}`);
+      navigate(`${destino.pathname}${destino.search || ""}`, {
+        replace: true,
+      });
+    } else if (usuarioActivo.rol === "ADMIN_ESCUELA") {
+      navigate("/escuela/panel", { replace: true });
+    } else if (usuarioActivo.rol === "FAMILIA") {
+      navigate("/familia/solicitudes", { replace: true });
     } else {
-      navigate("/familia/solicitudes");
+      navigate("/sin-permiso", { replace: true });
     }
-    navigate("/familia/solicitudes");
   };
 
   return (
