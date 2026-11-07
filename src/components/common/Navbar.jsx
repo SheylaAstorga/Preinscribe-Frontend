@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 
-export const Navbar = ({ usuario, cerrarSesion }) => {
+export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
   const [menuExpandido, setMenuExpandido] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -311,4 +311,4 @@ export const Navbar = ({ usuario, cerrarSesion }) => {
   );
 };
 
-export default Navbar;
+export default BarraNavegacion;
