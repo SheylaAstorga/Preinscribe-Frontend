@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { useNavigate, Link, useLocation } from "react-router-dom";
@@ -12,11 +13,40 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
     if (cerrarSesion) {
       cerrarSesion();
     }
+
     setMenuExpandido(false);
     navigate("/", { replace: true });
   };
 
-  const rutaEscuelas = usuario ? "/familia/escuelas" : "/escuelas";
+  const esAdminEscuela = usuario?.rol === "ADMIN_ESCUELA";
+  const esFamilia = usuario?.rol === "FAMILIA";
+
+  const enlacesAdmin = [
+    { nombre: "Panel", ruta: "/escuela/panel" },
+    { nombre: "Solicitudes", ruta: "/escuela/solicitudes" },
+    { nombre: "Vacantes", ruta: "/escuela/vacantes" },
+    { nombre: "Reportes", ruta: "/escuela/reportes" },
+    { nombre: "Configuración", ruta: "/escuela/configuracion" },
+  ];
+
+  const enlacesFamilia = [
+    { nombre: "Escuelas", ruta: "/familia/escuelas" },
+    { nombre: "Mis hijos", ruta: "/familia/alumnos" },
+    { nombre: "Mis solicitudes", ruta: "/familia/solicitudes" },
+  ];
+
+  const obtenerClaseEnlace = (rutaEnlace) => {
+    const activo =
+      ruta === rutaEnlace ||
+      (rutaEnlace === "/escuela/solicitudes" &&
+        ruta.startsWith("/escuela/solicitudes/"));
+
+    return `px-3 py-2 fw-medium ${
+      activo ? "text-white fw-bold" : "text-white-50"
+    }`;
+  };
+
+  const cerrarMenu = () => setMenuExpandido(false);
 
   return (
     <Navbar
@@ -30,6 +60,7 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
       }}
     >
       <Container>
+        {/* LOGO Y MARCA */}
         <Navbar.Brand
           as={Link}
           to="/"
@@ -48,17 +79,26 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
             <img
               src="/Logo.jpg"
               alt="Logo PreInscribe"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+              }}
             />
           </div>
+
           <span
             className="fs-4 tracking-tight"
             style={{ fontWeight: 700, letterSpacing: "-0.5px" }}
           >
-            Pre<span style={{ color: "var(--pi-sky, #5BC0EB)" }}>Inscribe</span>
+            Pre
+            <span style={{ color: "var(--pi-sky, #5BC0EB)" }}>
+              Inscribe
+            </span>
           </span>
         </Navbar.Brand>
 
+        {/* BOTÓN MENÚ RESPONSIVE */}
         <Navbar.Toggle
           aria-controls="menu-navegacion"
           className="border-0 shadow-none text-white"
@@ -66,14 +106,15 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
         />
 
         <Navbar.Collapse id="menu-navegacion">
+          {/* NAVEGACIÓN SEGÚN ROL */}
           <Nav className="mx-auto my-2 my-lg-0 gap-lg-2">
             {!usuario ? (
               <>
                 <Nav.Link
                   as={Link}
                   to="/"
-                  onClick={() => setMenuExpandido(false)}
-                  className={`px-3 py-2 fw-medium ${ruta === "/" ? "text-white fw-bold" : "text-white-50"}`}
+                  onClick={cerrarMenu}
+                  className={obtenerClaseEnlace("/")}
                 >
                   Inicio
                 </Nav.Link>
@@ -81,8 +122,8 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                 <Nav.Link
                   as={Link}
                   to="/escuelas"
-                  onClick={() => setMenuExpandido(false)}
-                  className={`px-3 py-2 fw-medium ${ruta === "/escuelas" ? "text-white fw-bold" : "text-white-50"}`}
+                  onClick={cerrarMenu}
+                  className={obtenerClaseEnlace("/escuelas")}
                 >
                   Escuelas
                 </Nav.Link>
@@ -91,10 +132,14 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                   as={Link}
                   to="/#como-funciona"
                   onClick={(e) => {
-                    setMenuExpandido(false);
+                    cerrarMenu();
+
                     if (location.pathname === "/") {
                       e.preventDefault();
-                      const seccion = document.getElementById("como-funciona");
+
+                      const seccion =
+                        document.getElementById("como-funciona");
+
                       if (seccion) {
                         seccion.scrollIntoView({ behavior: "smooth" });
                       }
@@ -105,38 +150,34 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                   Cómo funciona
                 </Nav.Link>
               </>
-            ) : (
-              <>
+            ) : esAdminEscuela ? (
+              enlacesAdmin.map((item) => (
                 <Nav.Link
+                  key={item.ruta}
                   as={Link}
-                  to={rutaEscuelas}
-                  onClick={() => setMenuExpandido(false)}
-                  className={`px-3 py-2 fw-medium position-relative ${ruta.includes("/escuelas") ? "text-white fw-bold" : "text-white-50"}`}
+                  to={item.ruta}
+                  onClick={cerrarMenu}
+                  className={obtenerClaseEnlace(item.ruta)}
                 >
-                  Escuelas
+                  {item.nombre}
                 </Nav.Link>
-
+              ))
+            ) : esFamilia ? (
+              enlacesFamilia.map((item) => (
                 <Nav.Link
+                  key={item.ruta}
                   as={Link}
-                  to="/familia/alumnos"
-                  onClick={() => setMenuExpandido(false)}
-                  className={`px-3 py-2 fw-semibold position-relative ${ruta.includes("/alumnos") ? "text-white fw-bold" : "text-white-50"}`}
+                  to={item.ruta}
+                  onClick={cerrarMenu}
+                  className={obtenerClaseEnlace(item.ruta)}
                 >
-                  Mis hijos
+                  {item.nombre}
                 </Nav.Link>
-
-                <Nav.Link
-                  as={Link}
-                  to="/familia/solicitudes"
-                  onClick={() => setMenuExpandido(false)}
-                  className={`px-3 py-2 fw-medium position-relative ${ruta.includes("/solicitudes") ? "text-white fw-bold" : "text-white-50"}`}
-                >
-                  Mis solicitudes
-                </Nav.Link>
-              </>
-            )}
+              ))
+            ) : null}
           </Nav>
 
+          {/* CUENTA Y CIERRE DE SESIÓN */}
           <Nav className="align-items-lg-center">
             {!usuario ? (
               <div className="d-flex gap-2 align-items-center mt-3 mt-lg-0">
@@ -147,6 +188,7 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                 >
                   Ingresar
                 </Link>
+
                 <Link
                   to="/registro"
                   className="btn btn-sm px-4 fw-bold text-dark"
@@ -160,6 +202,7 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
               </div>
             ) : (
               <>
+                {/* MENÚ DE USUARIO EN ESCRITORIO */}
                 <div className="d-none d-lg-block">
                   <NavDropdown
                     title={
@@ -183,6 +226,7 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                             ? usuario.nombre.charAt(0).toUpperCase()
                             : "U"}
                         </div>
+
                         <span className="fw-semibold small pe-1">
                           {usuario?.nombre || "Mi Cuenta"}
                         </span>
@@ -198,7 +242,9 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                     >
                       Mi perfil
                     </NavDropdown.Item>
+
                     <NavDropdown.Divider />
+
                     <NavDropdown.Item
                       onClick={handleCerrarSesion}
                       className="text-danger fw-semibold py-2"
@@ -207,6 +253,8 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                     </NavDropdown.Item>
                   </NavDropdown>
                 </div>
+
+                {/* MENÚ DE USUARIO EN CELULAR */}
                 <div className="d-lg-none mt-3 pt-3 border-top border-secondary">
                   <div className="d-flex align-items-center gap-2 px-2 mb-2 text-white">
                     <div
@@ -222,18 +270,31 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                         ? usuario.nombre.charAt(0).toUpperCase()
                         : "U"}
                     </div>
-                    <span className="fw-semibold small">
-                      {usuario?.nombre || "Mi Cuenta"}
-                    </span>
+
+                    <div>
+                      <span className="fw-semibold small d-block">
+                        {usuario?.nombre || "Mi Cuenta"}
+                      </span>
+
+                      <small className="text-white-50">
+                        {esAdminEscuela
+                          ? "Administrador de escuela"
+                          : esFamilia
+                            ? "Familia"
+                            : "Usuario"}
+                      </small>
+                    </div>
                   </div>
+
                   <Nav.Link
                     as={Link}
                     to="/perfil"
-                    onClick={() => setMenuExpandido(false)}
+                    onClick={cerrarMenu}
                     className="text-white-50 px-2 py-1"
                   >
                     Mi perfil
                   </Nav.Link>
+
                   <Nav.Link
                     onClick={handleCerrarSesion}
                     className="text-danger px-2 py-1 fw-semibold"
