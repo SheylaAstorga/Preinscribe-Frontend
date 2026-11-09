@@ -12,3 +12,17 @@ export const sembrarAdminEscuela = () => {
     );
   }
 };
+
+export const sembrarAdminGeneral = () => {
+  if (!localStorage.getItem("adminGeneralPrueba")) {
+    localStorage.setItem(
+      "adminGeneralPrueba",
+      JSON.stringify({
+        nombre: "Administrador General",
+        email: "admingeneral@preinscribe.com",
+        password: "Admin123",
+        rol: "ADMIN_GENERAL",
+      }),
+    );
+  }
+};

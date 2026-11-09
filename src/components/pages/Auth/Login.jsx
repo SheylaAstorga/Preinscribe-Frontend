@@ -38,7 +38,11 @@ const Login = ({ setUsuario }) => {
       localStorage.getItem("adminEscuelaPrueba") || "null",
     );
 
-    const usuarios = [usuarioFamilia, usuarioAdmin].filter(Boolean);
+    const usuarioAdminGeneral = JSON.parse(
+      localStorage.getItem("adminGeneralPrueba") || "null",
+    );
+
+    const usuarios = [usuarioAdminGeneral, usuarioAdmin, usuarioFamilia].filter(Boolean);
 
     const usuarioRegistrado = usuarios.find(
       (u) => u.email?.trim().toLowerCase() === email.trim().toLowerCase(),
@@ -75,6 +79,8 @@ const Login = ({ setUsuario }) => {
       navigate(`${destino.pathname}${destino.search || ""}`, {
         replace: true,
       });
+    } else if (usuarioActivo.rol === "ADMIN_GENERAL") {
+      navigate("/admin/panel", { replace: true });
     } else if (usuarioActivo.rol === "ADMIN_ESCUELA") {
       navigate("/escuela/panel", { replace: true });
     } else if (usuarioActivo.rol === "FAMILIA") {
