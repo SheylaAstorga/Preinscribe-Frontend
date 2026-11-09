@@ -2,7 +2,7 @@ import { Outlet, Navigate, useLocation } from "react-router-dom";
 import { BarraNavegacion } from "../components/common/Navbar";
 import { Footer } from "../components/common/Footer";
 
-const AdminEscuelaLayout = ({ usuario, cerrarSesion }) => {
+const AdminEscuelaLayout = ({ usuario, cerrarSesion, rolPermitido = "ADMIN_ESCUELA" }) => {
   const location = useLocation();
   // Verificar que el usuario haya iniciado sesión
   if (!usuario) {
@@ -10,7 +10,7 @@ const AdminEscuelaLayout = ({ usuario, cerrarSesion }) => {
   }
 
   // Permitir el acceso únicamente al administrador de escuela
-  if (usuario.rol !== "ADMIN_ESCUELA") {
+  if (usuario.rol !== rolPermitido) {
     return <Navigate to="/sin-permiso" replace />;
   }
 
