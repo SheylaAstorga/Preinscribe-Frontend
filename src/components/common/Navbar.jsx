@@ -17,9 +17,17 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
     setMenuExpandido(false);
     navigate("/", { replace: true });
   };
-
+  
+  const esAdminGeneral = usuario?.rol === "ADMIN_GENERAL";
   const esAdminEscuela = usuario?.rol === "ADMIN_ESCUELA";
   const esFamilia = usuario?.rol === "FAMILIA";
+  
+  const enlacesAdminGeneral = [
+    { nombre: "Panel", ruta: "/admin/panel" },
+    { nombre: "Escuelas", ruta: "/admin/escuelas" },
+    { nombre: "Usuarios", ruta: "/admin/usuarios" },
+    { nombre: "Reportes", ruta: "/admin/reportes" },
+  ];
 
   const enlacesAdmin = [
     { nombre: "Panel", ruta: "/escuela/panel" },
@@ -174,6 +182,18 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                   {item.nombre}
                 </Nav.Link>
               ))
+            ) : esAdminGeneral ? (
+              enlacesAdminGeneral.map((item) => (
+                <Nav.Link
+                  key={item.ruta}
+                  as={Link}
+                  to={item.ruta}
+                  onClick={cerrarMenu}
+                  className={obtenerClaseEnlace(item.ruta)}
+                >
+                  {item.nombre}
+                </Nav.Link>
+              ))
             ) : null}
           </Nav>
 
@@ -277,11 +297,13 @@ export const BarraNavegacion = ({ usuario, cerrarSesion }) => {
                       </span>
 
                       <small className="text-white-50">
-                        {esAdminEscuela
-                          ? "Administrador de escuela"
-                          : esFamilia
-                            ? "Familia"
-                            : "Usuario"}
+                        {esAdminGeneral 
+                          ? "Administrador general"
+                          : esAdminEscuela
+                            ? "Administrador de escuela"
+                            : esFamilia
+                              ? "Familia"
+                              : "Usuario"}
                       </small>
                     </div>
                   </div>
