@@ -15,7 +15,7 @@ import { useSearchParams } from "react-router-dom";
 
 import FiltrosEscuelas from "./FiltrosEscuelas";
 import TarjetaEscuela from "./TarjetaEscuela";
-import { escuelasEjemplo } from "../../../data/escuelasEjemplo";
+import { obtenerEscuelas } from "../../../data/escuelasService"; 
 
 const Escuelas = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,6 +59,11 @@ const Escuelas = () => {
 
   const porPagina = 6;
 
+  // Solo se muestran las escuelas activas (las dadas de baja quedan ocultas)
+  const [escuelasPublicas] = useState(() =>
+    obtenerEscuelas().filter((escuela) => escuela.activa !== false),
+  );
+
   // Actualiza un filtro y vuelve a la primera página
   const cambiarFiltro = (setter, valor) => {
     setter(valor);
@@ -66,7 +71,7 @@ const Escuelas = () => {
   };
 
   // Filtra las escuelas según los criterios seleccionados
-  const escuelasFiltradas = escuelasEjemplo.filter((escuela) => {
+  const escuelasFiltradas = escuelasPublicas.filter((escuela) => {
     const texto = busqueda.trim().toLowerCase();
     const textoLocalidad = localidad.trim().toLowerCase();
 
