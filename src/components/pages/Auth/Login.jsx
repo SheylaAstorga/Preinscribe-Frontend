@@ -9,6 +9,7 @@ import {
   Card,
 } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { obtenerUsuarios } from "../../../data/usuariosService";
 
 const Login = ({ setUsuario }) => {
   const [email, setEmail] = useState("");
@@ -30,21 +31,7 @@ const Login = ({ setUsuario }) => {
       return;
     }
 
-    const usuarioFamilia = JSON.parse(
-      localStorage.getItem("usuarioPreinscribe") || "null",
-    );
-
-    const usuarioAdmin = JSON.parse(
-      localStorage.getItem("adminEscuelaPrueba") || "null",
-    );
-
-    const usuarioAdminGeneral = JSON.parse(
-      localStorage.getItem("adminGeneralPrueba") || "null",
-    );
-
-    const usuarios = [usuarioAdminGeneral, usuarioAdmin, usuarioFamilia].filter(Boolean);
-
-    const usuarioRegistrado = usuarios.find(
+    const usuarioRegistrado = obtenerUsuarios().find(
       (u) => u.email?.trim().toLowerCase() === email.trim().toLowerCase(),
     );
 
@@ -55,6 +42,11 @@ const Login = ({ setUsuario }) => {
 
     if (usuarioRegistrado.password !== password) {
       setError("La contraseña ingresada es incorrecta.");
+      return;
+    }
+
+    if (usuarioRegistrado.activo === false) {
+      setError("Esta cuenta fue dada de baja. Contactá al administrador.");
       return;
     }
 
