@@ -9,6 +9,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { obtenerUsuarios, guardarUsuarios } from "../../../data/usuariosService";
 
 const Registro = () => {
   const [paso, setPaso] = useState(1);
@@ -89,6 +90,15 @@ const Registro = () => {
         setError("Las contraseñas ingresadas no coinciden.");
         return;
       }
+      
+      const mailRepetido = obtenerUsuarios().some(
+        (u) => u.email?.trim().toLowerCase() === emailTrim.toLowerCase(),
+      );
+
+      if (mailRepetido) {
+        setError("Ya existe una cuenta con ese correo electrónico.");
+        return;
+      }
     }
 
     setPaso(paso + 1);
@@ -105,14 +115,16 @@ const Registro = () => {
     const nombreCompleto = `${formData.nombre.trim()} ${formData.apellido.trim()} (Tutor)`;
 
     const nuevoUsuario = {
+      id: Date.now(),
       nombre: nombreCompleto,
       email: formData.email.trim(),
       password: formData.password,
       dni: formData.dni.trim(),
       rol: "FAMILIA",
+      activo: true,
     };
 
-    localStorage.setItem("usuarioPreinscribe", JSON.stringify(nuevoUsuario));
+    guardarUsuarios([...obtenerUsuarios(), nuevoUsuario]);
 
     navigate("/login", {
       state: {

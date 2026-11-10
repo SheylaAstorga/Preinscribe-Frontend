@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Inicio from "../pages/Principal/Inicio";
 import Escuelas from "../pages/Escuela/Escuelas";
 import DetalleEscuela from "../pages/Escuela/DetalleEscuela";
@@ -21,6 +21,11 @@ import RevisarSolicitud from "../pages/AdminEscuela/RevisarSolicitud";
 import VacantesEscuela from "../pages/AdminEscuela/VacantesEscuela";
 import ReportesEscuela from "../pages/AdminEscuela/ReportesEscuela";
 import ConfiguracionEscuela from "../pages/AdminEscuela/ConfiguracionEscuela";
+
+import EscuelasAdmin from "../pages/AdminGeneral/EscuelasAdmin";
+import PanelGeneral from "../pages/AdminGeneral/PanelGeneral";
+import ReportesGlobales from "../pages/AdminGeneral/ReportesGlobales";
+import UsuariosAdmin from "../pages/AdminGeneral/UsuariosAdmin";
 
 const AppRoutes = () => {
   const [usuario, setUsuario] = useState(() => {
@@ -92,6 +97,7 @@ const AppRoutes = () => {
       </Route>
       <Route path="/sin-permiso" element={<SinPermiso></SinPermiso>} />
       <Route path="*" element={<Error404></Error404>} />
+      
       <Route
         path="/escuela"
         element={<AdminEscuelaLayout usuario={usuario} cerrarSesion={cerrarSesion} />}
@@ -103,6 +109,18 @@ const AppRoutes = () => {
         <Route path="reportes" element={<ReportesEscuela />} />
         <Route path="configuracion" element={<ConfiguracionEscuela/>} />
       </Route>
+      
+      <Route
+        path="/admin"
+        element={<AdminEscuelaLayout usuario={usuario} cerrarSesion={cerrarSesion} rolPermitido="ADMIN_GENERAL" />}
+      >
+        <Route index element={<Navigate to="panel" replace />} />
+        <Route path="panel" element={<PanelGeneral />} />
+        <Route path="escuelas" element={<EscuelasAdmin />} />
+        <Route path="usuarios" element={<UsuariosAdmin />} />
+        <Route path="reportes" element={<ReportesGlobales />} />
+      </Route>
+
     </Routes>
   );
 };

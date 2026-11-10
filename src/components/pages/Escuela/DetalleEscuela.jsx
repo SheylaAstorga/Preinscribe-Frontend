@@ -25,7 +25,7 @@ import {
   InfoCircle,
 } from "react-bootstrap-icons";
 import { Link, useParams } from "react-router-dom";
-import { escuelasEjemplo } from "../../../data/escuelasEjemplo";
+import { obtenerEscuelas } from "../../../data/escuelasService"; 
 
 
 const NIVELES = {
@@ -125,7 +125,9 @@ const Dato = ({ Icono, etiqueta, children }) => (
 
 const DetalleEscuela = () => {
   const { id } = useParams();
-  const escuela = escuelasEjemplo.find((item) => String(item.id) === id);
+  const escuela = obtenerEscuelas().find(
+    (item) => String(item.id) === id && item.activa !== false,
+  );
 
   if (!escuela) {
     return (
