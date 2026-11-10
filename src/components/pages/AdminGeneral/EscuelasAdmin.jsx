@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Table, Badge, Button, Form, InputGroup, } from "react-bootstrap";
-import { Building, Search } from "react-bootstrap-icons";
+import { Building, Search, PlusLg, Pencil } from "react-bootstrap-icons";
 import { obtenerEscuelas, guardarEscuelas } from "../../../data/escuelasService";
+import { EscuelaModal } from "./EscuelaModal";
 
 const EscuelasAdmin = () => {
   const [escuelas, setEscuelas] = useState(() => obtenerEscuelas());
@@ -12,6 +13,8 @@ const EscuelasAdmin = () => {
 
   const [busqueda, setBusqueda] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("TODAS");
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [escuelaAEditar, setEscuelaAEditar] = useState(null);
 
   const cambiarEstado = (escuela, activa) => {
     if (!activa) {
@@ -24,6 +27,36 @@ const EscuelasAdmin = () => {
     setEscuelas(
       escuelas.map((e) => (e.id === escuela.id ? { ...e, activa } : e)),
     );
+  };
+
+  const abrirModalParaCrear = () => {
+    setEscuelaAEditar(null);
+    setMostrarModal(true);
+  };
+
+  const abrirModalParaEditar = (escuela) => {
+    setEscuelaAEditar(escuela);
+    setMostrarModal(true);
+  };
+
+  const ocultarModal = () => {
+    setMostrarModal(false);
+    setEscuelaAEditar(null);
+  };
+
+  const guardarEscuela = (datos) => {
+    if (escuelaAEditar) {
+      setEscuelas(
+        escuelas.map((e) =>
+          e.id === escuelaAEditar.id ? { ...e, ...datos } : e,
+        ),
+      );
+    } else {
+      setEscuelas([
+        ...escuelas,
+        { ...datos, id: Date.now(), abierta: false, activa: true, imagen: null },
+      ]);
+    }
   };
 
   const escuelasFiltradas = escuelas.filter((escuela) => {
@@ -62,6 +95,15 @@ const EscuelasAdmin = () => {
             Registrá, editá y dá de baja las escuelas de la plataforma.
           </p>
         </div>
+
+        <Button
+          onClick={abrirModalParaCrear}
+          className="fw-bold px-4 py-2 border-0 shadow-sm text-dark rounded-3"
+          style={{ backgroundColor: "var(--pi-amber, #F5A524)" }}
+        >
+          <PlusLg className="me-2" />
+          Registrar escuela
+        </Button>
       </div>
 
       {/* BUSCADOR Y FILTROS */}
@@ -184,6 +226,16 @@ const EscuelasAdmin = () => {
                       </td>
 
                       <td className="py-3 text-end text-nowrap">
+                        <Button
+                          variant="light"
+                          size="sm"
+                          className="border rounded-3 fw-semibold me-2"
+                          onClick={() => abrirModalParaEditar(escuela)}
+                        >
+                          <Pencil className="me-1" />
+                          Editar
+                        </Button>
+
                         {activa ? (
                           <Button
                             variant="outline-danger"
@@ -231,6 +283,13 @@ const EscuelasAdmin = () => {
           )}
         </Card.Body>
       </Card>
+      <EscuelaModal
+        mostrar={mostrarModal}
+        ocultar={ocultarModal}
+        guardarEscuela={guardarEscuela}
+        escuelaAEditar={escuelaAEditar}
+        escuelas={escuelas}
+      />
     </Container>
   );
 };
