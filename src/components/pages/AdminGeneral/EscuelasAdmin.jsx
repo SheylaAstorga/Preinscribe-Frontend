@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Table, Badge, Button, Form, InputGroup, } from "react-bootstrap";
-import { Building, Search, PlusLg, Pencil } from "react-bootstrap-icons";
+import { Building, Search, PlusLg, Pencil, People } from "react-bootstrap-icons";
 import { obtenerEscuelas, guardarEscuelas } from "../../../data/escuelasService";
 import { EscuelaModal } from "./EscuelaModal";
+import { obtenerUsuarios, guardarUsuarios } from "../../../data/usuariosService";
+import { AdministradoresModal } from "./AdministradoresModal";
 
 const EscuelasAdmin = () => {
   const [escuelas, setEscuelas] = useState(() => obtenerEscuelas());
@@ -15,6 +17,12 @@ const EscuelasAdmin = () => {
   const [filtroEstado, setFiltroEstado] = useState("TODAS");
   const [mostrarModal, setMostrarModal] = useState(false);
   const [escuelaAEditar, setEscuelaAEditar] = useState(null);
+  const [usuarios, setUsuarios] = useState(() => obtenerUsuarios());
+  const [escuelaAAdministrar, setEscuelaAAdministrar] = useState(null);
+
+  useEffect(() => {
+    guardarUsuarios(usuarios);
+  }, [usuarios]);
 
   const cambiarEstado = (escuela, activa) => {
     if (!activa) {
@@ -57,6 +65,30 @@ const EscuelasAdmin = () => {
         { ...datos, id: Date.now(), abierta: false, activa: true, imagen: null },
       ]);
     }
+  };
+
+  const administradoresDe = (escuela) =>
+    usuarios.filter(
+      (u) => u.rol === "ADMIN_ESCUELA" && u.escuelaId === escuela.id,
+    );
+
+  const asignarAdmin = (idUsuario) => {
+    setUsuarios(
+      usuarios.map((u) =>
+        u.id === idUsuario ? { ...u, escuelaId: escuelaAAdministrar.id } : u,
+      ),
+    );
+  };
+
+  const quitarAdmin = (idUsuario) => {
+    setUsuarios(
+      usuarios.map((u) => {
+        if (u.id !== idUsuario) return u;
+        const copia = { ...u };
+        delete copia.escuelaId;
+        return copia;
+      }),
+    );
   };
 
   const escuelasFiltradas = escuelas.filter((escuela) => {
@@ -173,10 +205,9 @@ const EscuelasAdmin = () => {
                   <th className="py-3 text-secondary small">LOCALIDAD</th>
                   <th className="py-3 text-secondary small">GESTIÓN</th>
                   <th className="py-3 text-secondary small">NIVELES</th>
+                  <th className="py-3 text-secondary small">ADMINISTRADORES</th>
                   <th className="py-3 text-secondary small">ESTADO</th>
-                  <th className="py-3 text-secondary small text-end">
-                    ACCIONES
-                  </th>
+                  <th className="py-3 text-secondary small text-end">ACCIONES</th>
                 </tr>
               </thead>
 
@@ -217,6 +248,18 @@ const EscuelasAdmin = () => {
                       </td>
 
                       <td className="py-3">
+                        {administradoresDe(escuela).length === 0 ? (
+                          <small className="text-secondary">Sin asignar</small>
+                        ) : (
+                          administradoresDe(escuela).map((admin) => (
+                            <small key={admin.id} className="d-block text-dark">
+                              {admin.nombre}
+                            </small>
+                          ))
+                        )}
+                      </td>
+
+                      <td className="py-3">
                         <Badge
                           bg={activa ? "success" : "secondary"}
                           className="rounded-pill px-3 py-2"
@@ -226,6 +269,16 @@ const EscuelasAdmin = () => {
                       </td>
 
                       <td className="py-3 text-end text-nowrap">
+                        <Button
+                          variant="light"
+                          size="sm"
+                          className="border rounded-3 fw-semibold me-2"
+                          onClick={() => setEscuelaAAdministrar(escuela)}
+                        >
+                          <People className="me-1" />
+                          Administradores
+                        </Button>
+
                         <Button
                           variant="light"
                           size="sm"
@@ -289,6 +342,15 @@ const EscuelasAdmin = () => {
         guardarEscuela={guardarEscuela}
         escuelaAEditar={escuelaAEditar}
         escuelas={escuelas}
+      />
+      <AdministradoresModal
+        mostrar={Boolean(escuelaAAdministrar)}
+        ocultar={() => setEscuelaAAdministrar(null)}
+        escuela={escuelaAAdministrar}
+        usuarios={usuarios}
+        escuelas={escuelas}
+        asignarAdmin={asignarAdmin}
+        quitarAdmin={quitarAdmin}
       />
     </Container>
   );
